@@ -49,6 +49,8 @@ export default {
       Api.getMember(frm.id.value, frm.pw.value).then(res => {
         if (res.rows.length) {
           alert('로그인 되었습니다.')
+          this.$store.commit('loggedIn', res.rows[0])
+          this.$router.push('/project')
         } else {
           alert('아이디 또는 비밀번호가 일치하지 않습니다.')
           frm.id.focus()
