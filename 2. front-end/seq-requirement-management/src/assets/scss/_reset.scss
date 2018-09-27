@@ -1,0 +1,16 @@
+@charset "utf-8";
+
+// tag reset
+*{margin:0;padding:0;}
+body{font-family:$font;font-size:15px;font-weight:100;color:#333;}
+input,select,textarea,img,button{display:inline-block;vertical-align:middle;}
+input[type="text"],input[type="password"]{@extend %input;height:40px}
+label{cursor:pointer;}
+textarea{@extend %input;height:40px;width:calc(100% - 22px);}
+ul,li{list-style:none;}
+a{text-decoration:none;color:inherit}
+a:hover{text-decoration:underline}
+legend{height:0;overflow:hidden;}
+fieldset{border:none}
+
+%input{border:1px solid #bebebe;background:#FFF;padding:0 10px;font-size:15px;font-family:inherit;font-weight:100;}

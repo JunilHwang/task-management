@@ -1,0 +1,37 @@
+// public class
+@include pc () {
+	.container{max-width:1200px;margin:0 auto;}
+	.mobile, .tablet{display:none;}
+}
+@include tablet () {
+	.pc{display:none;}
+	.only-mobile{display:none;}
+}
+@include mobile () {
+	.only-tablet{display:none;}
+}
+.float-wrap:after{content:"";display:block;clear:both;}
+a.btn{text-decoration:none;text-align:center;}
+.btn{border:none;padding:7px 15px;vertical-align:middle;font-size:15px;font-family:inherit;color:#FFF;transition:.3s;
+	&.mini{padding:3px 7px;font-size:13px;}
+	&.white{border:1px solid #fff;}
+	&.submit{background:$color1;}
+	&.default{background:#444;}
+	&.point{background:$color1-darken-10;}
+}
+.btn-group{text-align:center;margin-top:40px;
+	&.left{text-align:left;}
+	&.right{text-align:right;}
+}
+.full-width{width:100%;box-sizing:border-box;}
+.al-l{text-align:left;}
+.al-r{text-align:right;}
+.al-c{text-align:center;}
+span.middle{display:inline-block;vertical-align:middle;height:100%;width:0;
+	+*{display:inline-block;vertical-align:middle;}
+}
+.layer{display:none;position:fixed;left:0;right:0;top:0;bottom:0;text-align:center;background:fade-out(#000, .7);overflow:auto;z-index:100;
+	>div{background:#FFF;padding:20px;margin:20px;
+		>a.close{color:#FFF;background:$color1;display:block;padding:6px 10px;font-size:15px;font-weight:bold;}
+	}
+}
