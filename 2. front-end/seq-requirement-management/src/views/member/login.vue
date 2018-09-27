@@ -8,13 +8,19 @@
             <li>
               <label class="input-label">
                 <input type="text" name="id" class="full-width" required autofocus>
-                <span class="lbl">아이디 혹은 이메일</span>
+                <span class="lbl">
+                  <i class="fas fa-user"></i>
+                  아이디 혹은 이메일
+                </span>
               </label>
             </li>
             <li>
               <label class="input-label">
                 <input type="password" name="pw" class="full-width" required>
-                <span class="lbl">비밀번호</span>
+                <span class="lbl">
+                  <i class="fas fa-lock"></i>
+                  비밀번호
+                </span>
               </label>
             </li>
             <li>

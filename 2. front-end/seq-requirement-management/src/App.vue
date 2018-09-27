@@ -9,6 +9,8 @@
     created () {
       if (!this.$store.state.isMember) {
         this.$router.push('/member/login')
+      } else if (this.$route.path == '/') {
+        this.$router.push('/project')
       }
     }
   }

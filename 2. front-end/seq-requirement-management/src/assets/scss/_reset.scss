@@ -3,7 +3,7 @@
 // tag reset
 *{margin:0;padding:0;}
 body{font-family:$font;font-size:15px;font-weight:100;color:#333;}
-input,select,textarea,img,button{display:inline-block;vertical-align:middle;}
+input,select,textarea,img,button,i{display:inline-block;vertical-align:middle;}
 input[type="text"],input[type="password"]{@extend %input;height:40px}
 label{cursor:pointer;}
 textarea{@extend %input;height:40px;width:calc(100% - 22px);}

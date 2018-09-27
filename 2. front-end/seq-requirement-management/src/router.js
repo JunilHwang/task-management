@@ -9,19 +9,6 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/',
-      name: 'main',
-      component: () => import('./views/Main.vue')
-    },
-    {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
-    },
-    {
       path: '/member/login',
       name: 'login',
       component: () => import('./views/member/login.vue')
@@ -35,6 +22,16 @@ export default new Router({
       path: '/member/pw-search',
       name: 'pw-search',
       component: () => import('./views/member/pw-search.vue')
+    },
+    {
+      path: '/member/mypage',
+      name: 'mypage',
+      component: () => import('./views/member/mypage.vue')
+    },
+    {
+      path: '/project',
+      name: 'project',
+      component: () => import('./views/project/index.vue')
     }
   ]
 })
