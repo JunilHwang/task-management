@@ -1,25 +1,32 @@
-import Model from './Model.js'
-
-class Api {
-  get (uri, param) { throw `don't impolemented` }
-  post (uri, param) { throw `don't impolemented` }
-  put (uri, param) { throw `don't impolemented` }
-  delete (uri) { throw `don't impolemented` }
-}
-
-class TestApi extends Api {
-  constructor () {
-    Model.init()
+const Model = class {
+  static setDB () {
+    const db = openDatabase('20180927', '1.0', 'Test DB', 2 * 1024 * 1024)
+    Model.db = db
+    return db
   }
-  postMember (data) {
-    
+  static init () {
+    Model.query(`
+      CREATE TABLE IF NOT EXISTS member (
+        idx integer primary key,
+        id, pw, email, name, belong
+      );
+    `)
+  }
+  static query (sql, arr = []) {
+    const db = Model.db || Model.setDB()
+    return new Promise(resolve => {
+      db.transaction(
+        tx => {
+          tx.executeSql(
+            sql,
+            arr,
+            (tx, res) => { resolve(res) },
+            (tx, error) => { console.log(error) }
+          )
+        }
+      )
+    })
   }
 }
-
-class RestApi extends Api {
-
-}
-
-const api = new TestApi()
-
-export default api;
+Model.init()
+export default Model

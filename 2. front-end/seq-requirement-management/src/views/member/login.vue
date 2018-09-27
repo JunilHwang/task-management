@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <span class="middle"></span><div>
-      <form action="" method="post">
+      <form action="" method="post" @submit="login">
         <fieldset><legend>로그인</legend>
           <h3 class="login-title">로그인</h3>
           <ul>
@@ -38,7 +38,25 @@
 </template>
 
 <script>
-export default {}
+import Api from '@/middleware/Api.js' 
+export default {
+  mounted () {
+    document.forms[0].id.focus()
+  },
+  methods: {
+    login (e) {
+      const frm = e.target
+      Api.getMember(frm.id.value, frm.pw.value).then(res => {
+        if (res.rows.length) {
+          alert('로그인 되었습니다.')
+        } else {
+          alert('아이디 또는 비밀번호가 일치하지 않습니다.')
+          frm.id.focus()
+        }
+      })
+    }
+  }
+}
 </script>
 
 <style lang="scss" src="@/assets/scss/member.scss"></style>
