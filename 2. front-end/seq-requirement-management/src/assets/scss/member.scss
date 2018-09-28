@@ -1,26 +1,16 @@
-@import "@/assets/scss/_lib.scss";
+@import "lib";
 .login{position:absolute;left:0;right:0;top:0;bottom:0;text-align:center;background:#fafafa;
   >div{width:400px;text-align:left;}
+}
+.fields{
   li{margin-bottom:10px;
     &.btm{display:flex;justify-content:space-between;
       >*{width:49%;}
     }
   }
 }
-.login-title{font-size:35px;font-weight:300;margin-bottom:30px;color:$color1-darken-20;text-align:center;}
-.input-label{position:relative;display:block;
-  input{height:50px;}
-  input:focus+.lbl,
-  input:valid+.lbl{display:none;}
-}
-.lbl{position:absolute;top:0;bottom:0;line-height:50px;left:0;vertical-align:middle;display:block;padding:0 10px;
-  i{margin-right:10px}
-}
-.btn-login{display:block;text-align:center;width:100%;box-sizing:border-box;padding:10px 0;font-size:17px;font-weight:400;text-shadow:0 0 10px fade-out(#666, .3);
-  &.join{background:$color1-darken-10;}
-  &.auto{background:#999;}
-  &.default{background:#777;}
-}
+.login-title{font-size:35px;font-weight:bold;margin-bottom:30px;color:$color1-darken-20;text-align:center;}
+.member-fields-wrap{width:400px;margin:0 auto}
 .checkbox{
   input{display:none}
   input:checked~.btn.auto{background:$color1-lighten-20;}

@@ -25,10 +25,13 @@
   @import "@/assets/scss/_lib.scss";
   .header{border-bottom:1px solid #ddd;background:#fff;position:relative;z-index:10;
     .logo a{font-size:25px;color:$color1;font-weight:300;text-decoration:none}
-    >div{display:flex;justify-content:space-between;align-items:center;height:100px;}
+    >div{display:flex;justify-content:space-between;align-items:center;height:60px;}
     .gnb{display:flex;
-      a{display:block;padding:0 40px;font-size:17px;font-weight:400;text-decoration:none;transition:.3s;
-        &:hover{color:$color1-darken-20}
+      a{display:block;margin:0 40px;font-size:17px;font-weight:400;text-decoration:none;transition:.3s;line-height:60px;
+        &:hover{color:$color1}
+        &.router-link-active{position:relative;color:$color1;
+          &:after{content:"";display:block;position:absolute;left:0;right:0;bottom:-1px;height:3px;background:$color1;}
+        }
       }
     }
   }

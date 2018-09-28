@@ -4,7 +4,7 @@
       <form action="" method="post">
         <fieldset><legend>비밀번호 찾기</legend>
           <h3 class="login-title">비밀번호 찾기</h3>
-          <ul>
+          <ul class="fields">
             <li>
               <label class="input-label">
                 <input type="text" name="email" class="full-width" required autofocus>
@@ -12,13 +12,13 @@
               </label>
             </li>
             <li>
-              <button type="submit" class="btn btn-login submit">작성완료</button>
+              <button type="submit" class="btn btn-full submit">작성완료</button>
             </li>
             <li>
             </li>
             <li class="btm">
-              <router-link to="/member/login" class="btn btn-login default">로그인</router-link>
-              <router-link to="/member/join" class="btn btn-login default">회원가입</router-link>
+              <router-link to="/member/login" class="btn btn-full default">로그인</router-link>
+              <router-link to="/member/join" class="btn btn-full default">회원가입</router-link>
             </li>
           </ul>
         </fieldset>

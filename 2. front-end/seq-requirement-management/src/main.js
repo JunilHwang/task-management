@@ -13,5 +13,5 @@ new Vue({
 }).$mount('#app')
 
 $(document)
-	.on('submit', 'form', e => false)
-	.on('click', 'a[href="#"]', e => false)
+	.on('submit', 'form', () => false)
+	.on('click', 'a[href="#"]', () => false)

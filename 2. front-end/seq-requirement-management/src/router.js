@@ -9,28 +9,35 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
+      path: '',
+      component: () => import('./views/main.vue')
+    },
+    {
       path: '/member/login',
-      name: 'login',
       component: () => import('./views/member/login.vue')
     },
     {
       path: '/member/join',
-      name: 'join',
       component: () => import('./views/member/join.vue')
     },
     {
       path: '/member/pw-search',
-      name: 'pw-search',
       component: () => import('./views/member/pw-search.vue')
     },
     {
       path: '/member/mypage',
-      name: 'mypage',
       component: () => import('./views/member/mypage.vue')
     },
     {
+      path: '/member/info-update',
+      component: () => import('./views/member/info-update.vue')
+    },
+    {
+      path: '/member/pw-update',
+      component: () => import('./views/member/pw-update.vue')
+    },
+    {
       path: '/project',
-      name: 'project',
       component: () => import('./views/project/index.vue')
     }
   ]

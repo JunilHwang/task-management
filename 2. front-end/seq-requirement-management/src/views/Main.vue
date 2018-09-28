@@ -1,13 +1,11 @@
 <template>
-  <div>
-    this is main
-  </div>
+  <div></div>
 </template>
 
 <script>
-export default {}
+export default {
+	created () {
+		this.$router.push('/project')
+	}
+}
 </script>
-
-<style lang="scss">
-  
-</style>

@@ -2,7 +2,7 @@
 
 // tag reset
 *{margin:0;padding:0;}
-body{font-family:$font;font-size:15px;font-weight:100;color:#333;}
+body{font-family:$font;font-size:15px;color:#333;}
 input,select,textarea,img,button,i{display:inline-block;vertical-align:middle;}
 input[type="text"],input[type="password"]{@extend %input;height:40px}
 label{cursor:pointer;}
@@ -13,4 +13,4 @@ a:hover{text-decoration:underline}
 legend{height:0;overflow:hidden;}
 fieldset{border:none}
 
-%input{border:1px solid #bebebe;background:#FFF;padding:0 10px;font-size:15px;font-family:inherit;font-weight:100;}
+%input{border:1px solid #bebebe;background:#FFF;padding:0 10px;font-size:15px;font-family:inherit;}

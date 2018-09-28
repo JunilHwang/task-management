@@ -3,7 +3,9 @@
     <site-header></site-header>
     <div class="site-content">
       <div class="container">
-        <router-view></router-view>
+        <div class="container-inner">
+          <router-view></router-view>
+        </div>
       </div>
     </div>
     <site-footer></site-footer>
