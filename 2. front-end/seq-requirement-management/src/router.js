@@ -4,41 +4,57 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
+
+// path
+const view = './views'
+const member = `${view}/member`
+const project = `${view}/project`
+
 export default new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
     {
       path: '',
-      component: () => import('./views/main.vue')
+      component: () => import(`${view}/main.vue`)
     },
     {
       path: '/member/login',
-      component: () => import('./views/member/login.vue')
+      component: () => import(`${member}/login.vue`)
     },
     {
       path: '/member/join',
-      component: () => import('./views/member/join.vue')
+      component: () => import(`${member}/join.vue`)
     },
     {
       path: '/member/pw-search',
-      component: () => import('./views/member/pw-search.vue')
+      component: () => import(`${member}/pw-search.vue`)
     },
     {
       path: '/member/mypage',
-      component: () => import('./views/member/mypage.vue')
+      component: () => import(`${member}/mypage.vue`)
     },
     {
       path: '/member/info-update',
-      component: () => import('./views/member/info-update.vue')
+      component: () => import(`${member}/info-update.vue`)
     },
     {
       path: '/member/pw-update',
-      component: () => import('./views/member/pw-update.vue')
+      component: () => import(`${member}/pw-update.vue`)
     },
     {
-      path: '/project',
-      component: () => import('./views/project/index.vue')
+      path: '/project/',
+      component: () => import(`${project}/index.vue`),
+      children: [
+        {
+          path: '',
+          component: () => import(`${project}/main.vue`)
+        },
+        {
+          path: 'create',
+          component: () => import(`${project}/create.vue`)
+        }
+      ]
     }
   ]
 })

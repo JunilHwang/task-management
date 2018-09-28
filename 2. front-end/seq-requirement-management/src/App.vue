@@ -7,7 +7,7 @@
 <script>
   export default {
     created () {
-      if (!this.$store.state.isMember) {
+      if (!this.$store.state.member) {
         this.$router.push('/member/login')
       }
     }

@@ -5,15 +5,15 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    isMember: JSON.parse(localStorage.getItem('member')) || null
+    member: JSON.parse(localStorage.getItem('member')) || null
   },
   mutations: {
     loggedIn (state, data) {
-      state.isMember = data
+      state.member = data
       localStorage.setItem('member', JSON.stringify(data))
     },
     logout (state) {
-      state.isMember = null
+      state.member = null
       localStorage.removeItem('member')
     }
   },

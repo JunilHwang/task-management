@@ -73,7 +73,7 @@
     },
     data () {
       return {
-        member: this.$store.state.isMember
+        member: this.$store.state.member
       }
     },
     methods: {

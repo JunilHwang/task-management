@@ -1,5 +1,5 @@
 <template>
-  <div class="login">
+  <div class="login" v-if="!this.$store.state.member">
     <span class="middle"></span><div>
       <form action="" method="post" @submit="login">
         <fieldset><legend>로그인</legend>
@@ -42,6 +42,9 @@
 <script>
 import Api from '@/middleware/Api.js' 
 export default {
+  created () {
+    this.$notMemberChk()
+  },
   mounted () {
     document.forms[0].id.focus()
   },
