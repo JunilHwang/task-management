@@ -17,7 +17,9 @@
 	background:$bg;
 	color:$color;
 	border:$border;
-	display:inline-block
+	display:inline-block;
+	line-height:$size;
+	text-align:center;
 }
 @mixin pc {
 	@media (min-width:1200px) {

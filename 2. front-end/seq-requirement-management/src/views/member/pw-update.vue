@@ -84,6 +84,7 @@
           idx: member.idx,
           pw: frm.pw.value
         }).then(() => {
+          this.$store.commit('logout')
           alert('비밀번호가 변경되었습니다. 다시 로그인해주세요')
           router.push('/member/login')
         })

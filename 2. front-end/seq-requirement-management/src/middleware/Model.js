@@ -11,6 +11,12 @@ const Model = class {
         id, pw, email, name, belong
       );
     `)
+    Model.query(`
+      CREATE TABLE IF NOT EXISTS project (
+        idx integer primary key,
+        subject, description, uri, client, team
+      );
+    `)
   }
   static query (sql, arr = []) {
     const db = Model.db || Model.setDB()
@@ -21,7 +27,7 @@ const Model = class {
             sql,
             arr,
             (tx, res) => { resolve(res) },
-            (tx, error) => { console.log(error) }
+            (tx, error) => { throw (error) }
           )
         }
       )

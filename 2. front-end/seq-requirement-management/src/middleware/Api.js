@@ -6,6 +6,9 @@ const Api = class {
   getMember () { throw `don't getMember impolemented` }
   putMemberInfo () { throw `don't getMember impolemented` }
   putMemberPassword () { throw `don't getMember impolemented` }
+  searchMember () { throw `don't getMember impolemented` }
+  projectCreate () { throw `don't getMember impolemented` }
+  getProjectListOfMain () { throw `don't getMember impolemented` }
 }
 
 const TestApi = class extends Api {
@@ -44,6 +47,18 @@ const TestApi = class extends Api {
   putMemberPassword (data) {
     return Model.query(`UPDATE member SET pw = ? where idx = ?`, [data.pw, data.idx])
   }
+  searchMember (key, not) {
+    let add_sql = not.length ? `and idx not in (${not})` : ''
+    const sql = `SELECT * FROM member where (id like ? or email like ?) ${add_sql} order by id asc`
+    const arr = [`%${key}%`, `%${key}%`]
+    return Model.query(sql, arr)
+  }
+  projectCreate (data) {
+    const sql = `INSERT INTO project (subject, description, uri, client, team) values (?, ?, ?, ?, ?)`
+    const arr = [data.subject, data.description, data.uri, JSON.stringify(data.client), JSON.stringify(data.team)]
+    return Model.query(sql, arr)
+  }
+  getProjectListOfMain () {}
 }
 //const RestApi = class extends Api {}
 const api = new TestApi()
