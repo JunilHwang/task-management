@@ -14,7 +14,7 @@ const Model = class {
     Model.query(`
       CREATE TABLE IF NOT EXISTS project (
         idx integer primary key,
-        subject, description, uri, client, team
+        subject, description, uri, client, team, date integer
       );
     `)
   }

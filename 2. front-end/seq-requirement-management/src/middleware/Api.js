@@ -54,18 +54,18 @@ const TestApi = class extends Api {
     return Model.query(sql, arr)
   }
   projectCreate (data) {
-    const sql = `INSERT INTO project (subject, description, uri, client, team) values (?, ?, ?, ?, ?)`
+    const date = +new Date
+    const sql = `INSERT INTO project (subject, description, uri, client, team, date) values (?, ?, ?, ?, ?, ${date})`
     const arr = [data.subject, data.description, data.uri, JSON.stringify(data.client), JSON.stringify(data.team)]
     return Model.query(sql, arr)
   }
-  getProjectListOfMain () {}
   liveCheck (val, name) {
     return Model.query(`SELECT * FROM member WHERE ${name} = ?`, [val])
   }
-  liveCheck (val, name) {
-    return Model.query(`SELECT * FROM member WHERE ${name} = ?`, [val])
+  getProjectListOfMain () {
+    return Model.query('SELECT * FROM project order by idx desc')
   }
-}  
+}
 //const RestApi = class extends Api {}
 const api = new TestApi()
 

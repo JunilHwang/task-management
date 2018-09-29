@@ -140,7 +140,7 @@
   }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   @import "@/assets/scss/_lib.scss";
   .project-create{width:400px;margin:0 auto;}
   .fields{position:relative;}
