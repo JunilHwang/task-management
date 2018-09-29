@@ -18,7 +18,7 @@ const TestApi = class extends Api {
     const sql = `INSERT INTO member (id, pw, name, email, belong) values (?, ?, ?, ?, ?)`
     Model.query(`SELECT * FROM member where id = ? or email = ?`, [data.id, data.email]).then(chk => {
       if (chk.rows.length) {
-        alert('중복된 아이디가 있습니다.')
+        alert('중복된 아이디 혹은 이메일이 있습니다. 다시 입력해주세요.')
         return null
       } else {
         return Model.query(sql, arr).then(data.success)
@@ -59,7 +59,13 @@ const TestApi = class extends Api {
     return Model.query(sql, arr)
   }
   getProjectListOfMain () {}
-}
+  liveCheck (val, name) {
+    return Model.query(`SELECT * FROM member WHERE ${name} = ?`, [val])
+  }
+  liveCheck (val, name) {
+    return Model.query(`SELECT * FROM member WHERE ${name} = ?`, [val])
+  }
+}  
 //const RestApi = class extends Api {}
 const api = new TestApi()
 
