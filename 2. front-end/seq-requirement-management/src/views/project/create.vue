@@ -120,6 +120,7 @@
       projectCreate (e) {
         const frm = e.target
         const data = {
+          writer: this.$store.state.member.id,
           subject: frm.subject.value,
           description: frm.description.value,
           uri: frm.uri.value,

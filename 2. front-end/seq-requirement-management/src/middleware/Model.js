@@ -7,14 +7,17 @@ const Model = class {
   static init () {
     Model.query(`
       CREATE TABLE IF NOT EXISTS member (
-        idx integer primary key,
-        id, pw, email, name, belong
+        idx integer primary key, id, pw, email, name, belong
       );
     `)
     Model.query(`
       CREATE TABLE IF NOT EXISTS project (
-        idx integer primary key,
-        subject, description, uri, client, team, date integer
+        idx integer primary key, writer, subject, description, uri, date integer
+      );
+    `)
+    Model.query(`
+      CREATE TABLE IF NOT EXISTS projectInMember (
+        idx integer primary key, pidx integer, midx integer, type integer
       );
     `)
   }

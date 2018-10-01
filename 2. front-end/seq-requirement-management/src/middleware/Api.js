@@ -9,6 +9,7 @@ const Api = class {
   searchMember () { throw `don't getMember impolemented` }
   projectCreate () { throw `don't getMember impolemented` }
   getProjectListOfMain () { throw `don't getMember impolemented` }
+  getProject () { throw `don't getMember impolemented` }
 }
 
 const TestApi = class extends Api {
@@ -55,12 +56,26 @@ const TestApi = class extends Api {
   }
   projectCreate (data) {
     const date = +new Date
-    const sql = `INSERT INTO project (subject, description, uri, client, team, date) values (?, ?, ?, ?, ?, ${date})`
-    const arr = [data.subject, data.description, data.uri, JSON.stringify(data.client), JSON.stringify(data.team)]
-    return Model.query(sql, arr)
+    const sql = `INSERT INTO project (writer, subject, description, uri, date) values (?, ?, ?, ?, ${date})`
+    const arr = [data.writer, data.subject, data.description, data.uri, JSON.stringify(data.client), JSON.stringify(data.team)]
+    return Model.query(sql, arr).then(res => {
+      const sql = `ISNERT INTO projectInMember (pidx, midx, type) values`
+      let arr = []
+      for (const midx of data.client) {
+        arr.push(`(${res.insertId}, ${midx}, 1)`)
+      }
+      for (const midx of data.team) {
+        arr.push(`(${res.insertId}, ${midx}, 2)`)
+      }
+      const append = arr.join(',')+';'
+      return Model.query(sql+append)
+    })
   }
   getProjectListOfMain () {
-    return Model.query('SELECT * FROM project order by idx desc')
+    return Model.query('SELECT * FROM project')
+  }
+  getProject (id, uri) {
+    return Model.query(`SELECT * FROM project where writer = '${id}' and uri = '${uri}'`)
   }
 }
 //const RestApi = class extends Api {}

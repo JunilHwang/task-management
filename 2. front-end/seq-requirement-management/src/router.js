@@ -55,7 +55,7 @@ export default new Router({
           component: () => import(`${project}/create.vue`)
         },
         {
-          path: 'view/:idx',
+          path: 'view/:id/:uri',
           component: () => import(`${project}/view.vue`)
         }
       ]
