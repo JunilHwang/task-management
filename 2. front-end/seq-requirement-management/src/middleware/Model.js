@@ -16,8 +16,37 @@ const Model = class {
       );
     `)
     Model.query(`
-      CREATE TABLE IF NOT EXISTS projectInMember (
-        idx integer primary key, pidx integer, midx integer, type integer
+      CREATE TABLE IF NOT EXISTS member_in_project (
+        pidx integer, midx integer, type integer
+      );
+    `)
+    Model.query(`
+      CREATE TABLE IF NOT EXISTS c_category (
+        idx integer primary key, pidx integer, title
+      );
+    `)
+    Model.query(`
+      CREATE TABLE IF NOT EXISTS card (
+        idx integer primary key,
+        pidx integer,
+        writer,
+        manage,
+        reg_date integer,
+        com_date integer,
+        title,
+        category integer,
+        parent integer,
+        content,
+        state integer
+      );
+    `)
+    Model.query(`
+      CREATE TABLE IF NOT EXISTS issue (
+        idx integer primary key,
+        pidx integer,
+        content,
+        date integer,
+        writer integer
       );
     `)
   }

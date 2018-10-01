@@ -35,7 +35,6 @@ span.middle{display:inline-block;vertical-align:middle;height:100%;width:0;
   .lbl{position:absolute;top:0;bottom:0;line-height:50px;left:50px;vertical-align:middle;display:block;color:#aaa;}
   input{height:50px;padding-left:50px;}
   input:valid+.lbl{display:none;}
-  .chk { position:absolute;top:0;bottom:0;line-height:50px; right: 5%;vertical-align:center;display:block;color:#f50; }
 }
 .fields{
   li{margin-bottom:10px;
@@ -47,7 +46,7 @@ span.middle{display:inline-block;vertical-align:middle;height:100%;width:0;
 
 /* button */
 a.btn{text-decoration:none;text-align:center;}
-.btn{border:none;padding:7px 15px;vertical-align:middle;font-size:15px;font-family:inherit;color:#FFF;transition:.3s;text-shadow:0 0 10px fade-out(#666, .3);vertical-align:middle;
+.btn{border:none;padding:7px 15px;vertical-align:middle;font-size:15px;font-family:inherit;color:#FFF;transition:.3s;text-shadow:0 0 10px fade-out(#666, .3);vertical-align:middle;cursor:pointer;
   &.btn-full{display:block;text-align:center;width:100%;box-sizing:border-box;padding:10px 0;font-size:17px;font-weight:400;}
   &.mini{padding:3px 7px;font-size:13px;}
   &.white{border:1px solid #fff;}
@@ -60,10 +59,11 @@ a.btn{text-decoration:none;text-align:center;}
 .btn-group{text-align:center;padding:40px 0;
   &.left{text-align:left;}
   &.right{text-align:right;}
+  &.btm{padding-bottom:0;}
 }
 
 /* tab-menu */
-.tab-menu{display:flex;justify-content:center;
+.tab-menu{display:flex;
   a{display:block;color:#aaa;padding:0 30px;font-size:15px;position:relative;text-decoration:none;transition:.3s;line-height:40px;
     &:after{content:"";position:absolute;left:50%;right:50%;bottom:0;height:2px;display:block;background:$color1;transition:.3s;}
     &:hover,
@@ -74,8 +74,11 @@ a.btn{text-decoration:none;text-align:center;}
 }
 
 /* layer */
-.layer{display:none;position:fixed;left:0;right:0;top:0;bottom:0;text-align:center;background:fade-out(#000, .7);overflow:auto;z-index:100;
-  >div{background:#FFF;padding:20px;margin:20px;
-    >a.close{color:#FFF;background:$color1;display:block;padding:6px 10px;font-size:15px;font-weight:bold;}
+.layer{position:fixed;left:0;right:0;top:0;bottom:0;text-align:center;background:fade-out(#000, .7);overflow:auto;z-index:100;
+  >div{background:#FFF;padding:20px;margin:20px;position:relative;text-align:left;
+    >a.close{color:#FFF;background:$color1;display:block;padding:6px 10px;font-size:15px;font-weight:bold;position:absolute;right:0;top:0;text-decoration:none;opacity:.7;transition:.3s;
+      &:hover{opacity:1;}
+    }
   }
+  .layer-title{border-bottom:1px solid #ddd;padding-bottom:10px;margin-bottom:10px;font-size:19px;}
 }

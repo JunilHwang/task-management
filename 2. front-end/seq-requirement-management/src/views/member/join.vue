@@ -8,7 +8,7 @@
             <li>
               <label class="input-label">
                 <span class="pre"><i class="fas fa-user"></i></span>
-                <input type="text" name="id" class="full-width" @keyup="liveCheck" required>
+                <input type="text" name="id" class="full-width" @keydown="liveCheck" required>
                 <span class="lbl">아이디</span>
                 <span class="chk" v-if="idChk">중복된 아이디가 있습니다</span>
               </label>
@@ -23,7 +23,7 @@
             <li>
               <label class="input-label">
                 <span class="pre"><i class="fas fa-lock"></i></span>
-                <input type="password" name="pw_re" class="full-width" @keyup="pwCheck" required>
+                <input type="password" name="pw_re" class="full-width" @keydown="pwCheck" required>
                 <span class="lbl">비밀번호 확인</span>
                 <span class="chk" v-if="pwChk">비밀번호가 일치하지 않습니다</span>
               </label>
@@ -31,7 +31,7 @@
             <li>
               <label class="input-label">
                 <span class="pre"><i class="fas fa-envelope"></i></span>
-                <input type="text" name="email" class="full-width" @keyup="liveCheck" required>
+                <input type="text" name="email" class="full-width" @keydown="liveCheck" required>
                 <span class="lbl">이메일</span>
                 <span class="chk" v-if="emChk">중복된 이메일이 있습니다</span>
               </label>

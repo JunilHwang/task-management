@@ -6,10 +6,16 @@ const Api = class {
   getMember () { throw `don't getMember impolemented` }
   putMemberInfo () { throw `don't getMember impolemented` }
   putMemberPassword () { throw `don't getMember impolemented` }
+  liveCheck () { throw `don't getMember impolemented` }
   searchMember () { throw `don't getMember impolemented` }
   projectCreate () { throw `don't getMember impolemented` }
   getProjectListOfMain () { throw `don't getMember impolemented` }
   getProject () { throw `don't getMember impolemented` }
+  getCategoryList () { throw `don't getMember impolemented` }
+  getCategory () { throw `don't getMember impolemented` }
+  postCategory () { throw `don't getMember impolemented` }
+  putCategory () { throw `don't getMember impolemented` }
+  deleteCategory () { throw `don't getMember impolemented` }
 }
 
 const TestApi = class extends Api {
@@ -54,12 +60,15 @@ const TestApi = class extends Api {
     const arr = [`%${key}%`, `%${key}%`]
     return Model.query(sql, arr)
   }
+  liveCheck (val, name) {
+    return Model.query(`SELECT * FROM member WHERE ${name} = ?`, [val])
+  }
   projectCreate (data) {
     const date = +new Date
     const sql = `INSERT INTO project (writer, subject, description, uri, date) values (?, ?, ?, ?, ${date})`
-    const arr = [data.writer, data.subject, data.description, data.uri, JSON.stringify(data.client), JSON.stringify(data.team)]
+    const arr = [data.writer, data.subject, data.description, data.uri]
     return Model.query(sql, arr).then(res => {
-      const sql = `ISNERT INTO projectInMember (pidx, midx, type) values`
+      const sql = `INSERT INTO member_in_project (pidx, midx, type) values`
       let arr = []
       for (const midx of data.client) {
         arr.push(`(${res.insertId}, ${midx}, 1)`)
@@ -71,15 +80,13 @@ const TestApi = class extends Api {
       return Model.query(sql+append)
     })
   }
-  liveCheck (val, name) {
-    return Model.query(`SELECT * FROM member WHERE ${name} = ?`, [val])
-  }
-  getProjectListOfMain () {
-    return Model.query('SELECT * FROM project')
-  }
-  getProject (id, uri) {
-    return Model.query(`SELECT * FROM project where writer = '${id}' and uri = '${uri}'`)
-  }
+  getProjectListOfMain () { return Model.query('SELECT * FROM project') }
+  getProject (id, uri) { return Model.query(`SELECT * FROM project where writer = '${id}' and uri = '${uri}'`) }
+  getCategoryList (idx) { return Model.query(`SELECT * FROM c_category where pidx = '${idx}' order by idx asc`) }
+  getCategory (idx) { return Model.query(`SELECT * FROM c_category where idx = '${idx}'`) }
+  postCategory (data) { return Model.query(`INSERT INTO c_category (pidx, title) values (?, ?)`, [data.idx, data.title]) }
+  putCategory (data) { return Model.query(`UPDATE c_category SET title = ? where idx = ?`, [data.title, data.idx]) }
+  deleteCategory (idx) { return Model.query(`DELETE FROM c_category where idx = ${idx}`) }
 }
 //const RestApi = class extends Api {}
 const api = new TestApi()

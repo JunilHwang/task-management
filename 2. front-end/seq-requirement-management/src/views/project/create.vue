@@ -95,6 +95,7 @@
         const val = target.value
         const targetName = name === 'c_search' ? 'Client' : 'Team'
         const idxs = this.selectedClientIdx.concat(this.selectedTeamIdx)
+        idxs.push(this.$store.state.member.idx)
         const res = await Api.searchMember(val, idxs.join(','))
         this[`searched${targetName}`] = val.length ? res.rows : []
       },
@@ -119,6 +120,7 @@
       },
       projectCreate (e) {
         const frm = e.target
+        this.selectedTeamIdx.push(this.$store.state.member.idx)
         const data = {
           writer: this.$store.state.member.id,
           subject: frm.subject.value,
