@@ -9,6 +9,7 @@ Vue.use(Router)
 const view = './views'
 const member = `${view}/member`
 const project = `${view}/project`
+const requirement = `${view}/requirement`
 
 export default new Router({
   mode: 'history',
@@ -56,8 +57,18 @@ export default new Router({
         },
         {
           path: 'view/:id/:uri',
-          component: () => import(`${project}/view.vue`)
-        }
+          component: () => import(`${project}/view.vue`),
+          children: [
+            {
+              path: '',
+              component: () => import(`${requirement}/list.vue`)
+            },
+            {
+              path: 'create/:pidx',
+              component: () => import(`${requirement}/create.vue`)
+            }
+          ]
+        },
       ]
     }
   ]

@@ -6,7 +6,7 @@ body{font-family:$font;font-size:15px;color:#333;}
 input,select,textarea,img,button,i{display:inline-block;vertical-align:middle;}
 input[type="text"],input[type="password"]{@extend %input;height:40px}
 label{cursor:pointer;}
-textarea{@extend %input;height:40px;width:calc(100% - 22px);}
+textarea{@extend %input;width:calc(100% - 22px);}
 ul,li{list-style:none;}
 a{text-decoration:none;color:inherit}
 a:hover{text-decoration:underline}

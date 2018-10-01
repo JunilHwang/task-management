@@ -77,7 +77,7 @@
     },
     methods: {
       categoryInsert (e) {
-        Api.postCategory({idx: this.send.pidx, title: e.target.title.value}).then(res => {
+        Api.postCategory({idx: this.send.pidx, title: e.target.title.value}).then(() => {
           alert('추가되었습니다')
           this.nowPage = 'category-list'
           this.setCategoryList()
@@ -92,14 +92,14 @@
       },
       categoryDelete (idx) {
         if (!confirm('정말로 삭제하시겠습니까?')) return
-        Api.deleteCategory(idx).then(res => {
+        Api.deleteCategory(idx).then(() => {
           alert('삭제되었습니다')
           this.nowPage = 'category-list'
           this.setCategoryList()
         })
       },
       categoryUpdate (e) {
-        Api.putCategory({idx: this.nowData.idx, title: e.target.title.value}).then(res => {
+        Api.putCategory({idx: this.nowData.idx, title: e.target.title.value}).then(() => {
           alert('수정되었습니다')
           this.nowPage = 'category-list'
           this.nowData = {}
@@ -107,7 +107,7 @@
         })
       },
       setCategoryList () {
-        Api.getCategoryList(this.send.pidx).then(res => {
+        Api.getCategoryList(this.send.pidx).then(() => {
           this.$store.commit('setCategoryList', res.rows)
         })
       }

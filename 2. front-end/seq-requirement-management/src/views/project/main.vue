@@ -5,9 +5,9 @@
       <section class="section">
         <h4 class="section-title">참여 프로젝트 목록</h4>
         <template v-if="projectList.length">
-          <article v-for="(data, key) in projectList" :key="key" @click.prevent="projectView(data.uri)">
+          <article v-for="(data, key) in projectList" :key="key" @click.prevent="projectView(data.writer, data.uri)">
             <p class="article-title">
-              <router-link :to="`/project/view/${$store.state.member.id}/${getURI(data.uri)}`" v-html="data.subject" />
+              <router-link :to="`/project/view/${$data.writer}/${getURI(data.uri)}`" v-html="data.subject" />
             </p>
             <p class="description" v-html="data.description" />
             <p class="date" v-html="getDateFormat(data.date)" />
@@ -47,7 +47,7 @@
   import Api from '@/middleware/Api.js'
   export default {
     async created () {
-      this.projectList = (await Api.getProjectListOfMain()).rows
+      this.projectList = (await Api.getProjectListOfMain(this.$store.state.member.idx)).rows
     },
     data () {
       return {
@@ -59,9 +59,9 @@
     },
     methods: {
       getURI: uri => encodeURIComponent(uri),
-      projectView (uri) {
+      projectView (writer, uri) {
         uri = this.getURI(uri)
-        this.$router.push(`/project/view/${this.$store.state.member.id}/${uri}`)
+        this.$router.push(`/project/view/${writer}/${uri}`)
       }
     }
   }

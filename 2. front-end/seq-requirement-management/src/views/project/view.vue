@@ -13,8 +13,8 @@
               <li v-for="(data, key) in categoryList" :key="key"><a href="#" :class="categoryNow === key ? 'active' : null" v-html="data.title" @click.prevent="setCategory(key)" /></li>
           </ul>
         </header>
-        <div>
-          
+        <div class="requirement">
+          <router-view></router-view>
         </div>
       </section>
       <div class="btn-group">
@@ -22,7 +22,7 @@
         <router-link to="/project" class="btn point" @click.prevent>프로젝트 목록</router-link>&nbsp;
         <router-link :to="`/project/setting/${projectData.idx}`" class="btn point" @click.prevent>프로젝트 설정</router-link>&nbsp;
         <a href="#" class="btn submit" @click.prevent="$store.commit('openLayer')">카테고리 관리</a>&nbsp;
-        <a href="#" class="btn submit" @click.prevent>요구사항 추가</a>
+        <router-link :to="`/project/view/${$route.params.id}/${$route.params.uri}/create/${projectData.idx}`" class="btn submit">요구사항 추가</router-link>
       </div>
       <layerTemplate v-if="$store.state.layerState" layerContent="category" :send="{pidx: projectData.idx}"></layerTemplate>
     </section>
@@ -63,7 +63,7 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   @import "@/assets/scss/_lib.scss";
   .project-view{}
   .project-header{border-bottom:1px solid #bebebe;margin-bottom:20px;padding-bottom:20px;
@@ -72,6 +72,6 @@
   }
   .cards{
     header{margin-bottom:20px}
-    >div{background:#f5f5f5;border-radius:3px;border:1px solid #ddd;min-height:400px;}
   }
+  .requirement{background:#f5f5f5;border-radius:3px;border:1px solid #ddd;min-height:200px;padding:30px;}
 </style>
