@@ -35,6 +35,7 @@ span.middle{display:inline-block;vertical-align:middle;height:100%;width:0;
   .lbl{position:absolute;top:0;bottom:0;line-height:50px;left:50px;vertical-align:middle;display:block;color:#aaa;}
   input{height:50px;padding-left:50px;}
   input:valid+.lbl{display:none;}
+  .chk { position:absolute;top:0;bottom:0;line-height:50px; right: 5%;vertical-align:center;display:block;color:#f50; }
 }
 .fields{
   li{margin-bottom:10px;

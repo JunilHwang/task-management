@@ -12,22 +12,27 @@
                   <li>
                     <label class="input-label">
                       <span class="pre"><i class="fas fa-lock"></i></span>
-                      <input type="password" class="full-width" name="pw_origin" required>
+                      <input type="password" class="full-width" name="pw_origin" @keyup="liveCheck" required>
                       <span class="lbl">현재 비밀번호를 입력해주세요</span>
+                      <span class="chk" v-if="pwOrgChk">현재 비밀번호가 일치하지 않습니다</span>                      
                     </label>
                   </li>
                   <li>
                     <label class="input-label">
                       <span class="pre"><i class="fas fa-lock"></i></span>
-                      <input type="password" class="full-width" name="pw" required>
+                      <input type="password" class="full-width" name="pw" @keyup="liveCheck" required>
                       <span class="lbl">새 비밀번호를 입력해주세요</span>
+                      <span class="chk" v-if="pwNewChk">현재 비밀번호와 동일합니다</span>
+
                     </label>
                   </li>
                   <li>
                     <label class="input-label">
                       <span class="pre"><i class="fas fa-lock"></i></span>
-                      <input type="password" class="full-width" name="pw_re" required>
+                      <input type="password" class="full-width" name="pw_re" @keyup="liveCheck" required>
                       <span class="lbl">새 비밀번호를 다시 입력해주세요</span>
+                      <span class="chk" v-if="pwNewReChk">새 비밀번호와 일치하지 않습니다</span>
+
                     </label>
                   </li>
                   <li>
@@ -59,13 +64,37 @@
     },
     data () {
       return {
-        member: this.$store.state.member
+        member: this.$store.state.member,
+        pwOrgChk: false,
+        pwNewChk: false,
+        pwNewReChk: false
       }
     },
     mounted () {
       document.forms[0].pw_origin.focus()
     },
     methods: {
+      liveCheck (e) {
+        const frm = e.target
+        const pw = this.member.pw
+        console.log(pw)
+        
+        if (frm.name == "pw_origin") {
+          if (frm.value == "") {
+            this.pwOrgChk = false
+          } else {
+            this.pwOrgChk = pw !== frm.value
+          }
+        } else if (frm.name == "pw") {
+          this.pwNewChk = pw === frm.value 
+        } else {
+          this.pwNewReChk = frm.value !== document.forms[0].pw.value
+          if (frm.value == ""){
+            this.pwNewReChk = false
+          }
+        }
+      }
+      ,
       pwUpdate (e) {
         const member = this.member
         const frm = e.target

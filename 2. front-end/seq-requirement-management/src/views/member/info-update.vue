@@ -12,22 +12,24 @@
                   <li>
                     <label class="input-label">
                       <span class="pre"><i class="fas fa-user"></i></span>
-                      <input type="text" class="full-width" :value="member.id" name="id" required>
-                      <span class="lbl">아이디</span>
+                      <input type="text" class="full-width" name="id" style="background: #ccc" required readonly>
                     </label>
                   </li>
                   <li>
                     <label class="input-label">
                       <span class="pre"><i class="fas fa-envelope"></i></span>
-                      <input type="text" class="full-width" :value="member.email" name="email" required>
+                      <input type="text" class="full-width" name="email" @keyup="emailCheck" required>
                       <span class="lbl">이메일</span>
+                      <span class="chk" v-if="emChk">중복된 이메일이 있습니다</span>
                     </label>
                   </li>
                   <li>
                     <label class="input-label">
                       <span class="pre"><i class="fas fa-lock"></i></span>
-                      <input type="password" class="full-width" name="pw" required>
+                      <input type="password" class="full-width" name="pw" @keyup="pwCheck" required>
                       <span class="lbl">현재 비밀번호를 입력해주세요</span>
+                      <span class="chk" v-if="pwChk">현재 비밀번호가 일치하지 않습니다</span>                      
+
                     </label>
                   </li>
                   <li>
@@ -73,6 +75,8 @@
     },
     data () {
       return {
+        emChk: false,
+        pwChk: false,
         member: this.$store.state.member
       }
     },
@@ -98,7 +102,32 @@
             router.push('/member/login')
           }
         })
+      },
+      emailCheck (e){
+        const obj = e.target
+        const val = obj.value 
+        const name = obj.name
+        const email = this.member.email
+        if (email === val) {
+          this.emChk = false
+          return
+        }
+        Api.liveCheck(val, name).then(res => {
+            this.emChk = res.rows.length !== 0  
+        }) 
+      },
+      pwCheck (e) {
+        const val = e.target.value
+        if (val.length === 0) {
+          this.pwChk = false
+          return
+        }
+        this.pwChk = this.member.pw !== val
       }
+    },
+    mounted () {
+      document.forms[0].id.value = this.member.id
+      document.forms[0].email.value = this.member.email
     }
   }
 </script>
