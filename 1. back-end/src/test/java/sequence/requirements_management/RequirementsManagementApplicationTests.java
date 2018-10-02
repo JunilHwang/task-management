@@ -1,4 +1,4 @@
-package sequence.requirement_management;
+package sequence.requirements_management;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class RequirementManagementApplicationTests {
+public class RequirementsManagementApplicationTests {
 
     @Test
     public void contextLoads() {

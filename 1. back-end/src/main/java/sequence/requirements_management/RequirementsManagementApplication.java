@@ -1,12 +1,12 @@
-package sequence.requirement_management;
+package sequence.requirements_management;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class RequirementManagementApplication {
+public class RequirementsManagementApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(RequirementManagementApplication.class, args);
+        SpringApplication.run(RequirementsManagementApplication.class, args);
     }
 }
