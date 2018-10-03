@@ -1,3 +1,4 @@
+
 const Model = class {
   static setDB () {
     const db = openDatabase('20180927', '1.0', 'Test DB', 2 * 1024 * 1024)
@@ -66,5 +67,5 @@ const Model = class {
     })
   }
 }
-Model.init()
+// Model.init()
 export default Model

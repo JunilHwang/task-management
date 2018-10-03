@@ -7,7 +7,10 @@ export default new Vuex.Store({
   state: {
     member: JSON.parse(localStorage.getItem('member')) || null,
     layerState: false,
-    categoryList: []
+    categoryList: [],
+    selectedCategory: -1,
+    pidx: null,
+    cardList: []
   },
   mutations: {
     loggedIn (state, data) {
@@ -24,8 +27,9 @@ export default new Vuex.Store({
     closeLayer (state) {
       state.layerState = false
     },
-    setCategoryList (state, categoryList) {
-      state.categoryList = categoryList
+    setState (state, data) {
+      state[data[0]] = data[1]
+      if (data[2]) data[2]()
     }
   },
   actions: {

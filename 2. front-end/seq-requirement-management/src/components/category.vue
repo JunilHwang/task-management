@@ -107,8 +107,8 @@
         })
       },
       setCategoryList () {
-        Api.getCategoryList(this.send.pidx).then(() => {
-          this.$store.commit('setCategoryList', res.rows)
+        Api.getCategoryList(this.send.pidx).then(res => {
+          this.$store.commit('setState', ['categoryList', res.rows])
         })
       }
     },

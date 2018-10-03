@@ -17,6 +17,10 @@ const Api = class {
   putCategory () { throw `don't getMember impolemented` }
   deleteCategory () { throw `don't getMember impolemented` }
   postCard () { throw `don't getMember impolemented` }
+  getCardList () { throw `don't getMember impolemented` }
+  getCard () { throw `don't getMember impolemented` }
+  putCard () { throw `don't getMember impolemented` }
+  deleteCard () { throw `don't getMember impolemented` }
 }
 
 const TestApi = class extends Api {
@@ -81,13 +85,27 @@ const TestApi = class extends Api {
       return Model.query(sql+append)
     })
   }
-  getProjectListOfMain (midx) { return Model.query(`SELECT * FROM project where idx in (SELECT pidx FROM member_in_project where midx = '${midx}')`) }
-  getProject (id, uri) { return Model.query(`SELECT * FROM project where writer = '${id}' and uri = '${uri}'`) }
-  getCategoryList (idx) { return Model.query(`SELECT * FROM c_category where pidx = '${idx}' order by idx asc`) }
-  getCategory (idx) { return Model.query(`SELECT * FROM c_category where idx = '${idx}'`) }
-  postCategory (data) { return Model.query(`INSERT INTO c_category (pidx, title) values (?, ?)`, [data.idx, data.title]) }
-  putCategory (data) { return Model.query(`UPDATE c_category SET title = ? where idx = ?`, [data.title, data.idx]) }
-  deleteCategory (idx) { return Model.query(`DELETE FROM c_category where idx = ${idx}`) }
+  getProjectListOfMain (midx) {
+    return Model.query(`SELECT * FROM project where idx in (SELECT pidx FROM member_in_project where midx = '${midx}')`)
+  }
+  getProject (id, uri) {
+    return Model.query(`SELECT * FROM project where writer = '${id}' and uri = '${uri}'`)
+  }
+  getCategoryList (idx) {
+    return Model.query(`SELECT * FROM c_category where pidx = '${idx}' order by idx asc`)
+  }
+  getCategory (idx) {
+    return Model.query(`SELECT * FROM c_category where idx = '${idx}'`)
+  }
+  postCategory (data) {
+    return Model.query(`INSERT INTO c_category (pidx, title) values (?, ?)`, [data.idx, data.title])
+  }
+  putCategory (data) {
+    return Model.query(`UPDATE c_category SET title = ? where idx = ?`, [data.title, data.idx])
+  }
+  deleteCategory (idx) {
+    return Model.query(`DELETE FROM c_category where idx = ${idx}`)
+  }
   postCard (data) {
     const sql = `
       INSERT INTO card (pidx, category, writer, title, content, reg_date, com_date, state)
@@ -95,6 +113,21 @@ const TestApi = class extends Api {
     `
     const arr = [data.pidx, data.category, data.writer, data.title, data.content, data.reg_date, data.com_date]
     return Model.query(sql, arr)
+  }
+  getCardList (pidx, category) {
+    const append = category === -1 ? '' : ` and category='${category}'`
+    return Model.query(`SELECT * FROM card where pidx='${pidx}'${append} order by idx asc`)
+  }
+  getCard (idx) {
+    return Model.query(`SELECT * FROM card where idx='${idx}'`)
+  }
+  putCard (idx) {
+    const sql = `UPDATE card SET category = ?, writer = ?, title = ?, content = ?, reg_date = ?, com_date = ?, state = ? where idx = ?`
+    const arr = [category, writer, title, content, reg_date, com_date, state, idx]
+    return Model.query(sql, arr)
+  }
+  deleteCard (idx) {
+    return Model.query(`DELETE FROM card where idx = '${idx}'`)
   }
 }
 //const RestApi = class extends Api {}
