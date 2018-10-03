@@ -23,7 +23,7 @@
             <li class="datepicker">
               <div class="input-label">
                 <span class="pre"><i class="far fa-calendar-alt"></i></span>
-                <Datepicker format="yyyy-MM-dd" placeholder="기한일 선택" name="date" class="full-width"></Datepicker>
+                <Datepicker format="yyyy-MM-dd" placeholder="기한일 선택" name="date" class="full-width" required></Datepicker>
               </div>
             </li>
             <li>
@@ -62,16 +62,20 @@
         const data = {
           category: frm.category.value,
           title: frm.title.value,
-          reg_date: this.getDateFormat(+new Date()),
-          com_date: frm.date.value,
+          reg_date: +new Date(),
+          com_date: +new Date(frm.date.value),
           content: frm.content.value,
           pidx: this.$route.params.pidx,
           writer: this.$store.state.member.idx
         }
         Api.postCard(data).then(() => {
           const params = this.$route.params
-          alert('추가되었습니다.')
-          this.$router.push(`/project/view/${params.id}/${params.uri}`)
+          const store = this.$store
+          Api.getCardList(store.state.pidx, store.state.selectedCategory).then(res => {
+            store.commit('setState', ['cardList', res.rows])
+            alert('추가되었습니다.')
+            this.$router.push(`/project/view/${params.id}/${params.uri}`)
+          })
         })
       }
     }

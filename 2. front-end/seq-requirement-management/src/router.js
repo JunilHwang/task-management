@@ -9,7 +9,7 @@ Vue.use(Router)
 const view = './views'
 const member = `${view}/member`
 const project = `${view}/project`
-const requirement = `${view}/requirement`
+const card = `${view}/card`
 
 export default new Router({
   mode: 'history',
@@ -61,11 +61,11 @@ export default new Router({
           children: [
             {
               path: '',
-              component: () => import(`${requirement}/list.vue`)
+              component: () => import(`${card}/list.vue`)
             },
             {
               path: 'create/:pidx',
-              component: () => import(`${requirement}/create.vue`)
+              component: () => import(`${card}/create.vue`)
             }
           ]
         },

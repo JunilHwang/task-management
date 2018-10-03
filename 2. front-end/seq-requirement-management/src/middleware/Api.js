@@ -115,8 +115,17 @@ const TestApi = class extends Api {
     return Model.query(sql, arr)
   }
   getCardList (pidx, category) {
-    const append = category === -1 ? '' : ` and category='${category}'`
-    return Model.query(`SELECT * FROM card where pidx='${pidx}'${append} order by idx asc`)
+    const append = category === -1 ? '' : ` and c.category='${category}'`
+    return Model.query(`
+      SELECT  c.*,
+              m.name as writer_name,
+              ca.title as category_name
+      FROM    card c
+      join    member m on c.writer = m.idx
+      join    c_category ca on c.category = ca.idx
+      where   c.pidx='${pidx}'${append}
+      order   by c.reg_date desc
+    `)
   }
   getCard (idx) {
     return Model.query(`SELECT * FROM card where idx='${idx}'`)

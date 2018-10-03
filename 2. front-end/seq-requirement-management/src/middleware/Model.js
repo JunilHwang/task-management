@@ -22,6 +22,11 @@ const Model = class {
       );
     `)
     Model.query(`
+      CREATE TABLE IF NOT EXISTS member_in_card (
+        cidx integer, midx integer, type integer
+      );
+    `)
+    Model.query(`
       CREATE TABLE IF NOT EXISTS c_category (
         idx integer primary key, pidx integer, title
       );
