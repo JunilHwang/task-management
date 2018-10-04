@@ -10,7 +10,8 @@ export default new Vuex.Store({
     categoryList: [],
     selectedCategory: -1,
     pidx: null,
-    cardList: []
+    cardList: [],
+    projectData: {}
   },
   mutations: {
     loggedIn (state, data) {

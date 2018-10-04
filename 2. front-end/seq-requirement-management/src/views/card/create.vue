@@ -82,7 +82,7 @@
   }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   @import "@/assets/scss/_lib.scss";
   .requirement-create{width:700px;margin:0 auto;background:#fff;padding:30px;border:1px solid #ddd;border-radius:3px;}
   .full-width input{width:100% !important}

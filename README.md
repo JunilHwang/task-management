@@ -15,7 +15,7 @@
 * [바로가기](https://github.com/lecture4u/capstone-capsequence/wiki/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%B0%B8%EA%B3%A0-%EC%9E%90%EB%A3%8C-%EB%B0%8F-%EB%A7%81%ED%81%AC)
 
 #### 프로젝트 진행 척도
-* 요구사항 정제 : 50%
-* 설계 : 0%
-* 구현 : 0%
+* 요구사항 정제 : 80%
+* 설계 : 50%
+* 구현 : 30%
 * 테스팅 : 0%

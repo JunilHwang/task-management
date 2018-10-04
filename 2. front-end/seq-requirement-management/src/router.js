@@ -69,6 +69,10 @@ export default new Router({
             }
           ]
         },
+        {
+          path: 'setting/:idx',
+          component: () => import(`${project}/setting.vue`)
+        }
       ]
     }
   ]

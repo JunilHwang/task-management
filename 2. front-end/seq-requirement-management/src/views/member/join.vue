@@ -103,8 +103,7 @@
       },
       pwCheck (e) {
         this.pwChk = e.target.value !== document.forms[0].pw.value
-      }
-      ,
+      },
       signUp (e) {
         const frm = e.target
         const id = frm.id.value
@@ -112,6 +111,7 @@
         const regId = /^[A-Za-z0-9+]{4,16}$/;
         const regPw = /^[A-Za-z0-9+]{8,16}$/;
         const regEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+
         if (frm.pw.value !== frm.pw_re.value) {
           alert('비밀번호와 비밀번호 확인이 일치하지 않습니다. 다시 입력해주세요')
           frm.pw_re.focus()
@@ -142,6 +142,7 @@
           frm.email.focus()
           return 
         }
+
         const router = this.$router
         Api.postMember({
           idx: frm.id.value,

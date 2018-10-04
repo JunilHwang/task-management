@@ -1,31 +1,13 @@
 <template>
-  <section>
-    <h3 class="content-title">프로젝트 생성</h3>
-    <div class="project-create">
-      <form action="" method="post" @submit="projectCreate">
-        <fieldset><legend>프로젝트 생성</legend>
+  <section class="setting-member">
+    <div class="setting-container">
+      <header class="setting-title">
+        <h3>인원 설정</h3>
+        <span>Member Setting</span>
+      </header>
+      <form action="" method="post" id="setting-member-frm" @submit="setMemberInProject">
+        <fieldset><legend>인원 설정</legend>
           <ul class="fields">
-            <li>
-              <label class="input-label">
-                <span class="pre"><i class="fas fa-file-signature"></i></span>
-                <input type="text" name="subject" class="full-width" required>
-                <span class="lbl">제목</span>
-              </label>
-            </li>
-            <li>
-              <label class="input-label">
-                <span class="pre"><i class="fas fa-align-left"></i></span>
-                <input type="text" name="description" class="full-width" required>
-                <span class="lbl">간략 설명</span>
-              </label>
-            </li>
-            <li>
-              <label class="input-label">
-                <span class="pre"><i class="fas fa-map-marker-alt"></i></span>
-                <input type="text" name="uri" class="full-width" required>
-                <span class="lbl">URI</span>
-              </label>
-            </li>
             <li class="search-wrap">
               <label class="input-label">
                 <span class="pre"><i class="fas fa-user-tie"></i></span>
@@ -65,28 +47,22 @@
             <li>
               <button type="submit" class="btn btn-full submit">작성완료</button>
             </li>
-            <li>
-              <router-link to="/project" type="submit" class="btn btn-full default">목록으로</router-link>
-            </li>
           </ul>
         </fieldset>
       </form>
     </div>
   </section>
 </template>
-
 <script>
   import Api from '@/middleware/Api.js'
   export default {
-    data () {
-      return {
-        searchedClient: [],
-        searchedTeam: [],
-        selectedClient: [],
-        selectedClientIdx: [],
-        selectedTeam: [],
-        selectedTeamIdx: []
+    computed: {
+      projectData () {
+        return this.$store.state.projectData
       }
+    },
+    created () {
+      this.getMemberInProject()
     },
     methods: {
       async search (e) {
@@ -100,12 +76,12 @@
         this[`searched${targetName}`] = val.length ? res.rows : []
       },
       searchClose () {
-        const _this = this
+        const frm = document.getElementById('setting-member-frm')
         setTimeout(() => {
-          _this.searchedClient = []
-          _this.searchedTeam = []
-          document.forms[0].c_search.value = ''
-          document.forms[0].t_search.value = ''
+          this.searchedClient = []
+          this.searchedTeam = []
+          frm.c_search.value = ''
+          frm.t_search.value = ''
         }, 150)
       },
       selectedAdd (obj, targetName) {
@@ -118,39 +94,47 @@
         this[`selected${targetName}`].splice(idx, 1)
         this[`selected${targetName}Idx`].splice(idx, 1)
       },
-      projectCreate (e) {
+      getMemberInProject () {
+        Api.getMemberInProject(this.$route.params.idx).then(res => {
+          for (const row of res.rows) {
+            const typeName = row.type === 1 ? 'Client' : 'Team'
+            this[`selected${typeName}`].push(row)
+            this[`selected${typeName}Idx`].push(row.idx)
+          }
+        })
+      },
+      setMemberInProject (e) {
         const frm = e.target
-        this.selectedTeamIdx.push(this.$store.state.member.idx)
         const data = {
-          writer: this.$store.state.member.id,
-          subject: frm.subject.value,
-          description: frm.description.value,
-          uri: frm.uri.value,
           client: this.selectedClientIdx,
-          team: this.selectedTeamIdx
+          team: this.selectedTeamIdx,
+          pidx: this.$route.params.idx
         }
-        const router = this.$router
-        Api.postProject(data).then(() => {
+        Api.putMemberInProject(data).then(() => {
           alert('완료되었습니다')
-          router.push('/project')
         })
       },
       obj2txt: obj => `${obj.name}(${obj.id}) - ${obj.belong}`
     },
-    mounted () {
-      document.forms[0].subject.focus()
+    data () {
+      return {
+        searchedClient: [],
+        searchedTeam: [],
+        selectedClient: [],
+        selectedClientIdx: [],
+        selectedTeam: [],
+        selectedTeamIdx: []
+      }
     }
   }
 </script>
-
 <style lang="scss" scoped>
   @import "@/assets/scss/_lib.scss";
-  .project-create{width:400px;margin:0 auto;}
   .fields{position:relative;}
   .search-wrap{border:1px solid #bebebe;
     input[type="text"]{border:none;}
   }
-  .search-list{position:absolute;left:0;right:0;z-index:20;background:#fff;border:1px solid #bebebe;padding:20px;border-bottom:2px solid $color1;background:#f5f5f5;
+  .search-list{position:absolute;left:0;right:0;z-index:20;background:#fff;border:1px solid #bebebe;padding:20px;text-align:left;border-bottom:2px solid $color1;background:#f5f5f5;
     p{padding:5px 0;}
   }
   .selected-list{padding:10px;border-top:1px dotted #ddd;
