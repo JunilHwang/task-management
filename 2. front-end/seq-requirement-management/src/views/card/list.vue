@@ -56,7 +56,6 @@
 </template>
 
 <script>
-  import Api from '@/middleware/Api.js'
   export default {
     computed: {
       selectedCategory () {

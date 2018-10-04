@@ -130,7 +130,7 @@
           team: this.selectedTeamIdx
         }
         const router = this.$router
-        Api.projectCreate(data).then(() => {
+        Api.postProject(data).then(() => {
           alert('완료되었습니다')
           router.push('/project')
         })
