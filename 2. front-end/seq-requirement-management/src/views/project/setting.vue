@@ -38,4 +38,5 @@
     h3{font-weight:normal;font-size:21px;display:inline-block;vertical-align:middle;}
     span{display:inline-block;vertical-align:middle;color:#aaa;margin-left:10px;}
   }
+  .setting-container{width:400px;margin:0 auto;position:relative;}
 </style>

@@ -1,6 +1,6 @@
 <template>
   <section class="default-setting">
-    <div class="default-setting-wrap">
+    <div class="setting-container">
       <header class="setting-title">
         <h3>기본 설정</h3>
         <span>Default Setting</span>
@@ -71,6 +71,3 @@
     }
   }
 </script>
-<style lang="scss" scoped>
-  .default-setting-wrap{width:400px;margin:0 auto;position:relative;}
-</style>
