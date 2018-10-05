@@ -21,7 +21,10 @@
             <span :class="`color-label color${card.state + 1}`" />
             <span class="category-name" v-html="`[${card.category_name}]`" />
             <span class="card-name" v-html="card.title" />
-            <span class="reg-date" v-html="getDateFormat(card.reg_date)" />
+            <span class="reg-date">
+              <i class="far fa-calendar-alt"></i>
+              {{getDateFormat(card.reg_date)}}
+            </span>
           </dt>
           <dd>
             <p>
@@ -29,18 +32,18 @@
                 <i class="fas fa-edit"></i>
                 {{card.writer_name}}
               </span>
-              <span class="members">
-                담당자 :
-                {{card.members}}
-              </span>
             </p>
-            <div v-html="card.content" />
-            <p class="">
-              
-            </p>
-            <p class="com-date">
-              기한 <span v-html="getDateFormat(card.com_date).substring(0, 10)" />
-            </p>
+            <div class="list-content" v-html="contentPreview(card.content, 200)" />
+            <div class="card-bottom">
+              <p>
+                <strong class="lbl">기한</strong>
+                <span v-html="getDateFormat(card.com_date).substring(0, 10)" />
+              </p>
+              <p>
+                <strong class="lbl">담당자</strong>
+                <span>{{card.members ? card.members : '아직 담당자가 없습니다'}}</span>
+              </p>
+            </div>
           </dd>
         </dl>
       </li>
@@ -70,7 +73,7 @@
   @import "@/assets/scss/_lib.scss";
   .card-list{
     li{width:50%;float:left;}
-    dl{border-radius:3px;border:1px solid #ddd;background:#fff;margin:5px;padding:20px;height:150px;box-shadow:0 0 10px fade-out(#aaa, .7);transition:.3s;cursor:pointer;position:relative;
+    dl{border-radius:3px;border:1px solid #ddd;background:#fff;margin:5px;padding:20px;height:200px;box-shadow:0 0 10px fade-out(#aaa, .7);transition:.3s;cursor:pointer;position:relative;
       &:hover{box-shadow:0 0 10px fade-out(#aaa, .3)}
     }
     .none{padding:20px;}
@@ -79,9 +82,15 @@
     .writer{display:inline-block;font-size:13px;
       i{margin-top:-4px;}
     }
-    .reg-date{float:right;margin-left:10px;font-size:11px;color:#666;margin-top:3px}
-    .com-date{position:absolute;bottom:20px;left:20px;}
+    .reg-date{float:right;margin-left:10px;font-size:11px;color:#666;margin-top:3px;
+      i{margin-top:-3px;margin-right:5px;}
+    }
+    .card-bottom{position:absolute;bottom:20px;left:20px;font-size:13px;
+      p+p{margin-top:5px;}
+      strong{color:$color1;display:inline-block;width:50px;font-weight:normal}
+    }
   }
+  .list-content{margin:10px 0;word-break:break-all;}
   .color-description{background:#fff;border:1px solid #ddd;margin:5px;padding:10px;
     >span+span{margin-left:10px;}
   }

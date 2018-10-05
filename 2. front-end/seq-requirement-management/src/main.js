@@ -20,6 +20,12 @@ Vue.prototype.$memberChk = () => {
 Vue.prototype.$notMemberChk = () => {
   access(!store.state.member, '회원은 접근할 수 없습니다')
 }
+Vue.prototype.contentPreview = (text, len) => {
+  if (text.length > len) {
+    text = text.substring(0, len) + '...'
+  }
+  return text
+}
 Vue.prototype.getDateFormat = (time) => {
   const date = new Date(time)
   let y = date.getFullYear()
