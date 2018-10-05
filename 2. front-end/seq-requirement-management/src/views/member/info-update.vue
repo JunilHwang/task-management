@@ -21,6 +21,8 @@
                       <input type="text" class="full-width" name="email" @keyup="emailCheck" required>
                       <span class="lbl">이메일</span>
                       <span class="chk" v-if="emChk">중복된 이메일이 있습니다</span>
+             		  <p :class="emShake ? 'animated shake' : null" v-if="emCompoChk">이메일 주소를 다시 확인해 주세요</p>
+
                     </label>
                   </li>
                   <li>
@@ -77,17 +79,31 @@
       return {
         emChk: false,
         pwChk: false,
-        member: this.$store.state.member
+        member: this.$store.state.member,
+        emShake: false,
+        emCompoChk: false
       }
     },
     methods: {
       infoUpdate (e) {
         const frm = e.target
+        const regEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i
+
         if (this.member.pw !== frm.pw.value) {
           alert('현재 비밀번호가 일치하지 않습니다. 다시 입력해주세요')
           frm.pw.focus()
           return
         }
+        if(!regEmail.test(frm.email.value)) {
+          this.emShake = true
+          setTimeout(() => {
+            this.emShake = false
+          }, 1000)
+          this.emCompoChk = true
+          frm.email.focus()
+          return 
+        }
+
         const store = this.$store
         const router = this.$router
         Api.putMemberInfo({
@@ -108,6 +124,7 @@
         const val = obj.value 
         const name = obj.name
         const email = this.member.email
+
         if (email === val) {
           this.emChk = false
           return
