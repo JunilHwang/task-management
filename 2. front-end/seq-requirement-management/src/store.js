@@ -11,6 +11,7 @@ export default new Vuex.Store({
     selectedCategory: -1,
     pidx: null,
     cardList: [],
+    cardNow: {},
     projectData: {}
   },
   mutations: {

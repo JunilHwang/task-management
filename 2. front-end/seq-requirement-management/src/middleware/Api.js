@@ -165,7 +165,25 @@ const TestApi = class extends Api {
     `)
   }
   getCard (idx) {
-    return Model.query(`SELECT * FROM card where idx='${idx}'`)
+    return Model.query(`
+      SELECT  c.*,
+              m.name as writer_name,
+              ca.title as category_name,
+              mc2.members as members,
+              p.uri as project_uri, p.writer as project_writer
+      FROM    card c left
+      join    (
+                SELECT  mc.cidx, group_concat(m.name) as members
+                from    member_in_card mc
+                JOIN    member m on mc.midx = m.idx
+                group by mc.cidx
+              ) mc2 on mc2.cidx = c.idx
+      join    member m on c.writer = m.idx
+      join    c_category ca on c.category = ca.idx
+      join    project p on c.pidx = p.idx
+      where   c.idx='${idx}'
+      order   by c.reg_date desc
+    `)
   }
   putCard (data) {
     const sql = `UPDATE card SET category = ?, writer = ?, title = ?, content = ?, reg_date = ?, com_date = ?, state = ? where idx = ?`
