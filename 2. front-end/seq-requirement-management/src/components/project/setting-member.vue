@@ -103,8 +103,7 @@
           }
         })
       },
-      setMemberInProject (e) {
-        const frm = e.target
+      setMemberInProject () {
         const data = {
           client: this.selectedClientIdx,
           team: this.selectedTeamIdx,

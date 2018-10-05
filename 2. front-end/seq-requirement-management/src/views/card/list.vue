@@ -19,7 +19,7 @@
     </div>
     <ul v-if="cardList.length" class="float-wrap">
       <li v-for="(card, key) in cardList" :key="key">
-        <dl>
+        <dl @click.prevent="$router.push(`/card/view/${card.idx}`)">
           <dt class="title">
             <span :class="`color-label color${card.state + 1}`" />
             <span class="category-name" v-html="`[${card.category_name}]`" />
@@ -97,13 +97,5 @@
   .cnt{float:left;}
   .color-description{float:right;
     >span+span{margin-left:10px;}
-  }
-  .color-label{display:inline-block;margin-right:5px;
-    &:before{content:"";width:10px;height:10px;display:inline-block;vertical-align:middle;border-radius:3px;}
-    &.color1:before{background:#f4f48a}
-    &.color2:before{background:#008672}
-    &.color3:before{background:#a2eeef}
-    &.color4:before{background:#d73a4a}
-    span{display:inline-block;vertical-align:middle;margin-left:5px;}
   }
 </style>
