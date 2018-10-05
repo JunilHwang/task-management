@@ -72,5 +72,6 @@ const Model = class {
     })
   }
 }
-// Model.init()
+Model.init()
+
 export default Model
