@@ -1,18 +1,21 @@
 <template>
   <section class="card-list">
-    <div class="color-description">
-      <span class="color-label color1"> 
-        <span>진행중</span>
-      </span>
-      <span class="color-label color2"> 
-        <span>구현완료</span>
-      </span>
-      <span class="color-label color3"> 
-        <span>테스트 완료</span>
-      </span>
-      <span class="color-label color4"> 
-        <span>이슈 발생</span>
-      </span>
+    <div class="list-header float-wrap">
+      <p class="cnt">{{cardList.length}}개의 요구사항 카드가 있습니다.</p>
+      <div class="color-description">
+        <span class="color-label color1"> 
+          <span>진행중</span>
+        </span>
+        <span class="color-label color2"> 
+          <span>구현완료</span>
+        </span>
+        <span class="color-label color3"> 
+          <span>테스트 완료</span>
+        </span>
+        <span class="color-label color4"> 
+          <span>이슈 발생</span>
+        </span>
+      </div>
     </div>
     <ul v-if="cardList.length" class="float-wrap">
       <li v-for="(card, key) in cardList" :key="key">
@@ -91,7 +94,9 @@
     }
   }
   .list-content{margin:10px 0;word-break:break-all;}
-  .color-description{background:#fff;border:1px solid #ddd;margin:5px;padding:10px;
+  .list-header{background:#fff;border:1px solid #ddd;margin:5px;padding:10px;}
+  .cnt{float:left;}
+  .color-description{float:right;
     >span+span{margin-left:10px;}
   }
   .color-label{display:inline-block;margin-right:5px;

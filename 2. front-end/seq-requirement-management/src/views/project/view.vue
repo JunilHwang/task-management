@@ -39,16 +39,16 @@
     async created () {
       const id = this.$route.params.id
       const uri = decodeURIComponent(this.$route.params.uri)
-      this.projectData = (await Api.getProject(id, uri)).rows[0]
-      const categoryList = (await Api.getCategoryList (this.projectData.idx)).rows
+      const projectData = (await Api.getProject(id, uri)).rows[0]
+      const categoryList = (await Api.getCategoryList (projectData.idx)).rows
+      this.$store.commit('setState', ['projectData', projectData])
       this.$store.commit('setState', ['categoryList', categoryList])
-      this.$store.commit('setState', ['pidx', this.projectData.idx])
+      this.$store.commit('setState', ['pidx', projectData.idx])
       this.setCategory(-1)
       this.setCardList()
     },
     data () {
       return {
-        projectData: {},
         uri: this.$route.params.uri
       }
     },
@@ -58,6 +58,9 @@
       },
       selectedCategory () {
         return this.$store.state.selectedCategory
+      },
+      projectData () {
+        return this.$store.state.projectData
       }
     },
     methods: {
