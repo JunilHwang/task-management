@@ -8,9 +8,10 @@ const Api = class {
   putMemberPassword () { throw `don't getMember impolemented` }
   liveCheck () { throw `don't getMember impolemented` }
   searchMember () { throw `don't getMember impolemented` }
-  projectCreate () { throw `don't getMember impolemented` }
+  postProject () { throw `don't getMember impolemented` }
   getProjectListOfMain () { throw `don't getMember impolemented` }
   getProject () { throw `don't getMember impolemented` }
+  getProjectByIdx () { throw `don't getMember impolemented` }
   getCategoryList () { throw `don't getMember impolemented` }
   getCategory () { throw `don't getMember impolemented` }
   postCategory () { throw `don't getMember impolemented` }
@@ -68,7 +69,7 @@ const TestApi = class extends Api {
   liveCheck (val, name) {
     return Model.query(`SELECT * FROM member WHERE ${name} = ?`, [val])
   }
-  projectCreate (data) {
+  postProject (data) {
     const date = +new Date
     const sql = `INSERT INTO project (writer, subject, description, uri, date) values (?, ?, ?, ?, ${date})`
     const arr = [data.writer, data.subject, data.description, data.uri]
@@ -85,11 +86,19 @@ const TestApi = class extends Api {
       return Model.query(sql+append)
     })
   }
+  putProject (data) {
+    const sql = `UPDATE project SET subject = ?, description = ?, uri = ? where idx = ?`
+    const arr = [data.subject, data.description, data.uri, data.idx]
+    return Model.query(sql, arr)
+  }
   getProjectListOfMain (midx) {
     return Model.query(`SELECT * FROM project where idx in (SELECT pidx FROM member_in_project where midx = '${midx}')`)
   }
   getProject (id, uri) {
     return Model.query(`SELECT * FROM project where writer = '${id}' and uri = '${uri}'`)
+  }
+  getProjectByIdx (idx) {
+    return Model.query(`SELECT * FROM project where idx = '${idx}'`)
   }
   getCategoryList (idx) {
     return Model.query(`SELECT * FROM c_category where pidx = '${idx}' order by idx asc`)
@@ -137,9 +146,9 @@ const TestApi = class extends Api {
   getCard (idx) {
     return Model.query(`SELECT * FROM card where idx='${idx}'`)
   }
-  putCard (idx) {
+  putCard (data) {
     const sql = `UPDATE card SET category = ?, writer = ?, title = ?, content = ?, reg_date = ?, com_date = ?, state = ? where idx = ?`
-    const arr = [category, writer, title, content, reg_date, com_date, state, idx]
+    const arr = [data.category, data.writer, data.title, data.content, data.reg_date, data.com_date, data.state, data.idx]
     return Model.query(sql, arr)
   }
   deleteCard (idx) {
