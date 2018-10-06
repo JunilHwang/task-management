@@ -18,10 +18,10 @@
         </div>
       </section>
       <div class="btn-group">
-        <a href="#" class="btn default" @click.prevent>요구사항 삭제 내역</a>&nbsp;
-        <router-link to="/project" class="btn point" @click.prevent>프로젝트 목록</router-link>&nbsp;
-        <router-link :to="`/project/setting/${projectData.idx}`" class="btn point" @click.prevent>프로젝트 설정</router-link>&nbsp;
-        <a href="#" class="btn submit" @click.prevent="$store.commit('openLayer')">카테고리 관리</a>&nbsp;
+        <a href="#" class="btn default" @click.prevent>요구사항 삭제 내역</a>
+        <router-link to="/project" class="btn point" @click.prevent>프로젝트 목록</router-link>
+        <router-link :to="`/project/setting/${projectData.idx}`" class="btn point" @click.prevent>프로젝트 설정</router-link>
+        <a href="#" class="btn submit" @click.prevent="$store.commit('openLayer')">카테고리 관리</a>
         <router-link :to="`/project/view/${$route.params.id}/${$route.params.uri}/create/${projectData.idx}`" class="btn submit">요구사항 추가</router-link>
       </div>
       <layerTemplate v-if="$store.state.layerState" layerContent="category" :send="{pidx: projectData.idx}"></layerTemplate>

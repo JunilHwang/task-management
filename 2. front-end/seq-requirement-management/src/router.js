@@ -74,6 +74,16 @@ export default new Router({
           component: () => import(`${project}/setting.vue`)
         }
       ]
+    },
+    {
+      path: '/card/',
+      component: () => import(`${project}/index.vue`),
+      children: [
+        {
+          path: 'view/:idx',
+          component: () => import(`${card}/view.vue`)
+        }
+      ]
     }
   ]
 })
