@@ -40,6 +40,23 @@ Vue.prototype.getDateFormat = (time) => {
   const newDate = `${y}-${m}-${d} ${h}:${i}`
   return newDate
 }
+Vue.prototype.getFlowDate = time => {
+  const computedTime = +new Date() - time
+  const s = 60 * 1000
+  const i = s * 60
+  const h = i * 24
+  let newTime
+  if (computedTime < s) {
+    newTime = computedTime + '초'
+  } else if (computedTime < i) {
+    newTime = ~~(computedTime / s) + '분'
+  } else if (computedTime < h) {
+    newTime = ~~(computedTime / i) + '시간'
+  } else {
+    newTime = ~~(computedTime / h) + '일'
+  }
+  return newTime
+}
 
 new Vue({
   router,

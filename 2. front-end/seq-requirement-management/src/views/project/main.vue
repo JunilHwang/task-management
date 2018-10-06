@@ -69,7 +69,7 @@
 
 <style lang="scss" scoped>
   @import "@/assets/scss/_lib.scss";
-  .section{border:1px solid #ddd;margin:15px;padding:40px;border-radius:3px;background:#fafafa}
+  .section{border:1px solid #ddd;margin:15px;padding:40px;border-radius:3px;background:$color-grey}
   .section-title{font-weight:normal;font-size:21px;margin-bottom:15px;}
   .article-title{font-size:21px;color:$color1;margin-bottom:5px;display:block;height:25px;
     a:hover{text-decoration:none;}

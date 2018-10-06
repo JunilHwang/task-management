@@ -87,5 +87,5 @@
   .cards{
     header{margin-bottom:20px}
   }
-  .requirement{background:#f5f5f5;border-radius:3px;border:1px solid #ddd;min-height:200px;padding:30px;}
+  .requirement{background:$color-grey;border-radius:3px;border:1px solid #ddd;min-height:200px;padding:30px;}
 </style>

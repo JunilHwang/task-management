@@ -1,5 +1,5 @@
 @import "lib";
-.login{position:absolute;left:0;right:0;top:0;bottom:0;text-align:center;background:#fafafa;
+.login{position:absolute;left:0;right:0;top:0;bottom:0;text-align:center;background:$color-grey;
   >div{width:400px;text-align:left;}
 }
 .login-title{font-size:35px;font-weight:bold;margin-bottom:30px;color:$color1-darken-20;text-align:center;}
