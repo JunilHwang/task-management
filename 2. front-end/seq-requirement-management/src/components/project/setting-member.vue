@@ -133,7 +133,7 @@
   .search-wrap{border:1px solid #bebebe;
     input[type="text"]{border:none;}
   }
-  .search-list{position:absolute;left:0;right:0;z-index:20;background:#fff;border:1px solid #bebebe;padding:20px;text-align:left;border-bottom:2px solid $color1;background:#f5f5f5;
+  .search-list{position:absolute;left:0;right:0;z-index:20;background:#fff;border:1px solid #bebebe;padding:20px;text-align:left;border-bottom:2px solid $color1;background:$color-grey;
     p{padding:5px 0;}
   }
   .selected-list{padding:10px;border-top:1px dotted #ddd;

@@ -29,7 +29,7 @@
 
 <style lang="scss">
   @import "@/assets/scss/_lib.scss";
-  .setting-wrap{background:#f5f5f5;border:1px solid #ddd;padding:50px;border-radius:3px;
+  .setting-wrap{background:$color-grey;border:1px solid #ddd;padding:50px;border-radius:3px;
     >section{background:#fff;border:1px solid #ddd;padding:30px;border-radius:3px;text-align:center;
       +section{margin-top:30px;}
     }

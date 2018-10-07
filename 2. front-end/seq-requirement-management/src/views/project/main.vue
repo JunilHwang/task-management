@@ -2,7 +2,6 @@
   <section class="project-main">
     <h3 class="content-title">프로젝트 관리</h3>
     <div class="float-wrap">
-        <i class="color far fa-star"></i>
       <section class="section float-wrap">
         <h4 class="section-title">즐겨찾기</h4>
         <template v-if="issueList.length">
@@ -79,21 +78,15 @@
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/scss/_lib.scss";
-.section{border:1px solid #ddd;margin:15px;padding:40px;border-radius:3px;background:#fafafa}
-.section-title{font-weight:normal;font-size:21px;margin-bottom:15px;}
-.article-title{font-size:21px;color:$color1;margin-bottom:5px;display:block;height:25px;
-  a:hover{text-decoration:none;}
-}
-.description{font-size:17px;margin-bottom:5px;height:20px;}
-.date{font-size:13px;color:#aaa}
-article{background:#fff;padding:20px;border-radius:3px;border:1px solid #ddd;box-shadow:0 0 10px fade-out(#666, .8);transition:.3s;cursor:pointer;width:calc(33.3333% - 20px);float:left;box-sizing:border-box;margin:0 10px;
-  &:hover{box-shadow:0 0 10px fade-out(#666, .3)}
-}
-.fix {
-}
-.color {
-  color : yellow
-}
-
+  @import "@/assets/scss/_lib.scss";
+  .section{border:1px solid #ddd;margin:15px;padding:40px;border-radius:3px;background:$color-grey}
+  .section-title{font-weight:normal;font-size:21px;margin-bottom:15px;}
+  .article-title{font-size:21px;color:$color1;margin-bottom:5px;display:block;height:25px;
+    a:hover{text-decoration:none;}
+  }
+  .description{font-size:17px;margin-bottom:5px;height:20px;}
+  .date{font-size:13px;color:#aaa}
+  article{background:#fff;padding:20px;border-radius:3px;border:1px solid #ddd;box-shadow:0 0 10px fade-out(#666, .8);transition:.3s;cursor:pointer;width:calc(33.3333% - 20px);float:left;box-sizing:border-box;margin:0 10px;
+    &:hover{box-shadow:0 0 10px fade-out(#666, .3)}
+  }
 </style>
