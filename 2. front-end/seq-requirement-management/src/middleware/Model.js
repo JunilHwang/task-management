@@ -73,9 +73,5 @@ const Model = class {
   }
 }
 Model.init()
-<<<<<<< HEAD
 
 export default Model
-=======
-export default Model
->>>>>>> 5916759fd03dd3c320256a7c5c2b28bd2b744684
