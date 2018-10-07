@@ -13,7 +13,7 @@ const Model = class {
     `)
     Model.query(`
       CREATE TABLE IF NOT EXISTS project (
-        idx integer primary key, writer, subject, description, uri, date integer
+        idx integer primary key, writer, subject, description, uri, star, date integer
       );
     `)
     Model.query(`

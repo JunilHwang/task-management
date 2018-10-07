@@ -70,7 +70,6 @@
         })
       },
       capsLockChk (e) {
-        const el = event.target 
         if(e.getModifierState("CapsLock")) {
           this.capsLock = true
         } else {
