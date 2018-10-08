@@ -1,30 +1,51 @@
 <template>
   <section class="project-main">
+
     <h3 class="content-title">프로젝트 관리</h3>
     <div class="float-wrap">
       <section class="section float-wrap">
         <h4 class="section-title">즐겨찾기</h4>
-        <template v-if="issueList.length">
-
+        <template v-if="projectList.length">
+          <article v-for="(data, key) in projectList" :key="key" v-if="data.star == 1" >
+            <div @click.prevent="projectView(data.writer, data.uri, data.idx)">
+              <p class="article-title" v-html="data.subject" />
+              <p class="description" v-html="data.description" />
+              <p class="date" v-html="getDateFormat(data.date)" />
+            </div>
+            <i :class="data.star==1 ? 'star' : null" 
+            @click.prevent="icon(data.idx, data.star)" class="color far fa-star animated fadeInRight"></i>
+          </article>
         </template>
         <p v-else>즐겨찾기 된 목록이 없습니다</p>
       </section>
+
       <section class="section float-wrap">
         <h4 class="section-title">최근에 조회한 프로젝트</h4>
-        <template v-if="issueList.length">
-
+        <template v-if="projectList.length">
+          <article v-for="(data, key) in viewedProject" :key="key" v-if="date- (data.viewDate/1000).toFixed(0) < (60*60*24*7)">
+            <div @click.prevent="projectView(data.writer, data.uri, data.idx)">
+              <p class="article-title" v-html="data.subject" />
+              <p class="description" v-html="data.description" />
+              <p class="date" v-html="getDateFormat(data.date)" />
+              <p class="date" v-html="getDateFormat(data.viewDate)" />
+            </div>
+            <i :class="data.star==1 ? 'star' : null" 
+            @click.prevent="icon(data.idx, data.star)" class="color far fa-star animated fadeInRight"></i>
+          </article>
         </template>
         <p v-else>최근에 조회한 프로젝트 목록이 없습니다</p>
       </section>
+
       <section class="section float-wrap">
         <h4 class="section-title">참여 프로젝트 목록</h4>
         <template v-if="projectList.length">
           <article v-for="(data, key) in projectList" :key="key" >
-            <div @click.prevent="projectView(data.writer, data.uri)">
-            <p class="article-title" v-html="data.subject" />
-            <p class="description" v-html="data.description" />
-            <p class="date" v-html="getDateFormat(data.date)" />
-          </div>
+            <div @click.prevent="projectView(data.writer, data.uri, data.idx)">
+              <p class="article-title" v-html="data.subject" />
+              <p class="description" v-html="data.description" />
+              <p class="date" v-html="getDateFormat(data.date)" />
+              <p class="date" v-html="getDateFormat(data.viewDate)" />
+            </div>
             <i :class="data.star==1 ? 'star' : null" 
             @click.prevent="icon(data.idx, data.star)" class="color far fa-star animated fadeInRight"></i>
 
@@ -67,6 +88,7 @@
   export default {
     async created () {
       this.projectList = (await Api.getProjectListOfMain(this.$store.state.member.idx)).rows
+      this.$store.commit('setState', ['projectList', this.projectList])
     },
     data () {
       return {
@@ -74,24 +96,31 @@
         issueList: [],
         implementList: [],
         testList: [],
+        date: (+new Date()/1000).toFixed(0),
+        limit: 3
+      }
+    },
+    computed: {
+      viewedProject: function () {
+        return _.orderBy(this.projectList, 'viewDate', 'desc').slice(0, 3)
       }
     },
     methods: {
       getURI: uri => encodeURIComponent(uri),
-      projectView (writer, uri) {
+      async projectView (writer, uri, idx) {
         uri = this.getURI(uri)
+        Api.putViewDate(idx)
         this.$router.push(`/project/view/${writer}/${uri}`)
       },
-      icon (idx, star) {
-        console.log("before "+star)
+      async icon (idx, star) {
         if (star === 0) {
           star = 1
         } else {
           star = 0
         }
         Api.putStar({idx, star})
+        this.projectList = (await Api.getProjectListOfMain(this.$store.state.member.idx)).rows
       }
-      
     }
   }
 </script>

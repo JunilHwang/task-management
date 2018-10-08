@@ -27,6 +27,7 @@ const Api = class {
   putCard () { throw `don't getMember impolemented` }
   deleteCard () { throw `don't getMember impolemented` }
   putStar() { throw `don't getMember impolemented` }
+  putViewDate() { throw `don't getMember impolemented` }
 }
 
 const TestApi = class extends Api {
@@ -195,9 +196,14 @@ const TestApi = class extends Api {
     return Model.query(`DELETE FROM card where idx = '${idx}'`)
   }
   putStar(data) {
-    console.log(data.idx+" , "+data.star)
     const sql = `UPDATE project SET star = ? where idx = ?`
     const arr = [data.star, data.idx]
+    return Model.query(sql, arr)
+  }
+  putViewDate(idx) {
+    const date = +new Date
+    const sql = `UPDATE project SET viewDate = ${date} where idx = ?`
+    const arr = [idx]
     return Model.query(sql, arr)
   }
 }
