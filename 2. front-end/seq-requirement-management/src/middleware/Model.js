@@ -49,7 +49,10 @@ const Model = class {
     Model.query(`
       CREATE TABLE IF NOT EXISTS issue (
         idx integer primary key,
-        pidx integer,
+        cidx integer,
+        od integer,
+        depth integer,
+        parent integer,
         content,
         date integer,
         writer integer
