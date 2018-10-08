@@ -26,6 +26,7 @@ const Api = class {
   getCard () { throw `don't getMember impolemented` }
   putCard () { throw `don't getMember impolemented` }
   deleteCard () { throw `don't getMember impolemented` }
+  putStar() { throw `don't getMember impolemented` }
 }
 
 const TestApi = class extends Api {
@@ -75,8 +76,8 @@ const TestApi = class extends Api {
   }
   postProject (data) {
     const date = +new Date
-    const sql = `INSERT INTO project (writer, subject, description, uri, date) values (?, ?, ?, ?, ${date})`
-    const arr = [data.writer, data.subject, data.description, data.uri]
+    const sql = `INSERT INTO project (writer, subject, description, uri, star, date) values (?, ?, ?, ?, ?, ${date})`
+    const arr = [data.writer, data.subject, data.description, data.uri, 0]
     return Model.query(sql, arr).then(res => {
       return this.postMemberInProject(res.insertId, data.client, data.team)
     })
@@ -113,7 +114,7 @@ const TestApi = class extends Api {
       FROM    member_in_project mp
       JOIN    member m on mp.midx = m.idx
       WHERE   mp.pidx = ${pidx}
-    `)
+      `)
   }
   putMemberInProject (data) {
     return this.deleteMemberInProject(data.pidx).then(() => this.postMemberInProject(data.pidx, data.client, data.team))
@@ -138,8 +139,8 @@ const TestApi = class extends Api {
   }
   postCard (data) {
     const sql = `
-      INSERT INTO card (pidx, category, writer, title, content, reg_date, com_date, state)
-      values (?, ?, ?, ?, ?, ?, ?, 0);
+    INSERT INTO card (pidx, category, writer, title, content, reg_date, com_date, state)
+    values (?, ?, ?, ?, ?, ?, ?, 0);
     `
     const arr = [data.pidx, data.category, data.writer, data.title, data.content, data.reg_date, data.com_date]
     return Model.query(sql, arr)
@@ -148,42 +149,42 @@ const TestApi = class extends Api {
     const append = category === -1 ? '' : ` and c.category='${category}'`
     return Model.query(`
       SELECT  c.*,
-              m.name as writer_name,
-              ca.title as category_name,
-              mc2.members as members
+      m.name as writer_name,
+      ca.title as category_name,
+      mc2.members as members
       FROM    card c left
       join    (
-                SELECT  mc.cidx, group_concat(m.name) as members
-                from    member_in_card mc
-                JOIN    member m on mc.midx = m.idx
-                group by mc.cidx
-              ) mc2 on mc2.cidx = c.idx
+      SELECT  mc.cidx, group_concat(m.name) as members
+      from    member_in_card mc
+      JOIN    member m on mc.midx = m.idx
+      group by mc.cidx
+      ) mc2 on mc2.cidx = c.idx
       join    member m on c.writer = m.idx
       join    c_category ca on c.category = ca.idx
       where   c.pidx='${pidx}'${append}
       order   by c.reg_date desc
-    `)
+      `)
   }
   getCard (idx) {
     return Model.query(`
       SELECT  c.*,
-              m.name as writer_name,
-              ca.title as category_name,
-              mc2.members as members,
-              p.uri as project_uri, p.writer as project_writer
+      m.name as writer_name,
+      ca.title as category_name,
+      mc2.members as members,
+      p.uri as project_uri, p.writer as project_writer
       FROM    card c left
       join    (
-                SELECT  mc.cidx, group_concat(m.name) as members
-                from    member_in_card mc
-                JOIN    member m on mc.midx = m.idx
-                group by mc.cidx
-              ) mc2 on mc2.cidx = c.idx
+      SELECT  mc.cidx, group_concat(m.name) as members
+      from    member_in_card mc
+      JOIN    member m on mc.midx = m.idx
+      group by mc.cidx
+      ) mc2 on mc2.cidx = c.idx
       join    member m on c.writer = m.idx
       join    c_category ca on c.category = ca.idx
       join    project p on c.pidx = p.idx
       where   c.idx='${idx}'
       order   by c.reg_date desc
-    `)
+      `)
   }
   putCard (data) {
     const sql = `UPDATE card SET category = ?, writer = ?, title = ?, content = ?, reg_date = ?, com_date = ?, state = ? where idx = ?`
@@ -192,6 +193,12 @@ const TestApi = class extends Api {
   }
   deleteCard (idx) {
     return Model.query(`DELETE FROM card where idx = '${idx}'`)
+  }
+  putStar(data) {
+    console.log(data.idx+" , "+data.star)
+    const sql = `UPDATE project SET star = ? where idx = ?`
+    const arr = [data.star, data.idx]
+    return Model.query(sql, arr)
   }
 }
 //const RestApi = class extends Api {}

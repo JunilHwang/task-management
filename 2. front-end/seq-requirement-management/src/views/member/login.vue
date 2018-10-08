@@ -15,8 +15,9 @@
             <li>
               <label class="input-label">
                 <span class="pre"><i class="fas fa-lock"></i></span>
-                <input type="password" name="pw" class="full-width" required>
+                <input type="password" name="pw" class="full-width" required @keydown="capsLockChk">
                 <span class="lbl">비밀번호</span>
+                <small v-if="capsLock">CapsLock이 켜져있습니다 </small>
               </label>
             </li>
             <li>
@@ -40,30 +41,43 @@
 </template>
 
 <script>
-import Api from '@/middleware/Api.js' 
-export default {
-  created () {
-    this.$notMemberChk()
-  },
-  mounted () {
-    document.forms[0].id.focus()
-  },
-  methods: {
-    login (e) {
-      const frm = e.target
-      Api.getMember(frm.id.value, frm.pw.value).then(res => {
-        if (res.rows.length) {
-          alert('로그인 되었습니다.')
-          this.$store.commit('loggedIn', res.rows[0])
-          this.$router.push('/project')
+  import Api from '@/middleware/Api.js' 
+  export default {
+    created () {
+      this.$notMemberChk()
+    },
+    mounted () {
+      document.forms[0].id.focus()
+    },
+    data () {
+      return {
+        capsLock: false
+      }
+    }
+    ,
+    methods: {
+      login (e) {
+        const frm = e.target
+        Api.getMember(frm.id.value, frm.pw.value).then(res => {
+          if (res.rows.length) {
+            alert('로그인 되었습니다.')
+            this.$store.commit('loggedIn', res.rows[0])
+            this.$router.push('/project')
+          } else {
+            alert('아이디 또는 비밀번호가 일치하지 않습니다.')
+            frm.id.focus()
+          }
+        })
+      },
+      capsLockChk (e) {
+        if(e.getModifierState("CapsLock")) {
+          this.capsLock = true
         } else {
-          alert('아이디 또는 비밀번호가 일치하지 않습니다.')
-          frm.id.focus()
+          this.capsLock = false
         }
-      })
+      }
     }
   }
-}
 </script>
 
 <style lang="scss" src="@/assets/scss/member.scss"></style>

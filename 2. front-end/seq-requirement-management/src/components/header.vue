@@ -26,7 +26,7 @@
   .header{border-bottom:1px solid #ddd;background:#fff;position:relative;z-index:10;
     .logo a{font-size:25px;color:$color1;font-weight:300;text-decoration:none}
     >div{display:flex;justify-content:space-between;align-items:center;height:60px;}
-    .gnb{display:flex;
+    .gnb{display:flex; 
       a{display:block;margin:0 40px;font-size:17px;font-weight:400;text-decoration:none;transition:.3s;line-height:60px;
         &:hover{color:$color1}
         &.router-link-active{position:relative;color:$color1;

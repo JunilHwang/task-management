@@ -52,9 +52,7 @@
     methods: {
       setProjectData () {
         const _this = this
-        Api.getProjectByIdx(_this.$route.params.idx).then(res => {
-          _this.$store.commit('setState', ['projectData', res.rows[0]])
-        })
+
       },
       projectDefaultUpdate (e) {
         const _this = this

@@ -3,41 +3,60 @@
     <h3 class="content-title">프로젝트 관리</h3>
     <div class="float-wrap">
       <section class="section float-wrap">
+        <h4 class="section-title">즐겨찾기</h4>
+        <template v-if="issueList.length">
+
+        </template>
+        <p v-else>즐겨찾기 된 목록이 없습니다</p>
+      </section>
+      <section class="section float-wrap">
+        <h4 class="section-title">최근에 조회한 프로젝트</h4>
+        <template v-if="issueList.length">
+
+        </template>
+        <p v-else>최근에 조회한 프로젝트 목록이 없습니다</p>
+      </section>
+      <section class="section float-wrap">
         <h4 class="section-title">참여 프로젝트 목록</h4>
         <template v-if="projectList.length">
-          <article v-for="(data, key) in projectList" :key="key" @click.prevent="projectView(data.writer, data.uri)">
-            <p class="article-title">
-              <router-link :to="`/project/view/${$data.writer}/${getURI(data.uri)}`" v-html="data.subject" />
-            </p>
+          <article v-for="(data, key) in projectList" :key="key" >
+            <div @click.prevent="projectView(data.writer, data.uri)">
+            <p class="article-title" v-html="data.subject" />
             <p class="description" v-html="data.description" />
             <p class="date" v-html="getDateFormat(data.date)" />
+          </div>
+            <i :class="data.star==1 ? 'star' : null" 
+            @click.prevent="icon(data.idx, data.star)" class="color far fa-star animated fadeInRight"></i>
+
           </article>
         </template>
         <p v-else>참여 참여 목록이 없습니다.</p>
       </section>
+
+
       <section class="section float-wrap">
         <h4 class="section-title">이슈 목록</h4>
         <template v-if="issueList.length">
-          
+
         </template>
         <p v-else>이슈 목록이 없습니다.</p>
       </section>
       <section class="section float-wrap">
         <h4 class="section-title">구현 목록</h4>
         <template v-if="implementList.length">
-          
+
         </template>
         <p v-else>구현 목록이 없습니다.</p>
       </section>
       <section class="section float-wrap">
         <h4 class="section-title">테스팅 목록</h4>
         <template v-if="testList.length">
-          
+
         </template>
         <p v-else>테스팅 목록이 없습니다.</p>
       </section>
     </div>
-    <div class="btn-group right">
+    <div class="btn-group right fix">
       <router-link to="/project/create" class="btn submit">프로젝트 생성</router-link>
     </div>
   </section>
@@ -54,7 +73,7 @@
         projectList: [],
         issueList: [],
         implementList: [],
-        testList: []
+        testList: [],
       }
     },
     methods: {
@@ -62,21 +81,37 @@
       projectView (writer, uri) {
         uri = this.getURI(uri)
         this.$router.push(`/project/view/${writer}/${uri}`)
+      },
+      icon (idx, star) {
+        console.log("before "+star)
+        if (star === 0) {
+          star = 1
+        } else {
+          star = 0
+        }
+        Api.putStar({idx, star})
       }
+      
     }
   }
 </script>
 
 <style lang="scss" scoped>
-  @import "@/assets/scss/_lib.scss";
-  .section{border:1px solid #ddd;margin:15px;padding:40px;border-radius:3px;background:$color-grey}
-  .section-title{font-weight:normal;font-size:21px;margin-bottom:15px;}
-  .article-title{font-size:21px;color:$color1;margin-bottom:5px;display:block;height:25px;
-    a:hover{text-decoration:none;}
+@import "@/assets/scss/_lib.scss";
+.section{border:1px solid #ddd;margin:15px;padding:40px;border-radius:3px;background:$color-grey}
+.section-title{font-weight:normal;font-size:21px;margin-bottom:15px;}
+.article-title{font-size:21px;color:$color1;margin-bottom:5px;display:block;height:25px;
+  a:hover{text-decoration:none;}
+}
+.description{font-size:17px;margin-bottom:5px;height:20px;}
+.date{font-size:13px;color:#aaa}
+article{position: relative;background:#fff;padding:20px;border-radius:3px;border:1px solid #ddd;box-shadow:0 0 10px fade-out(#666, .8);transition:.3s;cursor:pointer;width:calc(33.3333% - 20px);float:left;box-sizing:border-box;margin:0 10px;
+  &:hover{box-shadow:0 0 10px fade-out(#666, .3);};
+  &>i {display: none; color: #FFCC00}
+  &:hover>i {position: absolute; display: block; font-size: 20px; right: 5%; bottom :10%; padding: 5px;};
+  &>i:hover {
+    font-weight: bold
   }
-  .description{font-size:17px;margin-bottom:5px;height:20px;}
-  .date{font-size:13px;color:#aaa}
-  article{background:#fff;padding:20px;border-radius:3px;border:1px solid #ddd;box-shadow:0 0 10px fade-out(#666, .8);transition:.3s;cursor:pointer;width:calc(33.3333% - 20px);float:left;box-sizing:border-box;margin:0 10px;
-    &:hover{box-shadow:0 0 10px fade-out(#666, .3)}
-  }
+}
+.star { font-weight: bold}
 </style>
