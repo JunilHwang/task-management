@@ -21,69 +21,70 @@
       <section class="section float-wrap viewd">
         <h4 class="section-title">최근에 조회한 프로젝트</h4>
         <template v-if="projectList.length">
-          <div class="view-box">
-            <div class="viewed-ul">
-              <article class="viewed-li" v-for="(data, key) in viewedProject" :key="key" v-if="date-(data.viewDate/1000).toFixed(0) < (60*60*24*7)">
-                <div @click.prevent="projectView(data.writer, data.uri, data.idx)">
-                  <p class="article-title" v-html="data.subject" />
-                  <p class="description" v-html="data.description" />
-                  <p class="date" v-html="getDateFormat(data.date)" />
-                </div>
-                <i :class="data.star==1 ? 'star' : null" 
-                @click.prevent="icon(data.idx, data.star)" class="color far fa-star animated fadeInRight"></i>
-              </article>
-            </div>
+          <div class="view-box" >
+            <div class="viewed-ul" :style="{width: 'calc(33.333% * '+this.viewCount+')'}">
+              <article class="viewed-li" 
+              v-for="(data, key) in viewedProject" :key="key" 
+              v-if="date-(data.viewDate/1000).toFixed(0) < (60*60*24*7)" >
+              <div @click.prevent="projectView(data.writer, data.uri, data.idx)">
+                <p class="article-title" v-html="data.subject" />
+                <p class="description" v-html="data.description" />
+                <p class="date" v-html="getDateFormat(data.date)" />
+              </div>
+              <i :class="data.star==1 ? 'star' : null" 
+              @click.prevent="icon(data.idx, data.star)" class="color far fa-star animated fadeInRight"></i>
+            </article>
           </div>
-        </template>
-        <p v-else>최근에 조회한 프로젝트 목록이 없습니다</p>
-        <i @click="previousSlide" class="fas fa-angle-left left"></i>
-        <i @click="nextSlide" class="fas fa-angle-right right"></i>
-      </section>
+        </div>
+      </template>
+      <p v-else>최근에 조회한 프로젝트 목록이 없습니다</p>
+      <i @click="previousSlide" class="fas fa-angle-left left"></i>
+      <i @click="nextSlide" class="fas fa-angle-right right"></i>
+    </section>
 
-      <section class="section float-wrap">
-        <h4 class="section-title">참여 프로젝트 목록</h4>
-        <template v-if="projectList.length">
-          <article v-for="(data, key) in projectList" :key="key" >
-            <div @click.prevent="projectView(data.writer, data.uri, data.idx)">
-              <p class="article-title" v-html="data.subject" />
-              <p class="description" v-html="data.description" />
-              <p class="date" v-html="getDateFormat(data.date)" />
-            </div>
-            <i :class="data.star==1 ? 'star' : null" 
-            @click.prevent="icon(data.idx, data.star)" class="color far fa-star animated fadeInRight"></i>
+    <section class="section float-wrap">
+      <h4 class="section-title">참여 프로젝트 목록</h4>
+      <template v-if="projectList.length">
+        <article v-for="(data, key) in projectList" :key="key" >
+          <div @click.prevent="projectView(data.writer, data.uri, data.idx)">
+            <p class="article-title" v-html="data.subject" />
+            <p class="description" v-html="data.description" />
+            <p class="date" v-html="getDateFormat(data.date)" />
+          </div>
+          <i :class="data.star==1 ? 'star' : null" 
+          @click.prevent="icon(data.idx, data.star)" class="color far fa-star animated fadeInRight"></i>
+        </article>
+      </template>
+      <p v-else>참여 참여 목록이 없습니다.</p>
+    </section>
 
-          </article>
-        </template>
-        <p v-else>참여 참여 목록이 없습니다.</p>
-      </section>
 
+    <section class="section float-wrap">
+      <h4 class="section-title">이슈 목록</h4>
+      <template v-if="issueList.length">
 
-      <section class="section float-wrap">
-        <h4 class="section-title">이슈 목록</h4>
-        <template v-if="issueList.length">
+      </template>
+      <p v-else>이슈 목록이 없습니다.</p>
+    </section>
+    <section class="section float-wrap">
+      <h4 class="section-title">구현 목록</h4>
+      <template v-if="implementList.length">
 
-        </template>
-        <p v-else>이슈 목록이 없습니다.</p>
-      </section>
-      <section class="section float-wrap">
-        <h4 class="section-title">구현 목록</h4>
-        <template v-if="implementList.length">
+      </template>
+      <p v-else>구현 목록이 없습니다.</p>
+    </section>
+    <section class="section float-wrap">
+      <h4 class="section-title">테스팅 목록</h4>
+      <template v-if="testList.length">
 
-        </template>
-        <p v-else>구현 목록이 없습니다.</p>
-      </section>
-      <section class="section float-wrap">
-        <h4 class="section-title">테스팅 목록</h4>
-        <template v-if="testList.length">
-
-        </template>
-        <p v-else>테스팅 목록이 없습니다.</p>
-      </section>
-    </div>
-    <div class="btn-group right fix">
-      <router-link to="/project/create" class="btn submit">프로젝트 생성</router-link>
-    </div>
-  </section>
+      </template>
+      <p v-else>테스팅 목록이 없습니다.</p>
+    </section>
+  </div>
+  <div class="btn-group right fix">
+    <router-link to="/project/create" class="btn submit">프로젝트 생성</router-link>
+  </div>
+</section>
 </template>
 
 <script>
@@ -100,7 +101,7 @@
         implementList: [],
         testList: [],
         date: (+new Date()/1000).toFixed(0),
-        viewCount: 0
+        viewCount: 0,
       }
     },
 
@@ -108,6 +109,10 @@
       viewedProject: function () {
         return _.orderBy(this.projectList, 'viewDate', 'desc')
       }
+    },
+    updated () {
+      this.viewCount = document.getElementsByClassName("viewed-li").length
+      console.log(this.viewCount)
     },
     methods: {
       getURI: uri => encodeURIComponent(uri),
@@ -131,10 +136,6 @@
       nextSlide () {
 
       },
-      viewCnt (key) {
-        const keyd = key
-        console.log(keyd)
-      }
     }
   }
 </script>
@@ -161,7 +162,7 @@ article{position: relative;background:#fff;padding:20px;border-radius:3px;border
 .left { left: 1%}
 .right { right: 1%}
 
-.viewed-ul { display: flex;   }
-.viewed-li { }
-.view-box { overflow: hidden;}
+.viewed-ul { display: flex; }
+.viewed-li { width: 25% }
+.view-box { overflow: hidden; }
 </style>
