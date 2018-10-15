@@ -22,14 +22,13 @@
         <h4 class="section-title">최근에 조회한 프로젝트</h4>
         <template v-if="projectList.length">
           <div class="view-box" >
-            <div class="viewed-ul" :style="{width: 'calc(33.333% * '+this.viewCount+')'}">
-              <article class="viewed-li" 
-              v-for="(data, key) in viewedProject" :key="key" 
-              v-if="date-(data.viewDate/1000).toFixed(0) < (60*60*24*7)" >
-              <div @click.prevent="projectView(data.writer, data.uri, data.idx)">
+            <div class="viewed-ul" :style="{width: `calc(33.333% * ${viewCount})`, marginLeft: -pos / 3 * 100 + '%'}">
+              <article class="viewed-li" v-for="(data, key) in viewedProject" :key="key" v-if="date-(data.viewDate/1000).toFixed(0) < (60*60*24*7)" >
+                <div @click.prevent="projectView(data.writer, data.uri, data.idx)">
                 <p class="article-title" v-html="data.subject" />
                 <p class="description" v-html="data.description" />
                 <p class="date" v-html="getDateFormat(data.date)" />
+                <p>{{key}} </p>
               </div>
               <i :class="data.star==1 ? 'star' : null" 
               @click.prevent="icon(data.idx, data.star)" class="color far fa-star animated fadeInRight"></i>
@@ -38,8 +37,8 @@
         </div>
       </template>
       <p v-else>최근에 조회한 프로젝트 목록이 없습니다</p>
-      <i @click="previousSlide" class="fas fa-angle-left left"></i>
-      <i @click="nextSlide" class="fas fa-angle-right right"></i>
+      <i @click="previousSlide" class="fas fa-angle-left left" :class="pos == 0 ? 'block' : null" ></i>
+      <i @click="nextSlide" class="fas fa-angle-right right" :class="pos == viewCount-1 ? 'block'  : null"></i>
     </section>
 
     <section class="section float-wrap">
@@ -102,6 +101,7 @@
         testList: [],
         date: (+new Date()/1000).toFixed(0),
         viewCount: 0,
+        pos: 0,
       }
     },
 
@@ -112,7 +112,6 @@
     },
     updated () {
       this.viewCount = document.getElementsByClassName("viewed-li").length
-      console.log(this.viewCount)
     },
     methods: {
       getURI: uri => encodeURIComponent(uri),
@@ -131,10 +130,15 @@
         this.projectList = (await Api.getProjectListOfMain(this.$store.state.member.idx)).rows
       },
       previousSlide () {
-
+        if (this.viewCount < 3 || this.pos === 0) {
+          return 
+        }
+        this.pos -= 3
       },
       nextSlide () {
-
+        let viewCount = this.viewCount
+        if (this.pos + 3 > viewCount - 1) return
+        this.pos  = this.pos + 3
       },
     }
   }
@@ -161,8 +165,9 @@ article{position: relative;background:#fff;padding:20px;border-radius:3px;border
 }
 .left { left: 1%}
 .right { right: 1%}
+.block { display: none }
 
-.viewed-ul { display: flex; }
-.viewed-li { width: 25% }
-.view-box { overflow: hidden; }
+.viewed-ul { display: flex; transition:1s;}
+.view-box { overflow: hidden; } 
+
 </style>
