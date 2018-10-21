@@ -88,6 +88,7 @@
 
 <script>
   import Api from '@/middleware/Api.js'
+  import _ from 'lodash'
   export default {
     async created () {
       this.projectList = (await Api.getProjectListOfMain(this.$store.state.member.idx)).rows
