@@ -23,7 +23,7 @@
         <template v-if="projectList.length">
           <div class="view-box" >
             <div class="viewed-ul" :style="{width: `calc(33.333% * ${viewCount})`, marginLeft: -pos / 3 * 100 + '%'}">
-              <article class="viewed-li" v-for="(data, key) in viewedProject" :key="key" v-if="date-(data.viewDate/1000).toFixed(0) < (60*60*24*7)" >
+              <article style="width:100%" class="viewed-li" v-for="(data, key) in viewedProject" :key="key" v-if="date-(data.viewDate/1000).toFixed(0) < (60*60*24*7)" >
                 <div @click.prevent="projectView(data.writer, data.uri, data.idx)">
                 <p class="article-title" v-html="data.subject" />
                 <p class="description" v-html="data.description" />
@@ -37,8 +37,8 @@
         </div>
       </template>
       <p v-else>최근에 조회한 프로젝트 목록이 없습니다</p>
-      <i @click="previousSlide" class="fas fa-angle-left left" :class="pos == 0 ? 'block' : null" ></i>
-      <i @click="nextSlide" class="fas fa-angle-right right" :class="pos == viewCount-1 ? 'block'  : null"></i>
+      <i @click="previousSlide" class="fas fa-angle-left left" :class="pos < 3 ? 'block' : null" ></i>
+      <i @click="nextSlide" class="fas fa-angle-right right" :class="viewCount < 4 ? 'block'  : viewCount < pos+3 ? 'block' : null"></i>
     </section>
 
     <section class="section float-wrap">
@@ -93,6 +93,7 @@
     async created () {
       this.projectList = (await Api.getProjectListOfMain(this.$store.state.member.idx)).rows
       this.$store.commit('setState', ['projectList', this.projectList])
+      this.pos = 0
     },
     data () {
       return {
