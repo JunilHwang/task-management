@@ -20,6 +20,10 @@ export default new Router({
       component: () => import(`${view}/main.vue`)
     },
     {
+      path: '/google',
+      component: () => import(`${view}/google.vue`)
+    },
+    {
       path: '/member/login',
       component: () => import(`${member}/login.vue`)
     },

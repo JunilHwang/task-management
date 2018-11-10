@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    member: JSON.parse(localStorage.getItem('member')) || null,
+    member: JSON.parse(sessionStorage.getItem('member')) || null,
     layerState: false,
     categoryList: [],
     selectedCategory: -1,
@@ -17,11 +17,11 @@ export default new Vuex.Store({
   mutations: {
     loggedIn (state, data) {
       state.member = data
-      localStorage.setItem('member', JSON.stringify(data))
+      sessionStorage.setItem('member', JSON.stringify(data))
     },
     logout (state) {
       state.member = null
-      localStorage.removeItem('member')
+      sessionStorage.removeItem('member')
     },
     openLayer (state) {
       state.layerState = true

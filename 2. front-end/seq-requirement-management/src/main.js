@@ -3,6 +3,10 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import $ from 'jquery'
+import GAuth from 'vue-google-oauth2'
+import axios from 'axios'
+
+const googleKey = require('./google.key.json')
 
 const access = Vue.prototype.$access = (bool, msg, url = false) => {
   if (!bool) {
@@ -57,6 +61,12 @@ Vue.prototype.getFlowDate = time => {
   }
   return newTime
 }
+Vue.prototype.$http = axios
+
+Vue.use(GAuth, {
+  clientId: googleKey.web.client_id,
+  scope: 'profile email https://www.googleapis.com/auth/plus.login'
+})
 
 new Vue({
   router,

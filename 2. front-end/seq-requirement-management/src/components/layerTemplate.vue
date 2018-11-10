@@ -9,10 +9,11 @@
 
 <script>
   import category from './category'
+  import login from './login'
   export default {
     props: ['layerContent', 'send'],
     components: {
-      category
+      category, login
     },
     methods: {
       close () {
