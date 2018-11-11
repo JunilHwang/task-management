@@ -1,6 +1,5 @@
 <template>
   <section>
-    <h3 class="content-title">프로젝트 설정</h3>
     <div class="setting-wrap">
       <settingDefault></settingDefault>
       <settingMember></settingMember>
@@ -29,8 +28,8 @@
 
 <style lang="scss">
   @import "@/assets/scss/_lib.scss";
-  .setting-wrap{background:$color-grey;border:1px solid #ddd;padding:50px;border-radius:3px;
-    >section{background:#fff;border:1px solid #ddd;padding:30px;border-radius:3px;text-align:center;
+  .setting-wrap{
+    >section{background:#fff;border:1px solid #ddd;width:700px;margin:0 auto;padding:30px;border-radius:3px;text-align:center;
       +section{margin-top:30px;}
     }
   }

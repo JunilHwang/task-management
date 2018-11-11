@@ -75,3 +75,15 @@ app.get('/api/projects/:id', (req, res) => {
     res.json(success)
   })
 })
+
+/**
+ * pidx에 해당하는 프로젝트 가쳐오기
+ */
+app.get('/api/project/:pidx', (req, res) => {
+  const pidx = req.params.pidx
+  const sql = `SELECT * FROM project where pidx = '${pidx}'`
+  con.query(sql, (err, result) => {
+    let success = err ? {success: false, err: err} : {success: true, project: result[0]}
+    res.json(success)
+  })
+})

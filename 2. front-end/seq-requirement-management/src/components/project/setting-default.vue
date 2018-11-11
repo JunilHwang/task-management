@@ -11,7 +11,7 @@
             <li>
               <label class="input-label">
                 <span class="pre"><i class="fas fa-file-signature"></i></span>
-                <input type="text" name="subject" class="full-width" :value="projectData.subject" required>
+                <input type="text" name="title" class="full-width" :value="projectData.title" required>
                 <span class="lbl">제목</span>
               </label>
             </li>
@@ -20,13 +20,6 @@
                 <span class="pre"><i class="fas fa-align-left"></i></span>
                 <input type="text" name="description" class="full-width" :value="projectData.description" required>
                 <span class="lbl">간략 설명</span>
-              </label>
-            </li>
-            <li>
-              <label class="input-label">
-                <span class="pre"><i class="fas fa-map-marker-alt"></i></span>
-                <input type="text" name="uri" class="full-width" :value="projectData.uri" required>
-                <span class="lbl">URI</span>
               </label>
             </li>
             <li>
@@ -57,11 +50,10 @@
       projectDefaultUpdate (e) {
         const _this = this
         const frm = e.target
-        const subject = frm.subject.value
+        const title = frm.title.value
         const description = frm.description.value
-        const uri = frm.uri.value
         const idx = _this.$route.params.idx
-        Api.putProject({subject, description, uri, idx}).then(() => {
+        Api.putProject({title, description, idx}).then(() => {
           alert('수정되었습니다')
           _this.setProjectData()
         })

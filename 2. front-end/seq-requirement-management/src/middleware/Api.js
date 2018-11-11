@@ -227,7 +227,9 @@ const RestApi = class extends Api {
   getProjectListOfMain (id) {
     return axios.get(`${baseURL}/api/projects/${id}`)
   }
-  getProject () { }
+  getProject (pidx) {
+    return axios.get(`${baseURL}/api/project/${pidx}`)
+  }
   getProjectByIdx () { }
   postMemberInProject () { }
   getMemberInProject () { }

@@ -60,7 +60,7 @@ export default new Router({
           component: () => import(`${project}/create.vue`)
         },
         {
-          path: 'view/:id/:uri',
+          path: 'view/:pidx',
           component: () => import(`${project}/view.vue`),
           children: [
             {
@@ -68,7 +68,7 @@ export default new Router({
               component: () => import(`${card}/list.vue`)
             },
             {
-              path: 'create/:pidx',
+              path: 'task/create',
               component: () => import(`${card}/create.vue`)
             }
           ]

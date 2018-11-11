@@ -93,9 +93,10 @@
     }
   }
   .list-content{margin:10px 0;word-break:break-all;}
-  .list-header{background:#fff;border:1px solid #ddd;margin:5px;padding:10px;}
+  .list-header{background:#fff;border:1px solid #ddd;padding:10px;margin-bottom:5px;}
   .cnt{float:left;}
   .color-description{float:right;
     >span+span{margin-left:10px;}
   }
+  .none{background:#fff;border:1px solid #ddd;padding:10px;}
 </style>

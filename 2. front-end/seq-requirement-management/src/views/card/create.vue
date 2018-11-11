@@ -7,14 +7,6 @@
           <ul class="fields">
             <li>
               <label class="input-label">
-                <select name="category" class="full-width" required>
-                  <option value="">카테고리 선택</option>
-                  <option v-for="(c, key) in categoryList" :value="c.idx" :key="key" v-html="c.title" />
-                </select>
-              </label>
-            </li>
-            <li>
-              <label class="input-label">
                 <span class="pre"><i class="fas fa-file-signature"></i></span>
                 <input type="text" name="title" class="full-width" required>
                 <span class="lbl">제목</span>
@@ -37,7 +29,7 @@
               <button type="submit" class="btn btn-full submit">작성완료</button>
             </li>
             <li>
-              <router-link to="/project" type="submit" class="btn btn-full default">목록으로</router-link>
+              <router-link :to="`/project/view/${$route.params.pidx}`" type="submit" class="btn btn-full default">목록으로</router-link>
             </li>
           </ul>
         </fieldset>
@@ -53,14 +45,10 @@
     components: {
       Datepicker
     },
-    computed: {
-        categoryList () { return this.$store.state.categoryList }
-    },
     methods: {
       requirementCreate (e) {
         const frm = e.target
         const data = {
-          category: frm.category.value,
           title: frm.title.value,
           reg_date: +new Date(),
           com_date: +new Date(frm.date.value),
@@ -82,7 +70,7 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   @import "@/assets/scss/_lib.scss";
   .requirement-create{width:700px;margin:0 auto;background:#fff;padding:30px;border:1px solid #ddd;border-radius:3px;}
   .full-width input{width:100% !important}

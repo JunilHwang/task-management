@@ -5,13 +5,13 @@
         <h4 class="section-title">즐겨찾기</h4>
         <template v-if="projectList.length">
           <article v-for="(data, key) in projectList" :key="key" v-if="data.star == 1" >
-            <div @click.prevent="projectView(data.writer, data.uri, data.idx)">
+            <div @click.prevent="$router.push(`/project/view/${data.pidx}`)">
               <p class="article-title" v-html="data.subject" />
               <p class="description" v-html="data.description" />
               <p class="date" v-html="getDateFormat(data.date)" />
             </div>
             <i :class="data.star==1 ? 'star' : null" 
-            @click.prevent="icon(data.idx, data.star)" class="color far fa-star animated fadeInRight"></i>
+            @click.prevent="icon(data.pidx, data.star)" class="color far fa-star animated fadeInRight"></i>
           </article>
         </template>
         <p v-else>즐겨찾기 된 목록이 없습니다</p>
@@ -22,7 +22,7 @@
           <div class="view-box" >
             <div class="viewed-ul" :style="{width: `calc(33.333% * ${viewCount})`, marginLeft: -pos / 3 * 100 + '%'}">
               <article style="width:100%" class="viewed-li" v-for="(data, key) in viewedProject" :key="key" v-if="date-(data.viewDate/1000).toFixed(0) < (60*60*24*7)" >
-                <div @click.prevent="projectView(data.writer, data.uri, data.idx)">
+                <div @click.prevent="$router.push(`/project/view/${data.pidx}`)">
                   <p class="article-title" v-html="data.subject" />
                   <p class="description" v-html="data.description" />
                   <p class="date" v-html="getDateFormat(data.date)" />
@@ -42,7 +42,7 @@
         <h4 class="section-title">참여 프로젝트 목록</h4>
         <template v-if="projectList.length">
           <article v-for="(data, key) in projectList" :key="key" >
-            <div @click.prevent="projectView(data.writer, data.uri, data.idx)">
+            <div @click.prevent="$router.push(`/project/view/${data.pidx}`)">
               <p class="article-title" v-html="data.title" />
               <p class="description" v-html="data.description" />
               <p class="date" v-html="getDateFormat(data.register_date)" />
@@ -108,11 +108,6 @@
     },
     methods: {
       getURI: uri => encodeURIComponent(uri),
-      async projectView (writer, uri, idx) {
-        uri = this.getURI(uri)
-        Api.putViewDate(idx)
-        this.$router.push(`/project/view/${writer}/${uri}`)
-      },
       async icon (idx, star) {
         if (star === 0) {
           star = 1
@@ -140,11 +135,11 @@
 <style lang="scss" scoped>
 @import "@/assets/scss/_lib.scss";
 .section{border:1px solid #ddd;margin:15px;padding:20px;border-radius:3px;background:#fff}
-.section-title{font-weight:normal;font-size:21px;margin-bottom:15px;}
-.article-title{font-size:21px;color:$color1;margin-bottom:5px;display:block;height:25px;
+.section-title{font-weight:normal;font-size:17px;margin-bottom:15px;}
+.article-title{font-size:17px;color:$color1;margin-bottom:5px;display:block;height:25px;
   a:hover{text-decoration:none;}
 }
-.description{font-size:17px;margin-bottom:5px;height:20px;}
+.description{font-size:13px;margin-bottom:5px;height:20px;}
 .date{font-size:13px;color:#aaa}
 article{position: relative;background:#fff;padding:20px;border-radius:3px;border:1px solid #ddd;transition:.3s;cursor:pointer;width:calc(33.3333% - 20px);float:left;box-sizing:border-box;margin:0 10px;
   &>i {display: none; color: #FFCC00;}
