@@ -3,7 +3,7 @@
       <h3 class="layer-title">사이트 로그인</h3>
       <ul class="social-buttons">
         <li>
-          <button type="button" class="btn btn-social-google full-width">
+          <button type="button" class="btn btn-social-google full-width" @click="signInByGoogle">
             <span class="btn-icon"><i class="fab fa-google"></i></span>
             Login with Google
           </button>
@@ -31,9 +31,32 @@
 </template>
 
 <script>
-  //import Api from '@/middleware/Api.js'
+  import Api from '@/middleware/Api.js'
   export default {
-    props: ['send']
+    props: ['send'],
+    methods: {
+      signInByGoogle () {
+        this.$gAuth.signIn()
+        .then(user => {
+          const member = {
+            type: 'google',
+            access_token: user.Zi.access_token,
+            id: user.El,
+            name: user.w3.ig,
+            email: user.w3.U3,
+            photo_src: user.w3.Paa
+          }
+          this.$store.commit('loggedIn', member)
+          this.$store.commit('closeLayer')
+          Api.postMember(member).then(response => {
+            console.log(response.data)
+          })
+        })
+        .catch(error  => {
+          throw error
+        })
+      },
+    }
   }  
 </script>
 

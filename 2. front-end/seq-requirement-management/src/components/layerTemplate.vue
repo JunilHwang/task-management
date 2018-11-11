@@ -10,10 +10,11 @@
 <script>
   import category from './category'
   import login from './login'
+  import project_create from './project/create'
   export default {
     props: ['layerContent', 'send'],
     components: {
-      category, login
+      category, login, project_create
     },
     methods: {
       close () {

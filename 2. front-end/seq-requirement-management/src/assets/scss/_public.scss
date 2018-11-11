@@ -14,7 +14,7 @@
 /* layout */
 .float-wrap:after{content:"";display:block;clear:both;}
 .site-content{background:$color-grey;
-  >div{min-height:300px;background:#fff;border-left:1px solid #ddd;border-right:1px solid #ddd;box-shadow:0 0 20px fade-out(#aaa, .7);}
+  >div{min-height:300px;}
   .container-inner{padding:50px}
 }
 .content-title{font-size:30px;text-align:center;color:$color1-darken-10;font-weight:400;

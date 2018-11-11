@@ -34,11 +34,11 @@ export default new Router({
     {
       path: '/member/pw-search',
       component: () => import(`${member}/pw-search.vue`)
-    },
+    },/*
     {
       path: '/member/mypage',
       component: () => import(`${member}/mypage.vue`)
-    },
+    },*/
     {
       path: '/member/info-update',
       component: () => import(`${member}/info-update.vue`)

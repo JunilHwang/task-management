@@ -1,33 +1,34 @@
 import Model from './Model.js'
+import axios from 'axios'
 
 const Api = class {
   constructor () {}
   postMember () { throw `don't postMember impolemented` }
   getMember () { throw `don't getMember impolemented` }
-  putMemberInfo () { throw `don't getMember impolemented` }
-  putMemberPassword () { throw `don't getMember impolemented` }
-  liveCheck () { throw `don't getMember impolemented` }
-  searchMember () { throw `don't getMember impolemented` }
-  postProject () { throw `don't getMember impolemented` }
-  getProjectListOfMain () { throw `don't getMember impolemented` }
-  getProject () { throw `don't getMember impolemented` }
-  getProjectByIdx () { throw `don't getMember impolemented` }
-  postMemberInProject () { throw `don't getMember impolemented` }
-  getMemberInProject () { throw `don't getMember impolemented` }
-  putMemberInProject () { throw `don't getMember impolemented` }
-  deleteMemberInProject () { throw `don't getMember impolemented` }
-  getCategoryList () { throw `don't getMember impolemented` }
-  getCategory () { throw `don't getMember impolemented` }
-  postCategory () { throw `don't getMember impolemented` }
-  putCategory () { throw `don't getMember impolemented` }
-  deleteCategory () { throw `don't getMember impolemented` }
-  postCard () { throw `don't getMember impolemented` }
-  getCardList () { throw `don't getMember impolemented` }
-  getCard () { throw `don't getMember impolemented` }
-  putCard () { throw `don't getMember impolemented` }
-  deleteCard () { throw `don't getMember impolemented` }
-  putStar() { throw `don't getMember impolemented` }
-  putViewDate() { throw `don't getMember impolemented` }
+  putMemberInfo () { throw `don't putMemberInfo impolemented` }
+  putMemberPassword () { throw `don't putMemberPassword impolemented` }
+  liveCheck () { throw `don't liveCheck impolemented` }
+  searchMember () { throw `don't searchMember impolemented` }
+  postProject () { throw `don't postProject impolemented` }
+  getProjectListOfMain () { throw `don't getProjectListOfMain impolemented` }
+  getProject () { throw `don't getProject impolemented` }
+  getProjectByIdx () { throw `don't getProjectByIdx impolemented` }
+  postMemberInProject () { throw `don't postMemberInProject impolemented` }
+  getMemberInProject () { throw `don't getMemberInProject impolemented` }
+  putMemberInProject () { throw `don't putMemberInProject impolemented` }
+  deleteMemberInProject () { throw `don't deleteMemberInProject impolemented` }
+  getCategoryList () { throw `don't getCategoryList impolemented` }
+  getCategory () { throw `don't getCategory impolemented` }
+  postCategory () { throw `don't postCategory impolemented` }
+  putCategory () { throw `don't putCategory impolemented` }
+  deleteCategory () { throw `don't deleteCategory impolemented` }
+  postCard () { throw `don't postCard impolemented` }
+  getCardList () { throw `don't getCardList impolemented` }
+  getCard () { throw `don't getCard impolemented` }
+  putCard () { throw `don't putCard impolemented` }
+  deleteCard () { throw `don't deleteCard impolemented` }
+  putStar() { throw `don't putStar impolemented` }
+  putViewDate() { throw `don't putViewDate impolemented` }
 }
 
 const TestApi = class extends Api {
@@ -206,8 +207,44 @@ const TestApi = class extends Api {
     const arr = [idx]
     return Model.query(sql, arr)
   }
+
 }
-//const RestApi = class extends Api {}
-const api = new TestApi()
+
+const baseURL = 'http://127.0.0.1:8090'
+const RestApi = class extends Api {
+  constructor () { super() }
+  postMember (data) {
+    return axios.post(`${baseURL}/api/member`, {data: JSON.stringify(data)})
+  }
+  getMember () { }
+  putMemberInfo () { }
+  putMemberPassword () { }
+  liveCheck () { }
+  searchMember () { }
+  postProject () { }
+  getProjectListOfMain () {
+    //return Model.query(`SELECT * FROM project where idx in (SELECT pidx FROM member_in_project where midx = '${midx}')`)
+  }
+  getProject () { }
+  getProjectByIdx () { }
+  postMemberInProject () { }
+  getMemberInProject () { }
+  putMemberInProject () { }
+  deleteMemberInProject () { }
+  getCategoryList () { }
+  getCategory () { }
+  postCategory () { }
+  putCategory () { }
+  deleteCategory () { }
+  postCard () { }
+  getCardList () { }
+  getCard () { }
+  putCard () { }
+  deleteCard () { }
+  putStar() { }
+  putViewDate() { }
+}
+
+const api = new RestApi()
 
 export default api;

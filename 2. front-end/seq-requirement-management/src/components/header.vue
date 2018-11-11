@@ -1,14 +1,16 @@
 <template>
   <header class="header">
     <div class="container">
-      <h3 class="logo"><router-link to="/project">Requirements Management</router-link></h3>
+      <h3 class="logo"><router-link to="/project">Project Task Management</router-link></h3>
       <ul class="gnb">
         <li><router-link to="/project">프로젝트 관리</router-link></li>
-        <li><router-link to="/member/mypage">마이페이지</router-link></li>
+        <!-- <li><router-link to="/member/mypage">마이페이지</router-link></li> -->
+        <li v-if="$store.state.member"><a href="#" @click="openProjectPopup">프로젝트 생성</a></li>
         <li v-if="!$store.state.member"><a href="#" @click="openLogin">로그인</a></li>
         <li v-else><a href="#" @click="logout">로그아웃</a></li>
       </ul>
       <layerTemplate v-if="loginPopup && $store.state.layerState" layerContent="login"></layerTemplate>
+      <layerTemplate v-if="projectPopup && $store.state.layerState" layerContent="project_create"></layerTemplate>
     </div>
   </header>
 </template>
@@ -20,7 +22,8 @@
     },
     data () {
       return {
-        loginPopup: false
+        loginPopup: false,
+        projectPopup: false,
       }
     },
     methods: {
@@ -28,10 +31,13 @@
         this.loginPopup = true
         this.$store.commit('openLayer')
       },
+      openProjectPopup () {
+        this.projectPopup = true
+        this.$store.commit('openLayer')
+      },
       logout () {
         this.$store.commit('logout')
         alert('로그아웃 되었습니다')
-        this.$router.push('/member/login')
       }
     }
   }

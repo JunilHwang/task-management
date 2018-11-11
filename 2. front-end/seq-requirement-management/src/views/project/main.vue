@@ -1,6 +1,5 @@
 <template>
   <section class="project-main">
-    <h3 class="content-title">프로젝트 관리</h3>
     <div class="float-wrap">
       <section class="section float-wrap">
         <h4 class="section-title">즐겨찾기</h4>
@@ -17,7 +16,6 @@
         </template>
         <p v-else>즐겨찾기 된 목록이 없습니다</p>
       </section>
-
       <section class="section float-wrap viewd">
         <h4 class="section-title">최근에 조회한 프로젝트</h4>
         <template v-if="projectList.length">
@@ -25,65 +23,52 @@
             <div class="viewed-ul" :style="{width: `calc(33.333% * ${viewCount})`, marginLeft: -pos / 3 * 100 + '%'}">
               <article style="width:100%" class="viewed-li" v-for="(data, key) in viewedProject" :key="key" v-if="date-(data.viewDate/1000).toFixed(0) < (60*60*24*7)" >
                 <div @click.prevent="projectView(data.writer, data.uri, data.idx)">
-                <p class="article-title" v-html="data.subject" />
-                <p class="description" v-html="data.description" />
-                <p class="date" v-html="getDateFormat(data.date)" />
-                <p>{{key}} </p>
-              </div>
-              <i :class="data.star==1 ? 'star' : null" 
-              @click.prevent="icon(data.idx, data.star)" class="color far fa-star animated fadeInRight"></i>
-            </article>
+                  <p class="article-title" v-html="data.subject" />
+                  <p class="description" v-html="data.description" />
+                  <p class="date" v-html="getDateFormat(data.date)" />
+                  <p>{{key}} </p>
+                </div>
+                <i :class="data.star==1 ? 'star' : null" 
+                @click.prevent="icon(data.idx, data.star)" class="color far fa-star animated fadeInRight"></i>
+              </article>
+            </div>
           </div>
-        </div>
-      </template>
-      <p v-else>최근에 조회한 프로젝트 목록이 없습니다</p>
-      <i @click="previousSlide" class="fas fa-angle-left left" :class="pos < 3 ? 'block' : null" ></i>
-      <i @click="nextSlide" class="fas fa-angle-right right" :class="viewCount < 4 ? 'block'  : viewCount < pos+3 ? 'block' : null"></i>
-    </section>
+        </template>
+        <p v-else>최근에 조회한 프로젝트 목록이 없습니다</p>
+        <i @click="previousSlide" class="fas fa-angle-left left" :class="pos < 3 ? 'block' : null" ></i>
+        <i @click="nextSlide" class="fas fa-angle-right right" :class="viewCount < 4 ? 'block'  : viewCount < pos+3 ? 'block' : null"></i>
+      </section>
+      <section class="section float-wrap">
+        <h4 class="section-title">참여 프로젝트 목록</h4>
+        <template v-if="projectList.length">
+          <article v-for="(data, key) in projectList" :key="key" >
+            <div @click.prevent="projectView(data.writer, data.uri, data.idx)">
+              <p class="article-title" v-html="data.subject" />
+              <p class="description" v-html="data.description" />
+              <p class="date" v-html="getDateFormat(data.date)" />
+            </div>
+            <i :class="data.star==1 ? 'star' : null" 
+            @click.prevent="icon(data.idx, data.star)" class="color far fa-star animated fadeInRight"></i>
+          </article>
+        </template>
+        <p v-else>참여 참여 목록이 없습니다.</p>
+      </section>
+      <section class="section float-wrap">
+        <h4 class="section-title">업데이트/생성 테스크 Top 10</h4>
+        <template v-if="taskList.length">
 
-    <section class="section float-wrap">
-      <h4 class="section-title">참여 프로젝트 목록</h4>
-      <template v-if="projectList.length">
-        <article v-for="(data, key) in projectList" :key="key" >
-          <div @click.prevent="projectView(data.writer, data.uri, data.idx)">
-            <p class="article-title" v-html="data.subject" />
-            <p class="description" v-html="data.description" />
-            <p class="date" v-html="getDateFormat(data.date)" />
-          </div>
-          <i :class="data.star==1 ? 'star' : null" 
-          @click.prevent="icon(data.idx, data.star)" class="color far fa-star animated fadeInRight"></i>
-        </article>
-      </template>
-      <p v-else>참여 참여 목록이 없습니다.</p>
-    </section>
+        </template>
+        <p v-else>이슈 목록이 없습니다.</p>
+      </section>
+      <section class="section float-wrap">
+        <h4 class="section-title">업데이트/생성 댓글 Top 10</h4>
+        <template v-if="commntList.length">
 
-
-    <section class="section float-wrap">
-      <h4 class="section-title">이슈 목록</h4>
-      <template v-if="issueList.length">
-
-      </template>
-      <p v-else>이슈 목록이 없습니다.</p>
-    </section>
-    <section class="section float-wrap">
-      <h4 class="section-title">구현 목록</h4>
-      <template v-if="implementList.length">
-
-      </template>
-      <p v-else>구현 목록이 없습니다.</p>
-    </section>
-    <section class="section float-wrap">
-      <h4 class="section-title">테스팅 목록</h4>
-      <template v-if="testList.length">
-
-      </template>
-      <p v-else>테스팅 목록이 없습니다.</p>
-    </section>
-  </div>
-  <div class="btn-group right fix">
-    <router-link to="/project/create" class="btn submit">프로젝트 생성</router-link>
-  </div>
-</section>
+        </template>
+        <p v-else>구현 목록이 없습니다.</p>
+      </section>
+    </div>
+  </section>
 </template>
 
 <script>
@@ -91,15 +76,15 @@
   import _ from 'lodash'
   export default {
     async created () {
-      this.projectList = (await Api.getProjectListOfMain(this.$store.state.member.idx)).rows
-      this.$store.commit('setState', ['projectList', this.projectList])
-      this.pos = 0
+      //this.projectList = (await Api.getProjectListOfMain(this.$store.state.member.idx)).rows
+      //this.$store.commit('setState', ['projectList', this.projectList])
+      //this.pos = 0
     },
     data () {
       return {
         projectList: [],
-        issueList: [],
-        implementList: [],
+        taskList: [],
+        commntList: [],
         testList: [],
         date: (+new Date()/1000).toFixed(0),
         viewCount: 0,
@@ -148,7 +133,7 @@
 
 <style lang="scss" scoped>
 @import "@/assets/scss/_lib.scss";
-.section{border:1px solid #ddd;margin:15px;padding:40px;border-radius:3px;background:$color-grey}
+.section{border:1px solid #ddd;margin:15px;padding:40px;border-radius:3px;background:#fff}
 .section-title{font-weight:normal;font-size:21px;margin-bottom:15px;}
 .article-title{font-size:21px;color:$color1;margin-bottom:5px;display:block;height:25px;
   a:hover{text-decoration:none;}
