@@ -30,7 +30,7 @@ Vue.prototype.contentPreview = (text, len) => {
   }
   return text
 }
-Vue.prototype.getDateFormat = (time) => {
+Vue.prototype.getDateFormat = time => {
   const date = new Date(time)
   let y = date.getFullYear()
   let m = date.getMonth() + 1

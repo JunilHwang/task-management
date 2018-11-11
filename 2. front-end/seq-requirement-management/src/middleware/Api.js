@@ -224,8 +224,8 @@ const RestApi = class extends Api {
   postProject (data) {
     return axios.post(`${baseURL}/api/project`, {data: JSON.stringify(data)})
   }
-  getProjectListOfMain () {
-    //return Model.query(`SELECT * FROM project where idx in (SELECT pidx FROM member_in_project where midx = '${midx}')`)
+  getProjectListOfMain (id) {
+    return axios.get(`${baseURL}/api/projects/${id}`)
   }
   getProject () { }
   getProjectByIdx () { }

@@ -43,9 +43,9 @@
         <template v-if="projectList.length">
           <article v-for="(data, key) in projectList" :key="key" >
             <div @click.prevent="projectView(data.writer, data.uri, data.idx)">
-              <p class="article-title" v-html="data.subject" />
+              <p class="article-title" v-html="data.title" />
               <p class="description" v-html="data.description" />
-              <p class="date" v-html="getDateFormat(data.date)" />
+              <p class="date" v-html="getDateFormat(data.register_date)" />
             </div>
             <i :class="data.star==1 ? 'star' : null" 
             @click.prevent="icon(data.idx, data.star)" class="color far fa-star animated fadeInRight"></i>
@@ -76,9 +76,15 @@
   import _ from 'lodash'
   export default {
     async created () {
-      //this.projectList = (await Api.getProjectListOfMain(this.$store.state.member.idx)).rows
-      //this.$store.commit('setState', ['projectList', this.projectList])
-      //this.pos = 0
+      //this.projectList = (await Api.getProjectListOfMain(this.$store.state.member.id)).rows
+      if (this.$store.state.member) {
+        Api.getProjectListOfMain(this.$store.state.member.id).then(response => {
+          this.projectList = response.data.list
+          console.log(this.projectList)
+          this.$store.commit('setState', ['projectList', this.projectList])
+          this.pos = 0
+        })
+      }
     },
     data () {
       return {
@@ -133,15 +139,14 @@
 
 <style lang="scss" scoped>
 @import "@/assets/scss/_lib.scss";
-.section{border:1px solid #ddd;margin:15px;padding:40px;border-radius:3px;background:#fff}
+.section{border:1px solid #ddd;margin:15px;padding:20px;border-radius:3px;background:#fff}
 .section-title{font-weight:normal;font-size:21px;margin-bottom:15px;}
 .article-title{font-size:21px;color:$color1;margin-bottom:5px;display:block;height:25px;
   a:hover{text-decoration:none;}
 }
 .description{font-size:17px;margin-bottom:5px;height:20px;}
 .date{font-size:13px;color:#aaa}
-article{position: relative;background:#fff;padding:20px;border-radius:3px;border:1px solid #ddd;box-shadow:0 0 10px fade-out(#666, .8);transition:.3s;cursor:pointer;width:calc(33.3333% - 20px);float:left;box-sizing:border-box;margin:0 10px;
-  &:hover{box-shadow:0 0 10px fade-out(#666, .3);}
+article{position: relative;background:#fff;padding:20px;border-radius:3px;border:1px solid #ddd;transition:.3s;cursor:pointer;width:calc(33.3333% - 20px);float:left;box-sizing:border-box;margin:0 10px;
   &>i {display: none; color: #FFCC00;}
   &:hover>i {position: absolute; display: block; font-size: 20px; right: 5%; bottom :10%; padding: 5px;}
   &>i:hover {font-weight: bold; }

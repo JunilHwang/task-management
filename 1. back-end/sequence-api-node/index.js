@@ -51,15 +51,27 @@ app.post('/api/member', (req, res) => {
  */
 app.post('/api/project', (req, res) => {
   const data = JSON.parse(req.body.data)
-  const sql = 'INSERT INTO project SET `writer` = ?, `title` = ?, `description` = ?'
+  const sql = 'INSERT INTO project SET `writer` = ?, `title` = ?, `description` = ?;'
   const prepare = [data.writer, data.title, data.description]
   con.query(sql, prepare, (err, result) => {
     let success = err ? {success: false, err: err} : {success: true}
 
     // 프로젝트 추가 후, 작성자의 프로젝트 접근권한을 등록한다.
-    con.query('INSERT INTO project_access SET `pidx` = ?, `mid` = ?', [result.insertId, data.writer], err => {
+    con.query('INSERT INTO project_access SET `pidx` = ?, `mid` = ?, `register_date` = now();', [result.insertId, data.writer], err => {
       success = err ? {success: false, err: err} : {success: true, lastid: result.insertId}
       res.json(success)
     })
+  })
+})
+
+/**
+ * 참여 중인 프로젝트 목록 가져오기
+ */
+app.get('/api/projects/:id', (req, res) => {
+  const id = req.params.id
+  const sql = `SELECT * FROM project where writer in (SELECT mid FROM project_access where mid = '${id}')`
+  con.query(sql, (err, result) => {
+    let success = err ? {success: false, err: err} : {success: true, list: result}
+    res.json(success)
   })
 })
