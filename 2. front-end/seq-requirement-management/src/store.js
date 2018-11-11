@@ -23,8 +23,8 @@ export default new Vuex.Store({
       state.member = null
       sessionStorage.removeItem('member')
     },
-    openLayer (state) {
-      state.layerState = true
+    openLayer (state, val) {
+      state.layerState = val
     },
     closeLayer (state) {
       state.layerState = false

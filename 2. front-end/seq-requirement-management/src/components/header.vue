@@ -9,8 +9,8 @@
         <li v-if="!$store.state.member"><a href="#" @click="openLogin">로그인</a></li>
         <li v-else><a href="#" @click="logout">로그아웃</a></li>
       </ul>
-      <layerTemplate v-if="loginPopup && $store.state.layerState" layerContent="login"></layerTemplate>
-      <layerTemplate v-if="projectPopup && $store.state.layerState" layerContent="project_create"></layerTemplate>
+      <layerTemplate v-if="$store.state.layerState === 'loginPopup'" layerContent="login"></layerTemplate>
+      <layerTemplate v-if="$store.state.layerState === 'projectPopup'" layerContent="project_create"></layerTemplate>
     </div>
   </header>
 </template>
@@ -21,19 +21,14 @@
       layerTemplate
     },
     data () {
-      return {
-        loginPopup: false,
-        projectPopup: false,
-      }
+      return {}
     },
     methods: {
       openLogin () {
-        this.loginPopup = true
-        this.$store.commit('openLayer')
+        this.$store.commit('openLayer', 'loginPopup')
       },
       openProjectPopup () {
-        this.projectPopup = true
-        this.$store.commit('openLayer')
+        this.$store.commit('openLayer', 'projectPopup')
       },
       logout () {
         this.$store.commit('logout')

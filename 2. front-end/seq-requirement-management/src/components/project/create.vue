@@ -7,7 +7,7 @@
           <li>
             <label class="input-label">
               <span class="pre"><i class="fas fa-file-signature"></i></span>
-              <input type="text" name="subject" class="full-width" required>
+              <input type="text" name="title" class="full-width" required>
               <span class="lbl">제목</span>
             </label>
           </li>
@@ -28,7 +28,7 @@
 </template>
 
 <script>
-  //import Api from '@/middleware/Api.js'
+  import Api from '@/middleware/Api.js'
   export default {
     data () {
       return {
@@ -38,25 +38,28 @@
     methods: {
       projectCreate (e) {
         const frm = e.target
-        this.selectedTeamIdx.push(this.$store.state.member.idx)
         const data = {
           writer: this.$store.state.member.id,
-          subject: frm.subject.value,
+          title: frm.title.value,
           description: frm.description.value
         }
-        const router = this.$router
-        Api.postProject(data).then(() => {
-          alert('완료되었습니다')
-          router.push('/project')
+        Api.postProject(data).then(res => {
+          if (res.data.success) {
+            alert('프로젝트가 추가되었습니다.')
+            this.$store.commit('closeLayer')
+            this.$router.push('/project')
+          } else {
+            console.log(res.data.err)
+          }
         })
       },
       requiredCheck (e) {
         const frm = document.querySelector('#projectCreate')
-        this.required = frm.subject.value.length > 0 && frm.description.value.length > 0
+        this.required = frm.title.value.length > 0 && frm.description.value.length > 0
       }
     },
     mounted () {
-      document.querySelector('#projectCreate').subject.focus()
+      document.querySelector('#projectCreate').title.focus()
     },
     props: ['send'],
   }  
