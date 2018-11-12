@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="sequence.restapi.mapper.ProjectMapper">
+
+    <select id="getProject" resultType="HashMap" parameterType="String">
+        SELECT * FROM project where pidx = #{pidx}
+    </select>
+
+    <select id="getProjectList" resultType="HashMap" parameterType="String">
+        SELECT * FROM project where writer in (SELECT mid FROM project_access where mid = #{id});
+    </select>
+
+    <insert id="postProject" parameterType="HashMap">
+        INSERT INTO project SET `writer` = #{writer}, `title` = #{title}, `description` = #{description}, `register_date` = now();
+        <selectKey resultType="int" keyProperty="pidx" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <insert id="postProjectAccess" parameterType="HashMap">
+        INSERT INTO project_access SET `pidx` = #{pidx}, `mid` = #{writer}
+    </insert>
+
+</mapper>

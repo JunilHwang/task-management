@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="sequence.restapi.mapper.MemberMapper">
+
+    <select id="getMemberCount" resultType="integer" parameterType="String">
+        SELECT count(*) as cnt FROM member where email = #{email}
+    </select>
+
+    <insert id="postMember" parameterType="HashMap">
+        INSERT INTO member SET `id` = #{id}, `name` = #{name}, `email` = #{email}, register_date = now();
+    </insert>
+</mapper>
