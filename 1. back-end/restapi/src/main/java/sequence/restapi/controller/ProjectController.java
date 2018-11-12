@@ -1,6 +1,7 @@
 package sequence.restapi.controller;
 
 import org.apache.ibatis.session.SqlSessionException;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.*;
 import sequence.restapi.mapper.ProjectMapper;
 
@@ -8,6 +9,7 @@ import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 
+@ComponentScan
 @RestController
 public class ProjectController {
 

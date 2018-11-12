@@ -2,7 +2,6 @@ package sequence.restapi.controller;
 
 import org.apache.ibatis.session.SqlSessionException;
 import org.springframework.web.bind.annotation.*;
-import sequence.restapi.mapper.ProjectMapper;
 import sequence.restapi.mapper.TaskMapper;
 
 import javax.annotation.Resource;
@@ -20,7 +19,7 @@ public class TaskController {
      * @param tidx : task index number
      * @return
      */
-    @GetMapping(value="/api/task/{tidx}")
+    @GetMapping("/api/task/{tidx}")
     HashMap getTask (@PathVariable int tidx) {
         HashMap obj = new HashMap();
         Boolean success = true;

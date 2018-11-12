@@ -1,11 +1,13 @@
 package sequence.restapi.controller;
 
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.*;
 import sequence.restapi.mapper.MemberMapper;
 
 import javax.annotation.Resource;
 import java.util.*;
 
+@ComponentScan
 @RestController
 public class MemberController {
 
