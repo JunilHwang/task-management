@@ -17,7 +17,7 @@
         SELECT * FROM project where tidx = #{tidx}
     </select>
 
-    <insert id="postTask" parameterType="integer">
+    <insert id="postTask" parameterType="HashMap">
         INSERT INTO task SET
         pidx = #{pidx},
         depth = #{depth},
@@ -32,7 +32,7 @@
         register_date = now();
     </insert>
 
-    <update id="updateTask" parameterType="integer">
+    <update id="updateTask" parameterType="HashMap">
         UPDATE task SET
         title = #{title},
         description = #{description},
@@ -42,7 +42,7 @@
         WHERE tidx = #{tidx}
     </update>
 
-    <update id="updateTaskBranch" parameterType="integer">
+    <update id="updateTaskBranch" parameterType="HashMap">
         UPDATE task SET depth = #{depth}, parent = #{parent} WHERE tidx = #{tidx}
     </update>
 

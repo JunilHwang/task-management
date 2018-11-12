@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="sequence.restapi.mapper.CommentMapper">
+
+    <select id="getCommentList" resultType="HashMap" parameterType="integer">
+        SELECT * FROM comment where tidx = #{tidx} order by od asc
+    </select>
+
+    <select id="getComment" resultType="HashMap" parameterType="integer">
+        SELECT * FROM comment where cidx = #{cidx}
+    </select>
+
+    <insert id="postComment" parameterType="HashMap">
+        INSERT INTO task SET
+        tidx = #{tidx},
+        parent = #{parent},
+        depth = #{depth},
+        od = #{od},
+        writer = #{writer},
+        content = #{content},
+        register_date = now();
+    </insert>
+
+    <update id="updateComment" parameterType="integer">
+        UPDATE task SET content = #{content} where tidx = #{tidx}
+    </update>
+
+    <delete id="deleteComment" parameterType="integer">
+        DELETE FROM task where tidx = #{tidx}
+    </delete>
+
+</mapper>
