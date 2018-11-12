@@ -51,6 +51,9 @@
           Api.postMember(member).then(response => {
             console.log(response.data)
           })
+          Api.getProjectListOfMain(this.$store.state.member.id).then(response => {
+            this.$store.commit('setState', ['projectList', response.data.list])
+          })
         })
         .catch(error  => {
           throw error

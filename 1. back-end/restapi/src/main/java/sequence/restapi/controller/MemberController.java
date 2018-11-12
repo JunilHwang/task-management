@@ -6,7 +6,6 @@ import sequence.restapi.mapper.MemberMapper;
 import javax.annotation.Resource;
 import java.util.*;
 
-@CrossOrigin(origins = "*")
 @RestController
 public class MemberController {
 

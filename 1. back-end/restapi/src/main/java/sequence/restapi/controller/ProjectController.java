@@ -8,7 +8,6 @@ import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 
-@CrossOrigin(origins = "*")
 @RestController
 public class ProjectController {
 
@@ -71,6 +70,46 @@ public class ProjectController {
             HashMap data = projectMapper.getProject(pidx);
             obj.put("project", data);
         } catch (SqlSessionException e) {
+            obj.put("err", e);
+        }
+        obj.put("success", success);
+        return obj;
+    }
+
+    /**
+     * 프로젝트 수정
+     * consumes = {"application/json"} 을 통하여 json string을 hashmap 혹은 list로 받아올 수 있다.
+     * @Param data = {title, description}
+     * @return {success, err or lastId}
+     */
+    @PutMapping(value="/api/project/{pidx}", consumes = {"application/json"})
+    HashMap putProject (@PathVariable int pidx, @RequestBody HashMap data) {
+        HashMap obj = new HashMap();
+        Boolean success = true;
+        try {
+            data.put("pidx", pidx);
+            projectMapper.putProject(data);
+        } catch (SqlSessionException e) {
+            success = false;
+            obj.put("err", e);
+        }
+        obj.put("success", success);
+        return obj;
+    }
+
+    /**
+     * 프로젝트 삭제
+     * @param pidx : project index number
+     * @return
+     */
+    @DeleteMapping(value="/api/project/{pidx}")
+    HashMap deleteProject (@PathVariable int pidx) {
+        HashMap obj = new HashMap();
+        Boolean success = true;
+        try {
+            projectMapper.deleteProject(pidx);
+        } catch (SqlSessionException e) {
+            success = false;
             obj.put("err", e);
         }
         obj.put("success", success);

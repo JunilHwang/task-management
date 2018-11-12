@@ -24,4 +24,12 @@
         INSERT INTO project_access SET `pidx` = #{pidx}, `mid` = #{writer}
     </insert>
 
+    <update id="putProject" parameterType="HashMap">
+        UPDATE project SET title = #{title}, description = #{description} where pidx = #{pidx}
+    </update>
+
+    <delete id="deleteProject" parameterType="integer">
+        DELETE FROM project WHERE pidx = #{pidx}
+    </delete>
+
 </mapper>

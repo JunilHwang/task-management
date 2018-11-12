@@ -31,6 +31,7 @@
         this.$store.commit('openLayer', 'projectPopup')
       },
       logout () {
+        this.$store.commit('setState', ['projectList', []])
         this.$store.commit('logout')
         alert('로그아웃 되었습니다')
       }

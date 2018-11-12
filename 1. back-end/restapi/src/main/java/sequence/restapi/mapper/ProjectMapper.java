@@ -11,8 +11,14 @@ public interface ProjectMapper {
     HashMap getProject(int pidx);
 
     // 프로젝트 등록하기
-    void postProject(HashMap data);
+    void postProject(HashMap params);
 
     // 프로젝트 엑세스 권한 등록하기
-    void postProjectAccess(HashMap data);
+    void postProjectAccess(HashMap params);
+
+    // 프로젝트 정보 수정
+    void putProject(HashMap params);
+
+    // 프로젝트 삭제
+    void deleteProject(int pidx);
 }

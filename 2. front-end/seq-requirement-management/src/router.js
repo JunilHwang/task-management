@@ -9,7 +9,7 @@ Vue.use(Router)
 const view = './views'
 const member = `${view}/member`
 const project = `${view}/project`
-const card = `${view}/card`
+const task = `${view}/task`
 
 export default new Router({
   mode: 'history',
@@ -65,11 +65,11 @@ export default new Router({
           children: [
             {
               path: '',
-              component: () => import(`${card}/list.vue`)
+              component: () => import(`${task}/list.vue`)
             },
             {
               path: 'task/create',
-              component: () => import(`${card}/create.vue`)
+              component: () => import(`${task}/create.vue`)
             }
           ]
         },
@@ -80,12 +80,12 @@ export default new Router({
       ]
     },
     {
-      path: '/card/',
+      path: '/task/',
       component: () => import(`${project}/index.vue`),
       children: [
         {
           path: 'view/:idx',
-          component: () => import(`${card}/view.vue`)
+          component: () => import(`${task}/view.vue`)
         }
       ]
     }

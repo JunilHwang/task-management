@@ -77,10 +77,7 @@
   export default {
     async created () {
       if (this.$store.state.member) {
-        Api.getProjectListOfMain(this.$store.state.member.id).then(response => {
-          this.$store.commit('setState', ['projectList', response.data.list])
-          this.pos = 0
-        })
+        this.setProjectList()
       }
     },
     data () {
@@ -95,7 +92,7 @@
     },
     computed: {
       viewedProject () {
-        return _.orderBy(this.projectList, 'viewDate', 'desc')
+        return _.orderBy(this.$store.state.projectList, 'viewDate', 'desc')
       },
       projectList () {
         return this.$store.state.projectList
@@ -126,6 +123,12 @@
         if (this.pos + 3 > viewCount - 1) return
         this.pos  = this.pos + 3
       },
+      setProjectList () {
+        Api.getProjectListOfMain(this.$store.state.member.id).then(response => {
+          this.$store.commit('setState', ['projectList', response.data.list])
+          this.pos = 0
+        })
+      }
     }
   }
 </script>

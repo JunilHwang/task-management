@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="sequence.restapi.mapper.TaskMapper">
+
+    <select id="getTaskListAll" resultType="HashMap" parameterType="integer">
+        SELECT * FROM task where pidx = #{pidx} order by register_date desc
+    </select>
+
+    <select id="getTaskListByParent" resultType="HashMap" parameterType="HashMap">
+        SELECT * FROM project where pidx = #{pidx} and parent = #{parent}
+    </select>
+
+    <select id="getTask" resultType="HashMap" parameterType="integer">
+        SELECT * FROM project where tidx = #{tidx}
+    </select>
+
+    <insert id="postTask" parameterType="integer">
+        INSERT INTO task SET
+        pidx = #{pidx},
+        depth = #{depth},
+        parent = #{parent},
+        reference = #{reference},
+        title = #{title},
+        description = #{description},
+        start_date = #{start_date},
+        limit_date = #{limit_date},
+        limit_time = #{limit_time},
+        state = 0,
+        register_date = now();
+    </insert>
+
+    <update id="updateTask" parameterType="integer">
+        UPDATE task SET
+        title = #{title},
+        description = #{description},
+        start_date = #{start_date},
+        limit_date = #{limit_date},
+        limit_time = #{limit_time}
+        WHERE tidx = #{tidx}
+    </update>
+
+    <update id="updateTaskBranch" parameterType="integer">
+        UPDATE task SET depth = #{depth}, parent = #{parent} WHERE tidx = #{tidx}
+    </update>
+
+    <update id="setComplete" parameterType="integer">
+        UPDATE task SET state = 1 WHERE tidx = #{tidx}
+    </update>
+
+    <update id="setError" parameterType="integer">
+        UPDATE task SET state = -1 WHERE tidx = #{tidx}
+    </update>
+
+    <delete id="deleteTask" parameterType="integer">
+        DELETE FROM task where tidx = #{tidx}
+    </delete>
+
+</mapper>
