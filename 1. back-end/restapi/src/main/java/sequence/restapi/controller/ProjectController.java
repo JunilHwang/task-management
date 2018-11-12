@@ -64,6 +64,7 @@ public class ProjectController {
      */
     @GetMapping(value="/api/project/{pidx}")
     HashMap getProject (@PathVariable int pidx) {
+        System.out.println(pidx);
         HashMap obj = new HashMap();
         Boolean success = true;
         try {
@@ -72,6 +73,7 @@ public class ProjectController {
         } catch (SqlSessionException e) {
             obj.put("err", e);
         }
+        obj.put("success", success);
         return obj;
     }
 }

@@ -5,7 +5,7 @@
 
 <mapper namespace="sequence.restapi.mapper.ProjectMapper">
 
-    <select id="getProject" resultType="HashMap" parameterType="String">
+    <select id="getProject" resultType="HashMap" parameterType="integer">
         SELECT * FROM project where pidx = #{pidx}
     </select>
 
