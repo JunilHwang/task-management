@@ -18,6 +18,11 @@ const access = Vue.prototype.$access = (bool, msg, url = false) => {
     }
   }
 }
+
+const digit = num => {
+  num = ('0' + num).slice(-2)
+  return num
+}
 Vue.prototype.$memberChk = () => {
   access(store.state.member, '로그인 후 이용해주세요', '/member/login')
 }
@@ -30,17 +35,14 @@ Vue.prototype.contentPreview = (text, len) => {
   }
   return text
 }
+Vue.prototype.digit = digit
 Vue.prototype.getDateFormat = time => {
   const date = new Date(time)
-  let y = date.getFullYear()
-  let m = date.getMonth() + 1
-  let d = date.getDate()
-  let h = date.getHours()
-  let i = date.getMinutes()
-  if (m < 10) m = "0"+m
-  if (d < 10) d = "0"+d
-  if (h < 10) h = "0"+h
-  if (i < 10) i = "0"+i
+  const y = date.getFullYear()
+  const m = digit(date.getMonth() + 1)
+  const d = digit(date.getDate())
+  const h = digit(date.getHours())
+  const i = digit(date.getMinutes())
   const newDate = `${y}-${m}-${d} ${h}:${i}`
   return newDate
 }

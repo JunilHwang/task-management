@@ -22,7 +22,6 @@
         pidx = #{pidx},
         depth = #{depth},
         parent = #{parent},
-        reference = #{reference},
         title = #{title},
         description = #{description},
         start_date = #{start_date},
@@ -51,7 +50,7 @@
     </update>
 
     <update id="setError" parameterType="integer">
-        UPDATE task SET state = -1 WHERE tidx = #{tidx}
+        UPDATE task SET state = 2 WHERE tidx = #{tidx}
     </update>
 
     <delete id="deleteTask" parameterType="integer">

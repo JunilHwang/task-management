@@ -93,7 +93,7 @@ a.btn{text-decoration:none;text-align:center;}
 /* color label */
 .color-label{display:inline-block;margin-right:5px;
   &:before{content:"";width:10px;height:10px;display:inline-block;vertical-align:middle;border-radius:3px;}
-  &.color1:before{background:#f4f48a}
+  &.color1:before{background:#ffeb00}
   &.color2:before{background:#008672}
   &.color3:before{background:#a2eeef}
   &.color4:before{background:#d73a4a}

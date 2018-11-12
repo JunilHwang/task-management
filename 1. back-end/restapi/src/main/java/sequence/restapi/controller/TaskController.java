@@ -45,6 +45,7 @@ public class TaskController {
         Boolean success = true;
         try {
             List list = taskMapper.getTaskListAll(pidx);
+            System.out.println(list);
             obj.put("list", list);
         } catch (SqlSessionException e) {
             obj.put("err", e);
@@ -63,6 +64,7 @@ public class TaskController {
     HashMap postTask (@RequestBody HashMap data) {
         HashMap obj = new HashMap();
         Boolean success = true;
+        System.out.println(data);
         int parent = Integer.parseInt(data.get("parent").toString());
         int depth = 0;
         try {

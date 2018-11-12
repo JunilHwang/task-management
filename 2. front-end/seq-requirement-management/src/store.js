@@ -7,11 +7,7 @@ export default new Vuex.Store({
   state: {
     member: JSON.parse(sessionStorage.getItem('member')) || null,
     layerState: false,
-    categoryList: [],
-    selectedCategory: -1,
-    pidx: null,
-    cardList: [],
-    cardNow: {},
+    taskList: [],
     projectData: {},
     projectList: [],
   },
