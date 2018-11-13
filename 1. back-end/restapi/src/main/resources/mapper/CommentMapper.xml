@@ -19,17 +19,18 @@
         parent = #{parent},
         depth = #{depth},
         od = #{od},
+        tag = #{tag},
         writer = #{writer},
         content = #{content},
         register_date = now();
     </insert>
 
     <update id="updateComment" parameterType="integer">
-        UPDATE task SET content = #{content} where tidx = #{tidx}
+        UPDATE task SET content = #{content}, tag = #{tag} where cidx = #{cidx}
     </update>
 
     <delete id="deleteComment" parameterType="integer">
-        DELETE FROM task where tidx = #{tidx}
+        DELETE FROM comment where cidx = #{cidx}
     </delete>
 
 </mapper>

@@ -40,7 +40,7 @@
   import Api from '@/middleware/Api.js'
   export default {
     components: {
-      comment: () => import(`@/components/comment/list.vue`)
+      comment: () => import(`@/components/comment/index.vue`)
     },
     created () {
       this.getTask()
