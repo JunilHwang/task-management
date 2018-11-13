@@ -1,7 +1,7 @@
 <template>
   <section class="comment-wrap">
     <commentList />
-    <commentWrite />
+    <commentWrite :comment="null" type="write" />
   </section>
 </template>
 

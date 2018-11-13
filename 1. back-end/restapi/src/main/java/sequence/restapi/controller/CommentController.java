@@ -1,6 +1,6 @@
 package sequence.restapi.controller;
 
-import org.apache.ibatis.session.SqlSessionException;
+import java.lang.Exception;
 import org.springframework.web.bind.annotation.*;
 import sequence.restapi.mapper.CommentMapper;
 
@@ -26,7 +26,7 @@ public class CommentController {
         try {
             List list = commentMapper.getCommentList(tidx);
             obj.put("list", list);
-        } catch (SqlSessionException e) {
+        } catch (Exception e) {
             obj.put("err", e);
             success = false;
         }
@@ -46,7 +46,7 @@ public class CommentController {
         try {
             HashMap data = commentMapper.getComment(cidx);
             obj.put("data", data);
-        } catch (SqlSessionException e) {
+        } catch (Exception e) {
             obj.put("err", e);
             success = false;
         }
@@ -57,18 +57,38 @@ public class CommentController {
     /**
      * 댓글을 등록한다.
      * @param tidx : task index number
+     * @param params : {tidx, parent, depth, od, tag, writer, content}
      * @return
      */
     @PostMapping(value="/api/comment/{tidx}", consumes = {"application/json"})
-    HashMap postComment (@PathVariable int tidx, @RequestBody HashMap data) {
+    HashMap postComment (@PathVariable int tidx, @RequestBody HashMap params) {
         HashMap obj = new HashMap();
         Boolean success = true;
-        System.out.println("data : " + data);
         try {
-            data.put("tidx", tidx);
-            data.put("od", commentMapper.getOd(tidx));
-            commentMapper.postComment(data);
-        } catch (SqlSessionException e) {
+            params.put("tidx", tidx);
+            params.put("od", commentMapper.getOd(tidx));
+            commentMapper.postComment(params);
+        } catch (Exception e) {
+            obj.put("err", e);
+            success = false;
+        }
+        obj.put("success", success);
+        return obj;
+    }
+
+    /**
+     * 댓글에 대한 답글을 작성한다.
+     * @param params : {tidx, parent, depth, od, tag, writer, content}
+     * @return
+     */
+    @PostMapping(value="/api/comment/reply", consumes = {"application/json"})
+    HashMap postCommentReply (@RequestBody HashMap params) {
+        HashMap obj = new HashMap();
+        Boolean success = true;
+        try {
+            commentMapper.updateCommentOd(params);
+            commentMapper.postComment(params);
+        } catch (Exception e) {
             obj.put("err", e);
             success = false;
         }
@@ -78,18 +98,17 @@ public class CommentController {
 
     /**
      * 댓글을 수정한다.
-     * @param cidx : comment index number
+     * @param params : {content, tag, cidx}
      * @return
      */
-    @PutMapping(value="/api/comment/{cidx}", consumes = {"application/json"})
-    HashMap putComment (@PathVariable int cidx, @RequestBody HashMap data) {
+    @PutMapping(value="/api/comment", consumes = {"application/json"})
+    HashMap putComment (@RequestBody HashMap params) {
         HashMap obj = new HashMap();
         Boolean success = true;
         try {
-            data.put("cidx", cidx);
-            commentMapper.updateComment(data);
-            obj.put("data", data);
-        } catch (SqlSessionException e) {
+            System.out.println(params);
+            commentMapper.updateComment(params);
+        } catch (Exception e) {
             obj.put("err", e);
             success = false;
         }
@@ -108,7 +127,7 @@ public class CommentController {
         Boolean success = true;
         try {
             commentMapper.deleteComment(cidx);
-        } catch (SqlSessionException e) {
+        } catch (Exception e) {
             obj.put("err", e);
             success = false;
         }

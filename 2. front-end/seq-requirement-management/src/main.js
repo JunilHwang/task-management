@@ -46,7 +46,7 @@ const getFlowDate = Vue.prototype.getFlowDate = time => {
   const h = i * 24
   let newTime
   if (abs < s) {
-    newTime = computedTime + '초'
+    newTime = ~~(computedTime / 1000) + '초'
   } else if (abs < i) {
     newTime = ~~(computedTime / s) + '분'
   } else if (abs < h) {

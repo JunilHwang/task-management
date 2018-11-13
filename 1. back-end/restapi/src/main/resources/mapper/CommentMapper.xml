@@ -35,8 +35,12 @@
         register_date = now();
     </insert>
 
-    <update id="updateComment" parameterType="integer">
+    <update id="updateComment" parameterType="HashMap">
         UPDATE comment SET content = #{content}, tag = #{tag} where cidx = #{cidx}
+    </update>
+
+    <update id="updateCommentOd" parameterType="HashMap">
+        UPDATE comment SET od = od + 1 where tidx = #{tidx} and od >= #{od}
     </update>
 
     <delete id="deleteComment" parameterType="integer">

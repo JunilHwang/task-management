@@ -20,6 +20,9 @@ public interface CommentMapper {
     // comment 수정
     void updateComment(HashMap params);
 
+    // comment 수정
+    void updateCommentOd(HashMap params);
+
     // comment 삭제
     void deleteComment(int tidx);
 }

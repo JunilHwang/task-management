@@ -19,6 +19,7 @@ const Api = class {
   getComment () { throw `don't getComment impolemented` }
   putComment () { throw `don't putComment impolemented` }
   postComment () { throw `don't postComment impolemented` }
+  postCommentReply () { throw `don't postCommentReply impolemented` }
   deleteComment () { throw `don't deleteComment impolemented` }
 }
 const baseURL = 'http://localhost:8090/api'
@@ -44,7 +45,8 @@ const RestApi = class extends Api {
   getCommentList (tidx) { return axios.get(`${baseURL}/comments/${tidx}`) }
   getComment (cidx) { return axios.get(`${baseURL}/comment/${cidx}`) }
   postComment (params) { return axios.post(`${baseURL}/comment/${params.tidx}`, params) }
-  putComment (params) { return axios.put(`${baseURL}/comment/${cidx}`, params) }
+  postCommentReply (params) { return axios.post(`${baseURL}/comment/reply`, params) }
+  putComment (params) { return axios.put(`${baseURL}/comment`, params) }
   deleteComment (cidx) { return axios.delete(`${baseURL}/comment/${cidx}`) }
 }
 

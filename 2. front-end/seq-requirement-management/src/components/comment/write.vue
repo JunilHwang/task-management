@@ -1,5 +1,5 @@
 <template>
-  <form action="" method="post" @submit="postComment">
+  <form action="" method="post" @submit="submitComment">
     <fieldset><legend>댓글 작성</legend>
       <ul class="comment-write">
         <div class="writer">
@@ -11,7 +11,7 @@
             <ul>
               <li v-for="(tag, key) in tagList" :key="key">
                 <label>
-                  <input type="radio" name="tag" :value="tag.value" :checked="key === 0">
+                  <input type="radio" name="tag" :value="tag.value" :checked="setChecked(key, tag.value)">
                   <span v-html="tag.text" />
                 </label>
               </li>
@@ -19,7 +19,7 @@
           </div>
         </div>
         <li class="comment-input">
-          <textarea name="content" cols="80" rows="5" placeholder="댓글을 등록해주세요" wrap="virtual"></textarea>
+          <textarea name="content" cols="80" rows="5" :placeholder="type === 'reply' ? '답글을 입력해주세요' : '댓글을 입력해주세요'" wrap="virtual" v-html="type === 'update' ? comment.content : null" required></textarea>
         </li>
         <li class="comment-button">
           <button type="submit">댓글등록</button>
@@ -32,6 +32,7 @@
 <script>
   import Api from '@/middleware/Api.js'
   export default {
+    props: ['comment', 'type'],
     data () {
       return {
         tagList: [
@@ -42,8 +43,31 @@
       }
     },
     methods: {
-      async postComment (e) {
-        const frm = e.target
+      async getCommentList (tidx) {
+        const response = await Api.getCommentList(tidx)
+        const data = response.data
+        if (!data.success) {
+          console.log(data.err)
+          return
+        }
+        data.list.map(obj => {
+          obj.updateSwitch = false
+          obj.replySwitch = false
+        })
+        this.$store.commit('setState', ['commentList', data.list])
+      },
+      submitComment (e) {
+        const submitMethod = {write: this.postComment, update: this.putComment, reply: this.postCommentReply}
+        submitMethod[this.type](e.target)
+      },
+      setChecked (key, tag) {
+        if (this.type === 'update') {
+          return tag === this.comment.tag
+        } else {
+          return key === 0
+        }
+      },
+      async postComment (frm) {
         const params = {
           tidx: this.$route.params.tidx,
           parent: 0,
@@ -57,12 +81,35 @@
           console.log(result.data.err)
           return
         }
-        const response = await Api.getCommentList(params.tidx)
-        if (!response.data.success) {
+        this.getCommentList(params.tidx)
+        frm.content.value = ''
+      },
+      async putComment (frm) {
+        this.comment.tag = frm.tag.value
+        this.comment.content = frm.content.value
+        const result = await Api.putComment(this.comment)
+        if (!result.data.success) {
           console.log(result.data.err)
           return
         }
-        this.$store.commit('setState', ['commentList', response.data.list])
+        this.comment.updateSwitch = false
+      },
+      async postCommentReply (frm) {
+        const params = {
+          tidx: this.$route.params.tidx,
+          parent: this.comment.cidx,
+          depth: this.comment.depth + 1,
+          od: this.comment.od + 1,
+          tag: frm.tag.value,
+          writer: this.$store.state.member.id,
+          content: frm.content.value
+        }
+        const result = await Api.postCommentReply(params)
+        if (!result.data.success) {
+          console.log(result.data.err)
+          return
+        }
+        this.getCommentList(params.tidx)
       }
     }
   }
