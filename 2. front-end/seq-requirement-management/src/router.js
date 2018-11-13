@@ -70,6 +70,10 @@ export default new Router({
             {
               path: 'task/create',
               component: () => import(`${task}/create.vue`)
+            },
+            {
+              path: 'task/update/:tidx',
+              component: () => import(`${task}/update.vue`)
             }
           ]
         },

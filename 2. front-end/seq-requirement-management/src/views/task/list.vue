@@ -6,10 +6,10 @@
         <span class="color-label color1"> 
           <span>진행</span>
         </span>
-        <span class="color-label color3"> 
+        <span class="color-label color2"> 
           <span>완료</span>
         </span>
-        <span class="color-label color4"> 
+        <span class="color-label color3"> 
           <span>에러</span>
         </span>
       </div>
