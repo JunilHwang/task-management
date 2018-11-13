@@ -39,7 +39,7 @@ Vue.prototype.getDateFormat = time => {
   return moment(date).format('YYYY-MM-DD HH:mm')
 }
 const getFlowDate = Vue.prototype.getFlowDate = time => {
-  const computedTime = +new Date() - time
+  const computedTime = +new Date() - (+new Date(time))
   const abs = Math.abs(computedTime)
   const s = 60 * 1000
   const i = s * 60

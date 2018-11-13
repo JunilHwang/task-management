@@ -49,10 +49,18 @@
           this.$store.commit('loggedIn', member)
           this.$store.commit('closeLayer')
           Api.postMember(member).then(response => {
-            console.log(response.data)
+            if (response.data.success) {
+              console.log(response.data.reslut)
+            } else {
+              console.log(response.data.err)
+            }
           })
           Api.getProjectListOfMain(this.$store.state.member.id).then(response => {
-            this.$store.commit('setState', ['projectList', response.data.list])
+            if (response.data.success) {
+              this.$store.commit('setState', ['projectList', response.data.list])
+            } else {
+              console.log(response.data.err)
+            }
           })
         })
         .catch(error  => {

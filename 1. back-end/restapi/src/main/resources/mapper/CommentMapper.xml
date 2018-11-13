@@ -6,15 +6,25 @@
 <mapper namespace="sequence.restapi.mapper.CommentMapper">
 
     <select id="getCommentList" resultType="HashMap" parameterType="integer">
-        SELECT * FROM comment where tidx = #{tidx} order by od asc
+        SELECT  c.*,
+                m.name as writer_name,
+                m.photo_src
+        FROM    comment c
+        JOIN    member m on c.writer = m.id
+        where   tidx = #{tidx}
+        order by od asc
     </select>
 
     <select id="getComment" resultType="HashMap" parameterType="integer">
         SELECT * FROM comment where cidx = #{cidx}
     </select>
 
+    <select id="getOd" resultType="integer" parameterType="integer">
+        SELECT IFNULL(max(od), 0) + 1 as od FROM `comment` WHERE tidx = #{tidx}
+    </select>
+
     <insert id="postComment" parameterType="HashMap">
-        INSERT INTO task SET
+        INSERT INTO comment SET
         tidx = #{tidx},
         parent = #{parent},
         depth = #{depth},
@@ -26,7 +36,7 @@
     </insert>
 
     <update id="updateComment" parameterType="integer">
-        UPDATE task SET content = #{content}, tag = #{tag} where cidx = #{cidx}
+        UPDATE comment SET content = #{content}, tag = #{tag} where cidx = #{cidx}
     </update>
 
     <delete id="deleteComment" parameterType="integer">

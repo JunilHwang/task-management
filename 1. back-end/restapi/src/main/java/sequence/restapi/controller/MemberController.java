@@ -24,12 +24,19 @@ public class MemberController {
     HashMap postMember (@RequestBody HashMap data) {
         HashMap obj = new HashMap();
         String result = "already inserted";
-        int cnt = memberMapper.getMemberCount(data.get("email").toString());
-        if (cnt == 0) {
-            memberMapper.postMember(data);
-            result = "member inserted";
+        Boolean success = true;
+        try {
+            int cnt = memberMapper.getMemberCount(data.get("email").toString());
+            if (cnt == 0) {
+                memberMapper.postMember(data);
+                result = "member inserted";
+            }
+            obj.put("result", result);
+        } catch (Exception e) {
+            success = false;
+            obj.put("err", e);
         }
-        obj.put("result", result);
+        obj.put("success", success);
         return obj;
     }
 }

@@ -11,6 +11,9 @@ public interface CommentMapper {
     // 단일 comment 불러오기
     HashMap getComment(int cidx);
 
+    // 마지막 od 가져오기
+    int getOd(int tidx);
+
     // comment 생성
     void postComment(HashMap params);
 

@@ -63,10 +63,11 @@ public class CommentController {
     HashMap postComment (@PathVariable int tidx, @RequestBody HashMap data) {
         HashMap obj = new HashMap();
         Boolean success = true;
+        System.out.println("data : " + data);
         try {
             data.put("tidx", tidx);
+            data.put("od", commentMapper.getOd(tidx));
             commentMapper.postComment(data);
-            obj.put("data", data);
         } catch (SqlSessionException e) {
             obj.put("err", e);
             success = false;

@@ -10,6 +10,7 @@ export default new Vuex.Store({
     taskList: [],
     projectData: {},
     projectList: [],
+    commentList: []
   },
   mutations: {
     loggedIn (state, data) {

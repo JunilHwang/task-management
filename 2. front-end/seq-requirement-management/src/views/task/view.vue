@@ -17,7 +17,7 @@
             <span v-html="getRange(task.start_date, task.limit_date)" />
           </p>
           <p>
-            <strong class="lbl">남은시간</strong>
+            <strong class="lbl">종료</strong>
             <span v-html="getRemaining(task.limit_date)" />
           </p>
         </div>
