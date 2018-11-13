@@ -26,7 +26,6 @@
         description = #{description},
         start_date = #{start_date},
         limit_date = #{limit_date},
-        limit_time = #{limit_time},
         state = 0,
         register_date = now();
     </insert>
@@ -36,13 +35,16 @@
         title = #{title},
         description = #{description},
         start_date = #{start_date},
-        limit_date = #{limit_date},
-        limit_time = #{limit_time}
+        limit_date = #{limit_date}
         WHERE tidx = #{tidx}
     </update>
 
     <update id="updateTaskBranch" parameterType="HashMap">
         UPDATE task SET depth = #{depth}, parent = #{parent} WHERE tidx = #{tidx}
+    </update>
+
+    <update id="setProcess" parameterType="integer">
+        UPDATE task SET state = 0 WHERE tidx = #{tidx}
     </update>
 
     <update id="setComplete" parameterType="integer">

@@ -22,6 +22,9 @@ public interface TaskMapper {
     // task의 branch(부모) 수정
     void updateTaskBranch(HashMap params);
 
+    // task를 진행중 상태로 변경
+    void setProcess(int tidx);
+
     // task를 완료 상태로 변경
     void setComplete(int tidx);
 

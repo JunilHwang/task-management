@@ -1,13 +1,9 @@
 import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
-import store from './store'
-import $ from 'jquery'
 import GAuth from 'vue-google-oauth2'
 import axios from 'axios'
 import moment from 'moment'
-
-const googleKey = require('./google.key.json')
+import $ from 'jquery'
+const googleKey = require('../google.key.json')
 
 const access = Vue.prototype.$access = (bool, msg, url = false) => {
   if (!bool) {
@@ -36,7 +32,13 @@ Vue.prototype.contentPreview = (text, len) => {
 Vue.prototype.moment = moment
 Vue.prototype.getDateFormat = time => {
   const date = new Date(time)
-  return moment(date).format('YYYY-MM-DD HH:mm')
+  const y = date.getFullYear()
+  const m = digit(date.getMonth() + 1)
+  const d = digit(date.getDate())
+  const h = digit(date.getHours())
+  const i = digit(date.getMinutes())
+  const newDate = `${y}-${m}-${d} ${h}:${i}`
+  return newDate
 }
 const getFlowDate = Vue.prototype.getFlowDate = time => {
   const computedTime = +new Date() - time
@@ -74,12 +76,8 @@ Vue.use(GAuth, {
   scope: 'profile email https://www.googleapis.com/auth/plus.login'
 })
 
-new Vue({
-  router,
-  store,
-  render: h => h(App)
-}).$mount('#app')
-
 $(document)
   .on('submit', 'form', () => false)
   .on('click', 'a[href="#"]', () => false)
+
+export default Vue

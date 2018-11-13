@@ -16,31 +16,44 @@ const Api = class {
   putStar() { throw `don't putStar impolemented` }
   putViewDate() { throw `don't putViewDate impolemented` }
 }
-const baseURL = 'http://localhost:8090'
+const baseURL = 'http://localhost:8090/api'
 const RestApi = class extends Api {
   constructor () { super() }
   postMember (data) {
-    return axios.post(`${baseURL}/api/member`, data)
+    return axios.post(`${baseURL}/member`, data)
   }
   getMember () { }
   postProject (data) {
-    return axios.post(`${baseURL}/api/project`, data)
+    return axios.post(`${baseURL}/project`, data)
   }
   getProjectListOfMain (id) {
-    return axios.get(`${baseURL}/api/projects/${id}`)
+    return axios.get(`${baseURL}/projects/${id}`)
   }
   getProject (pidx) {
-    return axios.get(`${baseURL}/api/project/${pidx}`)
+    return axios.get(`${baseURL}/project/${pidx}`)
   }
   postTask (data) {
-    return axios.post(`${baseURL}/api/task`, data)
+    return axios.post(`${baseURL}/task`, data)
   }
   getTaskList (pidx) {
-    return axios.get(`${baseURL}/api/tasks/${pidx}`)
+    return axios.get(`${baseURL}/tasks/${pidx}`)
   }
-  getTask () { throw `don't getTask impolemented` }
+  getTask (tidx) {
+    return axios.get(`${baseURL}/task/${tidx}`)
+  }
   putTask () { throw `don't putTask impolemented` }
-  deleteTask () { throw `don't deleteTask impolemented` }
+  putTaskState (data) {
+    let putStateURL = `${baseURL}/task/`
+    switch (data.state) {
+      case 0 : putStateURL += 'process'; break
+      case 1 : putStateURL += 'complete'; break
+      case 2 : putStateURL += 'error'; break
+    }
+    return axios.put(`${putStateURL}/${data.tidx}`)
+  }
+  deleteTask (tidx) {
+    return axios.delete(`${baseURL}/task/${tidx}`)
+  }
   putStar() { throw `don't putStar impolemented` }
   putViewDate() { throw `don't putViewDate impolemented` }
 }

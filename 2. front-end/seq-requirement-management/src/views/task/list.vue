@@ -25,11 +25,16 @@
               </p>
             </dt>
             <dd>
-              <p class="list-content" v-html="contentPreview(task.description, 200)" />
+              <p class="list-content">
+                <span class="icon"><i class="fas fa-align-left"></i></span>
+                <span>{{contentPreview(task.description, 50)}}</span>
+              </p>
               <p class="date range">
                 <span class="icon"><i class="far fa-clock"></i></span>
-                <span v-html="getRange(task.start_date, task.limit_date, task.limit_time)" />
-                <span class="remaining">{{getFlowProxy(task.limit_date, task.limit_time)}}</span>
+                <span v-html="getRange(task.start_date, task.limit_date)" />
+                <span class="remaining"
+                      :class="getRemaining(task.limit_date, false) < 0 ? 'before' : 'after'"
+                      v-html="getRemaining(task.limit_date)" />
               </p>
               <p class="date register">
                 <span class="icon"><i class="far fa-calendar-alt"></i></span>
@@ -47,7 +52,7 @@
 <script>
   import Api from '@/middleware/Api.js'
   export default {
-    async created () {
+    created () {
       Api.getTaskList(this.$route.params.pidx).then(response => {
         this.tasks = response.data.list
       })
@@ -55,18 +60,6 @@
     data () {
       return {
         tasks: []
-      }
-    },
-    methods: {
-      getRange (start_date, limit_date, limit_time) {
-        const start = this.moment(start_date).format('M. D HH:mm')
-        const limit = this.moment(`${limit_date} ${limit_time}`).format('M. D HH:mm')
-        return `${start} ~ ${limit}`
-      },
-      getFlowProxy (date, time) {
-        const toSecond = new Date(`${date} ${time}`)
-        const remaining = this.getFlowDate(toSecond)
-        return parseInt(remaining) < 0 ? `${remaining.replace('-', '')} 지남` : `${remaining} 남음`
       }
     }
   }
@@ -78,20 +71,22 @@
     li{width:33%;float:left;margin-bottom:0.5%;
       &:nth-child(3n-1){margin:0 0.5%;};
     }
-    dl{border-radius:3px;border:1px solid #ddd;background:#fff;padding:20px;height:100px;cursor:pointer;position:relative;}
-    .none{padding:20px;}
-    .title{border-bottom:1px solid #ddd;margin-bottom:10px;padding-bottom:10px;font-size:15px;}
-    .category-name{color:#aaa;display:inline-block;margin-right:5px}
-    .writer{display:inline-block;font-size:13px;
-      i{margin-top:-4px;}
+    dl{border-radius:3px;border:1px solid #ddd;background:#fff;padding:20px;cursor:pointer;position:relative;
+      &:hover{border-color:#444;}
     }
-    .date{font-size:11px;color:#666;margin-top:3px;
-      .icon{display:inline-block;width:15px;text-align:center;margin-right:5px;}
+    .none{padding:20px;}
+    .title{font-size:15px;}
+    .date{font-size:11px;color:#666;margin-top:3px;}
+    .icon{display:inline-block;width:11px;text-align:center;margin-right:5px;font-size:11px;
       i{margin-top:-3px;}
     }
     .task-bottom{position:absolute;bottom:20px;left:20px;font-size:13px;
       p+p{margin-top:5px;}
       strong{color:$color1;display:inline-block;width:50px;font-weight:normal}
+    }
+    .remaining{display:inline-block;margin-left:10px;
+      &.before{color:$color-google}
+      &.after{color:$color-facebook}
     }
   }
   .list-content{margin:10px 0;word-break:break-all;}

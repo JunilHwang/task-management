@@ -1,26 +1,26 @@
 <template>
-  <section class="issue-wrap">
-    <header class="issue-header">
-      <strong>이슈 {{issueList.length}}</strong>
+  <section class="comment-wrap">
+    <header class="comment-header">
+      <strong>이슈 {{commentList.length}}</strong>
     </header>
-    <div class="issue-content" v-if="issueList.length">
-      <article v-for="(issue, key) in issueList" :key="key">
+    <div class="comment-content" v-if="commentList.length">
+      <article v-for="(comment, key) in commentList" :key="key">
         <header>
           <div class="writer">
-            <strong v-html="issue.writer_name"></strong>
-            (<span v-html="issue.writer_id"></span>)  
+            <strong v-html="comment.writer_name"></strong>
+            (<span v-html="comment.writer_id"></span>)  
           </div>
-          <div class="reg_date">{{getFlowDate(issue.date)}} 전</div>
+          <div class="reg_date">{{getFlowDate(comment.date)}} 전</div>
         </header>
-        <div v-html="(issue.content + '').replace(/\n/gi, '<br />')" />
+        <div v-html="(comment.content + '').replace(/\n/gi, '<br />')" />
       </article>
-      <form action="" method="post" @submit="issueWrite">
+      <form action="" method="post">
         <fieldset><legend>이슈 작성</legend>
-          <ul class="issue-write">
-            <li class="issue-input">
+          <ul class="comment-write">
+            <li class="comment-input">
               <textarea name="content" cols="80" rows="5" placeholder="이슈를 등록해주세요"></textarea>
             </li>
-            <li class="issue-button">
+            <li class="comment-button">
               <button type="button">이슈등록</button>
             </li>
           </ul>
@@ -34,7 +34,7 @@
   export default {
     data () {
       return {
-        issueList: [
+        commentList: [
           {
             idx: 1,
             content: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
@@ -58,8 +58,8 @@
 </script>
 <style lang="scss" scoped>
 @import "@/assets/scss/_lib.scss";
-.issue-header{margin-bottom:10px;border-bottom:1px solid #ddd;padding-bottom:10px;}
-.issue-content{border-radius:3px;background:$color-grey;padding:15px;}
+.comment-header{margin-bottom:10px;border-bottom:1px solid #ddd;padding-bottom:10px;}
+.comment-content{border-radius:3px;background:$color-grey;padding:15px;}
 article{border-bottom:1px dotted #ddd;margin-bottom:15px;padding-bottom:10px;
   header{line-height:30px;
     &:after{content:"";display:block;clear:both;}
@@ -70,11 +70,11 @@ article{border-bottom:1px dotted #ddd;margin-bottom:15px;padding-bottom:10px;
   }
   >div{line-height:160%;font-size:13px;}
 }
-.issue-write{display:flex;justify-content:space-between;}
-.issue-input{width:calc(100% - 110px);
+.comment-write{display:flex;justify-content:space-between;}
+.comment-input{width:calc(100% - 110px);
   textarea{height:80px;box-sizing:border-box;padding:10px;width:100%;border-radius:3px;font-size:13px;}
 }
-.issue-button{
+.comment-button{
   button{width:100px;height:80px;border:1px solid #bebebe;background:#fff;border-radius:3px;cursor:pointer;}
 }
 </style>

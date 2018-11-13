@@ -84,7 +84,7 @@ export default new Router({
       component: () => import(`${project}/index.vue`),
       children: [
         {
-          path: 'view/:idx',
+          path: 'view/:tidx',
           component: () => import(`${task}/view.vue`)
         }
       ]

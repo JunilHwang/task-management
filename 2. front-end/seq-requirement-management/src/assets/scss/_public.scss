@@ -52,7 +52,7 @@ span.middle{display:inline-block;vertical-align:middle;height:100%;width:0;
 
 /* button */
 a.btn{text-decoration:none;text-align:center;}
-.btn{border:none;padding:7px 15px;vertical-align:middle;font-size:15px;font-family:inherit;color:#FFF;transition:.3s;text-shadow:0 0 10px fade-out(#666, .3);vertical-align:middle;cursor:pointer;
+.btn{border:none;padding:7px 15px;vertical-align:middle;font-size:15px;font-family:inherit;color:#FFF;transition:.3s;vertical-align:middle;cursor:pointer;
   &.btn-full{display:block;text-align:center;width:100%;box-sizing:border-box;padding:10px 0;font-size:17px;font-weight:400;}
   &.mini{padding:3px 7px;font-size:13px;}
   &.white{border:1px solid #fff;}
@@ -61,6 +61,9 @@ a.btn{text-decoration:none;text-align:center;}
   &.join{background:$color1-darken-10;}
   &.auto{background:#999;}
   &.default{background:#777;}
+  &.complete{background:$color-naver}
+  &.error{background:$color-google}
+  &.process{background:$color-kakao;color:#3c1e1e;}
   +.btn{margin-left:3px;}
 }
 .btn-group{text-align:center;padding:40px 0;

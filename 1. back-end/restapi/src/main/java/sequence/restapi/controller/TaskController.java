@@ -1,6 +1,6 @@
 package sequence.restapi.controller;
 
-import org.apache.ibatis.session.SqlSessionException;
+import java.lang.Exception;
 import org.springframework.web.bind.annotation.*;
 import sequence.restapi.mapper.TaskMapper;
 
@@ -24,9 +24,9 @@ public class TaskController {
         HashMap obj = new HashMap();
         Boolean success = true;
         try {
-            HashMap data = taskMapper.getTask(tidx);
-            obj.put("data", data);
-        } catch (SqlSessionException e) {
+            HashMap task = taskMapper.getTask(tidx);
+            obj.put("task", task);
+        } catch (Exception e) {
             obj.put("err", e);
             success = false;
         }
@@ -47,7 +47,7 @@ public class TaskController {
             List list = taskMapper.getTaskListAll(pidx);
             System.out.println(list);
             obj.put("list", list);
-        } catch (SqlSessionException e) {
+        } catch (Exception e) {
             obj.put("err", e);
             success = false;
         }
@@ -74,7 +74,7 @@ public class TaskController {
             }
             data.put("depth", depth);
             taskMapper.postTask(data);
-        } catch (SqlSessionException e) {
+        } catch (Exception e) {
             obj.put("err", e);
             success = false;
         }
@@ -95,7 +95,7 @@ public class TaskController {
         try {
             data.put("tidx", tidx);
             taskMapper.updateTask(data);
-        } catch (SqlSessionException e) {
+        } catch (Exception e) {
             obj.put("err", e);
             success = false;
         }
@@ -108,13 +108,13 @@ public class TaskController {
      * @param tidx : task index number
      * @return
      */
-    @PutMapping(value="/api/task/complete/{tidx}", consumes = {"application/json"})
+    @PutMapping(value="/api/task/complete/{tidx}")
     HashMap setComplete (@PathVariable int tidx) {
         HashMap obj = new HashMap();
         Boolean success = true;
         try {
             taskMapper.setComplete(tidx);
-        } catch (SqlSessionException e) {
+        } catch (Exception e) {
             obj.put("err", e);
             success = false;
         }
@@ -123,17 +123,36 @@ public class TaskController {
     }
 
     /**
-     * task를 완료 상태로 변경
+     * task를 에러 상태로 변경
      * @param tidx : task index number
      * @return
      */
-    @PutMapping(value="/api/task/error/{tidx}", consumes = {"application/json"})
+    @PutMapping(value="/api/task/error/{tidx}")
     HashMap setErrror (@PathVariable int tidx) {
         HashMap obj = new HashMap();
         Boolean success = true;
         try {
             taskMapper.setError(tidx);
-        } catch (SqlSessionException e) {
+        } catch (Exception e) {
+            obj.put("err", e);
+            success = false;
+        }
+        obj.put("success", success);
+        return obj;
+    }
+
+    /**
+     * task를 진행중 상태로 변경
+     * @param tidx : task index number
+     * @return
+     */
+    @PutMapping(value="/api/task/process/{tidx}")
+    HashMap setProcessing (@PathVariable int tidx) {
+        HashMap obj = new HashMap();
+        Boolean success = true;
+        try {
+            taskMapper.setProcess(tidx);
+        } catch (Exception e) {
             obj.put("err", e);
             success = false;
         }
@@ -146,13 +165,13 @@ public class TaskController {
      * @param tidx : task index number
      * @return
      */
-    @DeleteMapping(value="/api/task/{tidx}", consumes = {"application/json"})
+    @DeleteMapping(value="/api/task/{tidx}")
     HashMap deleteTask (@PathVariable int tidx) {
         HashMap obj = new HashMap();
         Boolean success = true;
         try {
             taskMapper.deleteTask(tidx);
-        } catch (SqlSessionException e) {
+        } catch (Exception e) {
             obj.put("err", e);
             success = false;
         }
