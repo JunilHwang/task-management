@@ -19,21 +19,22 @@
         <li v-for="(task, key) in tasks" :key="key">
           <dl @click.prevent="$router.push(`/task/view/${task.tidx}`)">
             <dt class="title">
-              <span :class="`color-label color${task.state + 1}`" />
-              <span class="task-name" v-html="task.title" />
-              <span class="reg-date">
-                <i class="far fa-calendar-alt"></i>
-                {{getDateFormat(task.register_date)}}
-              </span>
+              <p>
+                <span :class="`color-label color${task.state + 1}`" />
+                <span class="task-name" v-html="task.title" />
+              </p>
             </dt>
             <dd>
-              <div class="list-content" v-html="contentPreview(task.description, 200)" />
-              <div class="task-bottom">
-                <p>
-                  <strong class="lbl">기간</strong>
-                  <span v-html="`${task.start_date} ~ ${task.limit_date} ${task.limit_time.slice(0, 5)}`" />
-                </p>
-              </div>
+              <p class="list-content" v-html="contentPreview(task.description, 200)" />
+              <p class="date range">
+                <span class="icon"><i class="far fa-clock"></i></span>
+                <span v-html="getRange(task.start_date, task.limit_date, task.limit_time)" />
+                <span class="remaining">{{getFlowProxy(task.limit_date, task.limit_time)}}</span>
+              </p>
+              <p class="date register">
+                <span class="icon"><i class="far fa-calendar-alt"></i></span>
+                <span>{{moment(task.register_date).format('M. D HH:mm')}}</span>
+              </p>
             </dd>
           </dl>
         </li>
@@ -48,13 +49,24 @@
   export default {
     async created () {
       Api.getTaskList(this.$route.params.pidx).then(response => {
-        console.log(response.data.list)
         this.tasks = response.data.list
       })
     },
     data () {
       return {
         tasks: []
+      }
+    },
+    methods: {
+      getRange (start_date, limit_date, limit_time) {
+        const start = this.moment(start_date).format('M. D HH:mm')
+        const limit = this.moment(`${limit_date} ${limit_time}`).format('M. D HH:mm')
+        return `${start} ~ ${limit}`
+      },
+      getFlowProxy (date, time) {
+        const toSecond = new Date(`${date} ${time}`)
+        const remaining = this.getFlowDate(toSecond)
+        return parseInt(remaining) < 0 ? `${remaining.replace('-', '')} 지남` : `${remaining} 남음`
       }
     }
   }
@@ -66,15 +78,16 @@
     li{width:33%;float:left;margin-bottom:0.5%;
       &:nth-child(3n-1){margin:0 0.5%;};
     }
-    dl{border-radius:3px;border:1px solid #ddd;background:#fff;padding:20px;height:150px;cursor:pointer;position:relative;}
+    dl{border-radius:3px;border:1px solid #ddd;background:#fff;padding:20px;height:100px;cursor:pointer;position:relative;}
     .none{padding:20px;}
     .title{border-bottom:1px solid #ddd;margin-bottom:10px;padding-bottom:10px;font-size:15px;}
     .category-name{color:#aaa;display:inline-block;margin-right:5px}
     .writer{display:inline-block;font-size:13px;
       i{margin-top:-4px;}
     }
-    .reg-date{float:right;margin-left:10px;font-size:11px;color:#666;margin-top:3px;
-      i{margin-top:-3px;margin-right:5px;}
+    .date{font-size:11px;color:#666;margin-top:3px;
+      .icon{display:inline-block;width:15px;text-align:center;margin-right:5px;}
+      i{margin-top:-3px;}
     }
     .task-bottom{position:absolute;bottom:20px;left:20px;font-size:13px;
       p+p{margin-top:5px;}

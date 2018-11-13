@@ -40,7 +40,7 @@
 </script>
 <style lang="scss" scoped>
   @import "@/assets/scss/_lib.scss";
-  .header{border-bottom:1px solid #ddd;background:#fff;position:relative;z-index:10;
+  .header{border-bottom:1px solid #ddd;background:#fff;position:relative;z-index:20;
     .logo a{font-size:25px;color:$color1;font-weight:300;text-decoration:none}
     >div{display:flex;justify-content:space-between;align-items:center;height:60px;}
     .gnb{display:flex; 

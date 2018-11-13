@@ -5,6 +5,7 @@ import store from './store'
 import $ from 'jquery'
 import GAuth from 'vue-google-oauth2'
 import axios from 'axios'
+import moment from 'moment'
 
 const googleKey = require('./google.key.json')
 
@@ -36,6 +37,7 @@ Vue.prototype.contentPreview = (text, len) => {
   return text
 }
 Vue.prototype.digit = digit
+Vue.prototype.moment = moment
 Vue.prototype.getDateFormat = time => {
   const date = new Date(time)
   const y = date.getFullYear()
@@ -48,15 +50,16 @@ Vue.prototype.getDateFormat = time => {
 }
 Vue.prototype.getFlowDate = time => {
   const computedTime = +new Date() - time
+  const abs = Math.abs(computedTime)
   const s = 60 * 1000
   const i = s * 60
   const h = i * 24
   let newTime
-  if (computedTime < s) {
+  if (abs < s) {
     newTime = computedTime + '초'
-  } else if (computedTime < i) {
+  } else if (abs < i) {
     newTime = ~~(computedTime / s) + '분'
-  } else if (computedTime < h) {
+  } else if (abs < h) {
     newTime = ~~(computedTime / i) + '시간'
   } else {
     newTime = ~~(computedTime / h) + '일'

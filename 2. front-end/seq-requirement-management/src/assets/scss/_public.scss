@@ -36,7 +36,7 @@ span.middle{display:inline-block;vertical-align:middle;height:100%;width:0;
 .input-label{position:relative;display:block;
   .pre{position:absolute;top:0;left:0;height:50px;width:50px;display:flex;justify-content:center;align-items:center;z-index:10;}
   .lbl{position:absolute;top:0;bottom:0;line-height:50px;left:50px;vertical-align:middle;display:block;color:#aaa;}
-  input, select{height:50px;padding-left:50px;font-size:15px;}
+  input, select{height:50px;padding-left:50px;font-size:15px;-webkit-appearance:none;}
   select{background:#fff;border-radius:0;border:1px solid #ddd;}
   textarea{padding:15px 0 10px 50px;}
   input:valid+.lbl,
