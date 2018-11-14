@@ -110,15 +110,8 @@
       getSubDay (date = new Date()) {
         return new Date(this.moment(date).subtract(1, 'days').format())
       },
-      setStartDisable (selectDate) {
-        console.log('setStartDisable', this.moment(selectDate).format('YYYY-MM-DD'))
-        this.disableStart.from = selectDate
-        console.log(this.disableStart)
-      },
-      setLimitDisable (selectDate) {
-        console.log('setLimitDisable', this.moment(selectDate).format('YYYY-MM-DD'))
-        this.disableLimit.to = selectDate
-      },
+      setStartDisable (selectDate) { this.disableStart.from = selectDate },
+      setLimitDisable (selectDate) { this.disableLimit.to = selectDate },
       requiredCheck () {
         const frm = document.forms.task
         const title = frm.title.value.length,
