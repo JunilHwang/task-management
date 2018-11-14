@@ -1,9 +1,9 @@
 <template>
   <section>
     <div class="setting-wrap">
-      <settingDefault></settingDefault>
-      <settingMember></settingMember>
-      <settingOpenapi></settingOpenapi>
+      <settingDefault />
+      <!-- <settingMember></settingMember> -->
+      <settingOpenapi />
     </div>
     <div class="btn-group btm">
       <router-link :to="`/project/view/${projectData.writer}/${projectData.uri}`" class="btn point">설정완료</router-link>&nbsp;

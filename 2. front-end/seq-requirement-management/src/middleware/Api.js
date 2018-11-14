@@ -1,32 +1,9 @@
 import Model from './Model.js'
 import axios from 'axios'
 
-const Api = class {
-  constructor () {}
-  postMember () { throw `don't postMember impolemented` }
-  getMember () { throw `don't getMember impolemented` }
-  postProject () { throw `don't postProject impolemented` }
-  postProjectAccess () { throw `don't postProjectAccess impolemented` }
-  getProjectListOfMain () { throw `don't getProjectListOfMain impolemented` }
-  getProject () { throw `don't getProject impolemented` }
-  postTask () { throw `don't postTask impolemented` }
-  getTaskList () { throw `don't getTaskList impolemented` }
-  getTask () { throw `don't getTask impolemented` }
-  putTask () { throw `don't putTask impolemented` }
-  deleteTask () { throw `don't deleteTask impolemented` }
-  putStar() { throw `don't putStar impolemented` }
-  putViewDate () { throw `don't putViewDate impolemented` }
-  getCommentList () { throw `don't getCommentList impolemented` }
-  getComment () { throw `don't getComment impolemented` }
-  putComment () { throw `don't putComment impolemented` }
-  postComment () { throw `don't postComment impolemented` }
-  postCommentReply () { throw `don't postCommentReply impolemented` }
-  deleteComment () { throw `don't deleteComment impolemented` }
-  async valid () { throw `don't valid impolemented` }
-}
 const baseURL = 'http://localhost:8090/api'
-const RestApi = class extends Api {
-  constructor () { super() }
+const RestApi = class {
+  constructor () { }
   postMember (params) { return axios.post(`${baseURL}/member`, params) }
   getMember () { }
   postProject (params) { return axios.post(`${baseURL}/project`, params) }
@@ -51,8 +28,8 @@ const RestApi = class extends Api {
   postCommentReply (params) { return axios.post(`${baseURL}/comment/reply`, params) }
   putComment (params) { return axios.put(`${baseURL}/comment`, params) }
   deleteComment (cidx) { return axios.delete(`${baseURL}/comment/${cidx}`) }
+  getRepo () {}
+  postRepo (params) { return axios.post(`${baseURL}/github/repo`, params) }
 }
 
-const api = new RestApi()
-
-export default api;
+export default new RestApi();
