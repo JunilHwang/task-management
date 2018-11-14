@@ -75,8 +75,7 @@
   import Api from '@/middleware/Api.js'
   import _ from 'lodash'
   export default {
-    async created () {
-      console.log(this.$store.state.member)
+    created () {
       if (this.$store.state.member) {
         this.setProjectList()
       }
