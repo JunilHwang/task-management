@@ -13,6 +13,7 @@
         <router-link to="/project" class="btn point">프로젝트 목록</router-link>
         <router-link :to="`/project/setting/${projectData.pidx}`" class="btn point">프로젝트 설정</router-link>
         <router-link :to="`/project/view/${$route.params.pidx}/task/create`" class="btn submit">테스크 추가</router-link>
+        <a href="#" class="btn submit" @click.prevent="copyToken">토큰 복사</a>
       </div>
     </section>
   </section>
@@ -24,6 +25,9 @@
   export default {
     components: {
       layerTemplate
+    },
+    computed: {
+      projectData () { return this.$store.state.projectData }
     },
     async created () {
       const pidx = this.$route.params.pidx
@@ -37,8 +41,19 @@
         uri: this.$route.params.uri
       }
     },
-    computed: {
-      projectData () { return this.$store.state.projectData }
+    methods: {
+      copyToken () {
+        const input = document.createElement('input')
+        input.type = 'text'
+        input.value = this.projectData.access_token
+        input.id = 'copy'
+        console.log(input)
+        document.body.appendChild(input)
+        input.select()
+        document.execCommand('copy')
+        input.remove()
+        alert('토큰이 복사되었습니다.');
+      }
     }
   }
 </script>
