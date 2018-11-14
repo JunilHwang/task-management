@@ -1,6 +1,9 @@
 package sequence.restapi.controller;
 
 import java.lang.Exception;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.*;
 import sequence.restapi.mapper.ProjectMapper;
@@ -29,9 +32,20 @@ public class ProjectController {
         try {
             projectMapper.postProject(data);
             projectMapper.postProjectAccess(data);
-            obj.put("lastId", data.get("pidx"));
+            String  title = data.get("title").toString(),
+                    writer = data.get("writer").toString(),
+                    pidx = data.get("pidx").toString();
+            String access_token = Jwts.builder()
+                    .setHeaderParam("typ", "JWT")
+                    .setHeaderParam("issueDate", System.currentTimeMillis())
+                    .setSubject(title)
+                    .signWith(SignatureAlgorithm.HS512, writer + pidx)
+                    .compact();
+            data.put("access_token", access_token);
+            projectMapper.putProjectToken(data);
         } catch (Exception e) {
             success = false;
+            System.out.println(e);
             obj.put("err", e);
         }
         obj.put("success", success);

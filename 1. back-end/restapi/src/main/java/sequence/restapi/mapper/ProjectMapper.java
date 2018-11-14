@@ -13,6 +13,9 @@ public interface ProjectMapper {
     // 프로젝트 등록하기
     void postProject(HashMap params);
 
+    // 프로젝트 엑세스 토큰 등록하기
+    void putProjectToken(HashMap params);
+
     // 프로젝트 엑세스 권한 등록하기
     void postProjectAccess(HashMap params);
 

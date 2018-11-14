@@ -51,7 +51,7 @@
               this.$store.commit('closeLayer')
             })
           } else {
-            console.log(res.data.err)
+            throw res.data.err
           }
         })
       },
