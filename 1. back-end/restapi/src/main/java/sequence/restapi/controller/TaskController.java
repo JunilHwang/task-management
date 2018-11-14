@@ -84,17 +84,15 @@ public class TaskController {
 
     /**
      * task를 수정한다.
-     * @param tidx : task index number
-     * @param data : {title, start_date, limit_date, limit_time, description}
+     * @param params : {tidx, title, start_date, limit_date, description}
      * @return
      */
-    @PutMapping(value="/api/task/{tidx}", consumes = {"application/json"})
-    HashMap putTask (@PathVariable int tidx, @RequestBody HashMap data) {
+    @PutMapping(value="/api/task", consumes = {"application/json"})
+    HashMap putTask (@RequestBody HashMap params) {
         HashMap obj = new HashMap();
         Boolean success = true;
         try {
-            data.put("tidx", tidx);
-            taskMapper.updateTask(data);
+            taskMapper.updateTask(params);
         } catch (Exception e) {
             obj.put("err", e);
             success = false;

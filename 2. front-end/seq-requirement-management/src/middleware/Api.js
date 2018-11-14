@@ -13,7 +13,7 @@ const RestApi = class {
   postTask (params) { return axios.post(`${baseURL}/task`, params) }
   getTaskList (pidx) { return axios.get(`${baseURL}/tasks/${pidx}`) }
   getTask (tidx) { return axios.get(`${baseURL}/task/${tidx}`) }
-  putTask (params) { return axios.put(`${baseURL}/task/${tidx}`, params) }
+  putTask (params) { return axios.put(`${baseURL}/task`, params) }
   putTaskState (params) {
     const type = ['process', 'complete', 'error']
     let putStateURL = `${baseURL}/task/${type[params.state]}`
