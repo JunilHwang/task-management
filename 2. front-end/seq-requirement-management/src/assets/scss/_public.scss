@@ -23,7 +23,7 @@
 .requirement-title{font-size:21px;margin-bottom:20px;font-weight:normal;
   &:before{content:"";display:inline-block;vertical-align:middle;width:3px;background:$color1;height:21px;margin-right:10px;}
 }
-.full-width{width:100%;box-sizing:border-box;}
+.full-width{width:100%;box-sizing:border-box;display:block;}
 .al-l{text-align:left;}
 .al-r{text-align:right;}
 .al-c{text-align:center;}
@@ -97,8 +97,7 @@ a.btn{text-decoration:none;text-align:center;}
 .color-label{display:inline-block;margin-right:5px;
   &:before{content:"";width:10px;height:10px;display:inline-block;vertical-align:middle;border-radius:3px;}
   &.color1:before{background:#ffeb00}
-  &.color2:before{background:#008672}
-  &.color3:before{background:#a2eeef}
-  &.color4:before{background:#d73a4a}
+  &.color2:before{background:#a2eeef}
+  &.color3:before{background:#d73a4a}
   span{display:inline-block;vertical-align:middle;margin-left:5px;}
 }

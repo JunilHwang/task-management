@@ -9,10 +9,10 @@
           </button>
         </li>
         <li>
-          <button type="button" class="btn btn-social-naver full-width">
+          <a href="#" id="btn-naver-custom" @click.prevent="naverLoginOpen" class="btn btn-social-naver full-width">
             <span class="btn-icon"><img src="@/assets/naver-icon.png" alt="n" height="16"></span>
             Login with Naver
-          </button>
+          </a>
         </li>
         <li>
           <button type="button" class="btn btn-social-facebook full-width">
@@ -34,30 +34,72 @@
   import Api from '@/middleware/Api.js'
   export default {
     props: ['send'],
+    created () {
+      const $s = require('scriptjs')
+      $s('/js/naver.sdk.js', () => {
+        const naverLogin = new naver.LoginWithNaverId({
+          clientId: "onePygBsyBG0fbTiQKSI",
+          callbackUrl: "http://localhost:8080/naver/oauth",
+          isPopup: true
+          //loginButton: {color: "green", type: 3, height: 60}
+        })
+        /* (4) 네아로 로그인 정보를 초기화하기 위하여 init을 호출 */
+        naverLogin.init();
+
+        const sel = ele => document.querySelector(ele)
+        const loginBtn = sel('#btn-naver-custom')
+        
+        /* (4-1) 임의의 링크를 설정해줄 필요가 있는 경우 */
+        loginBtn.href = naverLogin.generateAuthorizeUrl()
+      })
+    },
     methods: {
-      signInByGoogle () {
-        this.$gAuth.signIn()
-        .then(user => {
-          const member = {
-            type: 'google',
-            access_token: user.Zi.access_token,
-            id: user.El,
-            name: user.w3.ig,
-            email: user.w3.U3,
-            photo_src: user.w3.Paa
-          }
-          this.$store.commit('loggedIn', member)
-          this.$store.commit('closeLayer')
-          Api.postMember(member).then(response => {
-            console.log(response.data)
-          })
-          Api.getProjectListOfMain(this.$store.state.member.id).then(response => {
-            this.$store.commit('setState', ['projectList', response.data.list])
-          })
-        })
-        .catch(error  => {
-          throw error
-        })
+      naverLoginOpen (e) {
+        const url = e.target.href
+        
+        const dualScreenLeft = window.screenLeft || window.screenX;
+        const dualScreenTop = window.screenTop || window.screenY;
+
+        const width = window.innerWidth || document.documentElement.clientWidth || screen.width;
+        const height = window.innerHeight || document.documentElement.clientHeight || screen.height;
+
+        const w = 600, h = 600
+        const left = ((width / 2) - (w / 2)) + dualScreenLeft;
+        const top = ((height / 2) - (h / 2)) + dualScreenTop;
+
+        window.open(url, 'naver login', `scrollbars=yes, width=${w}, height=${h}, top=${top}, left=${left}`)
+      },
+      async signInByGoogle () {
+        // google 에서 user 정보 가져오기 
+        const user = await this.$gAuth.signIn()
+        const member = {
+          google_access_token: user.Zi.access_token,
+          id: user.El,
+          name: user.w3.ig,
+          email: user.w3.U3,
+          photo_src: user.w3.Paa
+        }
+
+        // DB에 회원 정보 등록 및 가져오기
+        const memberResponse = await Api.postMember(member)
+        const memberData = memberResponse.data
+        if (!memberData.success) {
+          throw memberData.err
+          return
+        }
+
+        // 프로젝트 정보 가져오기
+        const projectResponse = await Api.getProjectListOfMain(member.id)
+        const projectData = projectResponse.data
+        if (!projectData.success) {
+          throw projectData.err
+          return
+        }
+
+        // store에 저장 및 layer 닫기
+        this.$store.commit('loggedIn', memberData.member)
+        this.$store.commit('closeLayer')   
+        this.$store.commit('setState', ['projectList', projectData.list])
       },
     }
   }  
@@ -67,7 +109,7 @@
   @import "@/assets/scss/_lib.scss";
   .login{width:250px;}
   .social-buttons li+li{margin-top:5px;}
-  .btn{text-shadow:none;border-radius:3px;text-align:left;height:40px;
+  .btn{text-shadow:none;border-radius:3px;text-align:left;height:40px;line-height:26px;
     i{font-size:18px;}
   }
   .btn-icon{margin-top:-2px;width:60px;display:inline-block;text-align:center;}

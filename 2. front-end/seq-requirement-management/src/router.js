@@ -24,6 +24,14 @@ export default new Router({
       component: () => import(`${view}/google.vue`)
     },
     {
+      path: '/github',
+      component: () => import(`${view}/github.vue`)
+    },
+    {
+      path: '/naver/oauth',
+      component: () => import(`${view}/naver-oauth.vue`)
+    },
+    {
       path: '/member/login',
       component: () => import(`${member}/login.vue`)
     },
@@ -70,6 +78,10 @@ export default new Router({
             {
               path: 'task/create',
               component: () => import(`${task}/create.vue`)
+            },
+            {
+              path: 'task/update/:tidx',
+              component: () => import(`${task}/update.vue`)
             }
           ]
         },

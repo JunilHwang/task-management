@@ -53,8 +53,7 @@
       return {
         capsLock: false
       }
-    }
-    ,
+    },
     methods: {
       login (e) {
         const frm = e.target

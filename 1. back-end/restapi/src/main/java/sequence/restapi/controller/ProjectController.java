@@ -1,6 +1,9 @@
 package sequence.restapi.controller;
 
-import org.apache.ibatis.session.SqlSessionException;
+import java.lang.Exception;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.*;
 import sequence.restapi.mapper.ProjectMapper;
@@ -29,9 +32,20 @@ public class ProjectController {
         try {
             projectMapper.postProject(data);
             projectMapper.postProjectAccess(data);
-            obj.put("lastId", data.get("pidx"));
-        } catch (SqlSessionException e) {
+            String  title = data.get("title").toString(),
+                    writer = data.get("writer").toString(),
+                    pidx = data.get("pidx").toString();
+            String access_token = Jwts.builder()
+                    .setHeaderParam("typ", "JWT")
+                    .setHeaderParam("issueDate", System.currentTimeMillis())
+                    .setSubject(title)
+                    .signWith(SignatureAlgorithm.HS512, writer + pidx)
+                    .compact();
+            data.put("access_token", access_token);
+            projectMapper.putProjectToken(data);
+        } catch (Exception e) {
             success = false;
+            System.out.println(e);
             obj.put("err", e);
         }
         obj.put("success", success);
@@ -50,7 +64,7 @@ public class ProjectController {
         try {
             List list = projectMapper.getProjectList(id);
             obj.put("list", list);
-        } catch (SqlSessionException e) {
+        } catch (Exception e) {
             obj.put("err", e);
         }
         obj.put("success", success);
@@ -71,7 +85,7 @@ public class ProjectController {
         try {
             HashMap data = projectMapper.getProject(pidx);
             obj.put("project", data);
-        } catch (SqlSessionException e) {
+        } catch (Exception e) {
             obj.put("err", e);
         }
         obj.put("success", success);
@@ -91,7 +105,7 @@ public class ProjectController {
         try {
             data.put("pidx", pidx);
             projectMapper.putProject(data);
-        } catch (SqlSessionException e) {
+        } catch (Exception e) {
             success = false;
             obj.put("err", e);
         }
@@ -110,7 +124,7 @@ public class ProjectController {
         Boolean success = true;
         try {
             projectMapper.deleteProject(pidx);
-        } catch (SqlSessionException e) {
+        } catch (Exception e) {
             success = false;
             obj.put("err", e);
         }

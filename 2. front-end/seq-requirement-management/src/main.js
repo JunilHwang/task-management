@@ -39,14 +39,14 @@ Vue.prototype.getDateFormat = time => {
   return moment(date).format('YYYY-MM-DD HH:mm')
 }
 const getFlowDate = Vue.prototype.getFlowDate = time => {
-  const computedTime = +new Date() - time
+  const computedTime = +new Date() - (+new Date(time))
   const abs = Math.abs(computedTime)
   const s = 60 * 1000
   const i = s * 60
   const h = i * 24
   let newTime
   if (abs < s) {
-    newTime = computedTime + '초'
+    newTime = ~~(computedTime / 1000) + '초'
   } else if (abs < i) {
     newTime = ~~(computedTime / s) + '분'
   } else if (abs < h) {

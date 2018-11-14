@@ -9,7 +9,17 @@
         SELECT count(*) as cnt FROM member where email = #{email}
     </select>
 
+    <select id="getMember" resultType="HashMap" parameterType="String">
+        SELECT * FROM member where id = #{id}
+    </select>
+
     <insert id="postMember" parameterType="HashMap">
-        INSERT INTO member SET `id` = #{id}, `name` = #{name}, `email` = #{email}, register_date = now();
+        INSERT INTO member SET
+        `google_access_token` = #{google_access_token},
+        `id` = #{id},
+        `name` = #{name},
+        `email` = #{email},
+        `photo_src` = #{photo_src},
+        register_date = now();
     </insert>
 </mapper>

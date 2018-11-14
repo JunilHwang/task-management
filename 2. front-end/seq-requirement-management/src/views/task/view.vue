@@ -1,6 +1,5 @@
 <template>
   <section class="task-view">
-    <h3 class="content-title">요구사항 카드 상세 조회</h3>
     <template v-if="task !== null">
       <div class="task-wrap">
         <header class="task-title">
@@ -17,7 +16,7 @@
             <span v-html="getRange(task.start_date, task.limit_date)" />
           </p>
           <p>
-            <strong class="lbl">남은시간</strong>
+            <strong class="lbl">종료</strong>
             <span v-html="getRemaining(task.limit_date)" />
           </p>
         </div>
@@ -26,7 +25,7 @@
       </div>
       <div class="btn-group">
         <router-link :to="`/project/view/${task.pidx}`" class="btn default">목록으로</router-link>
-        <router-link :to="`/task/update/${task.idx}`" class="btn submit">수정하기</router-link>
+        <router-link :to="`/project/view/${task.pidx}/task/update/${task.tidx}`" class="btn submit">수정하기</router-link>
         <a href="#" class="btn submit" @click="deleteTask">삭제하기</a>
         <a v-if="task.state != 1" href="#" class="btn complete" @click.prevent="setState(1)">완료</a>
         <a v-if="task.state != 2" href="#" class="btn error" @click.prevent="setState(2)">에러</a>
@@ -69,6 +68,7 @@
         })
       },
       deleteTask () {
+        if (!confirm('정말로 삭제하시겠습니까?')) return
         Api.deleteTask(this.tidx).then(response => {
           const data = response.data
           if (data.success) {
