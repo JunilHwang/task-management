@@ -4,31 +4,25 @@
       <h3 class="logo"><router-link to="/project">Project Task Management</router-link></h3>
       <ul class="gnb">
         <li><router-link to="/project">프로젝트 관리</router-link></li>
-        <!-- <li><router-link to="/member/mypage">마이페이지</router-link></li> -->
-        <li v-if="$store.state.member"><a href="#" @click="openProjectPopup">프로젝트 생성</a></li>
-        <li v-if="!$store.state.member"><a href="#" @click="openLogin">로그인</a></li>
-        <li v-else><a href="#" @click="logout">로그아웃</a></li>
+        <li><a href="#" @click.prevent="openProjectAccess">프로젝트 엑세스</a></li>
+        <li v-if="$store.state.member"><a href="#" @click.prevent="openProjectPopup">프로젝트 생성</a></li>
+        <li v-if="!$store.state.member"><a href="#" @click.prevent="openLogin">로그인</a></li>
+        <li v-else><a href="#" @click.prevent="logout">로그아웃</a></li>
       </ul>
-      <layerTemplate v-if="$store.state.layerState === 'loginPopup'" layerContent="login"></layerTemplate>
-      <layerTemplate v-if="$store.state.layerState === 'projectPopup'" layerContent="project_create"></layerTemplate>
     </div>
   </header>
 </template>
 <script>
-  import layerTemplate from '@/components/layerTemplate'
   export default {
-    components: {
-      layerTemplate
-    },
-    data () {
-      return {}
-    },
     methods: {
       openLogin () {
         this.$store.commit('openLayer', 'loginPopup')
       },
       openProjectPopup () {
         this.$store.commit('openLayer', 'projectPopup')
+      },
+      openProjectAccess () {
+        this.$store.commit('openLayer', 'projectAccess')
       },
       logout () {
         this.$store.commit('setState', ['projectList', []])

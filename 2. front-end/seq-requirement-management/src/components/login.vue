@@ -81,20 +81,10 @@
         }
 
         // DB에 회원 정보 등록 및 가져오기
-        const memberResponse = await Api.postMember(member)
-        const memberData = memberResponse.data
-        if (!memberData.success) {
-          throw memberData.err
-          return
-        }
+        const memberData = await this.getApiData(Api.postMember(member))
 
         // 프로젝트 정보 가져오기
-        const projectResponse = await Api.getProjectListOfMain(member.id)
-        const projectData = projectResponse.data
-        if (!projectData.success) {
-          throw projectData.err
-          return
-        }
+        const projectData = await this.getApiData(Api.getProjectListOfMain(member.id))
 
         // store에 저장 및 layer 닫기
         this.$store.commit('loggedIn', memberData.member)

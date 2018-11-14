@@ -69,6 +69,16 @@ Vue.prototype.getRemaining = (date, toString = true) => {
   return parseInt(remaining) > 0 ? `${remaining} 지남` : `${remaining.replace('-', '')} 남음`
 }
 
+Vue.prototype.getApiData = async (promise) => {
+  const response = await promise
+  const data = response.data
+  if (!data.success) {
+    throw data.err
+    return
+  }
+  return data
+}
+
 Vue.use(GAuth, {
   clientId: googleKey.web.client_id,
   scope: 'profile email https://www.googleapis.com/auth/plus.login'

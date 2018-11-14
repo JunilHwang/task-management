@@ -21,6 +21,7 @@ const Api = class {
   postComment () { throw `don't postComment impolemented` }
   postCommentReply () { throw `don't postCommentReply impolemented` }
   deleteComment () { throw `don't deleteComment impolemented` }
+  async valid () { throw `don't valid impolemented` }
 }
 const baseURL = 'http://localhost:8090/api'
 const RestApi = class extends Api {

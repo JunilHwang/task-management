@@ -1,6 +1,6 @@
 <template>
   <div class="wrap">
-    <site-header></site-header>
+    <site-header />
     <div class="site-content">
       <div class="container">
         <div class="container-inner">
@@ -8,17 +8,20 @@
         </div>
       </div>
     </div>
-    <site-footer></site-footer>
+    <site-footer />
+    <layer-list />
   </div>
 </template>
 
 <script>
   import Header from '@/components/header.vue'
   import Footer from '@/components/footer.vue'
+  import LayerList from '@/components/layerList.vue'
   export default {
     components: {
       'site-header': Header,
-      'site-footer': Footer
+      'site-footer': Footer,
+      'layer-list': LayerList,
     }
   }
 </script>
