@@ -13,6 +13,7 @@
         <router-link to="/project" class="btn point">프로젝트 목록</router-link>
         <router-link :to="`/project/setting/${projectData.pidx}`" class="btn point">프로젝트 설정</router-link>
         <router-link :to="`/project/view/${$route.params.pidx}/task/create`" class="btn submit">테스크 추가</router-link>
+        <a href="#" class="btn submit" @click.prevent="copyToken">토큰 복사</a>
       </div>
     </section>
   </section>
@@ -25,31 +26,33 @@
     components: {
       layerTemplate
     },
+    computed: {
+      projectData () { return this.$store.state.projectData }
+    },
     async created () {
       const pidx = this.$route.params.pidx
       const uri = decodeURIComponent(this.$route.params.uri)
-      Api.getProject(pidx).then(response => {
-        const projectData = response.data.project
-        this.$store.commit('setState', ['projectData', projectData])
-        this.$store.commit('setState', ['pidx', projectData.idx])
-      })
+      const data = await this.getApiData(Api.getProject(pidx))
+      this.$store.commit('setState', ['projectData', data.project])
+      this.$store.commit('setState', ['pidx', data.project.idx])
     },
     data () {
       return {
         uri: this.$route.params.uri
       }
     },
-    computed: {
-      projectData () {
-        return this.$store.state.projectData
-      }
-    },
     methods: {
-      setCardList () {
-        const store = this.$store
-        Api.getCardList(store.state.pidx, store.state.selectedCategory).then(res => {
-          store.commit('setState', ['cardList', res.rows])
-        })
+      copyToken () {
+        const input = document.createElement('input')
+        input.type = 'text'
+        input.value = this.projectData.access_token
+        input.id = 'copy'
+        console.log(input)
+        document.body.appendChild(input)
+        input.select()
+        document.execCommand('copy')
+        input.remove()
+        alert('토큰이 복사되었습니다.');
       }
     }
   }

@@ -52,6 +52,33 @@ public class ProjectController {
         return obj;
     }
 
+
+    /**
+     * 프로젝트 엑세스 등록
+     * consumes = {"application/json"} 을 통하여 json string을 hashmap 혹은 list로 받아올 수 있다.
+     * @Param params = {mid, access_token}
+     * @return {success, err}
+     */
+    @PostMapping(value="/api/project/access", consumes = {"application/json"})
+    HashMap postProjectAaccess (@RequestBody HashMap params) {
+        HashMap obj = new HashMap();
+        Boolean success = true;
+        try {
+            int cnt = projectMapper.getAlreadyAccess(params);
+            if (cnt == 0) {
+                projectMapper.postProjectAccessByToken(params);
+            } else {
+                obj.put("msg", "이미 등록된 프로젝트입니다.");
+            }
+        } catch (Exception e) {
+            success = false;
+            System.out.println(e);
+            obj.put("err", e);
+        }
+        obj.put("success", success);
+        return obj;
+    }
+
     /**
      * 프로젝트 목록을 가져온다.
      * @param id : 데이터베이스에 등록된 회원의 id값.
@@ -68,7 +95,6 @@ public class ProjectController {
             obj.put("err", e);
         }
         obj.put("success", success);
-        System.out.println(obj);
         return obj;
     }
 
