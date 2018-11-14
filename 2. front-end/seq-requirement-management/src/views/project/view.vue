@@ -47,7 +47,6 @@
         input.type = 'text'
         input.value = this.projectData.access_token
         input.id = 'copy'
-        console.log(input)
         document.body.appendChild(input)
         input.select()
         document.execCommand('copy')
