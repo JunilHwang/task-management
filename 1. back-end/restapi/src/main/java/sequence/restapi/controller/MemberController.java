@@ -25,12 +25,15 @@ public class MemberController {
         HashMap obj = new HashMap();
         String result = "already inserted";
         Boolean success = true;
+        HashMap member = null;
         try {
             int cnt = memberMapper.getMemberCount(data.get("email").toString());
             if (cnt == 0) {
                 memberMapper.postMember(data);
                 result = "member inserted";
             }
+            member = memberMapper.getMember(data.get("id").toString());
+            obj.put("member", member);
             obj.put("result", result);
         } catch (Exception e) {
             success = false;
