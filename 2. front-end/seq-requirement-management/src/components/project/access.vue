@@ -36,19 +36,24 @@
       }
     },
     methods: {
-      async projectCreate (e) {
+      projectCreate (e) {
         const frm = e.target
-        const writer = this.$store.state.member.id
-        const params = {
+        const data = {
+          writer: this.$store.state.member.id,
           title: frm.title.value,
-          description: frm.description.value,
-          writer
+          description: frm.description.value
         }
-        await this.getApiData(Api.postProject(params))
-        alert('프로젝트가 추가되었습니다.')
-        const data = await this.getApiData(Api.getProjectListOfMain(writer))
-        this.$store.commit('setState', ['projectList', data.list])
-        this.$store.commit('closeLayer')
+        Api.postProject(data).then(res => {
+          if (res.data.success) {
+            Api.getProjectListOfMain(this.$store.state.member.id).then(res => {
+              alert('프로젝트가 추가되었습니다.')
+              this.$store.commit('setState', ['projectList', res.data.list])
+              this.$store.commit('closeLayer')
+            })
+          } else {
+            throw res.data.err
+          }
+        })
       },
       requiredCheck () {
         const frm = document.querySelector('#projectCreate')

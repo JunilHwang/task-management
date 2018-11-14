@@ -11,10 +11,11 @@
   import category from './category'
   import login from './login'
   import project_create from './project/create'
+  import project_access from './project/access'
   export default {
     props: ['layerContent', 'send'],
     components: {
-      category, login, project_create
+      category, login, project_create, project_access
     },
     methods: {
       close () {

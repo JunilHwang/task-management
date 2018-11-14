@@ -76,6 +76,7 @@
   import _ from 'lodash'
   export default {
     async created () {
+      console.log(this.$store.state.member)
       if (this.$store.state.member) {
         this.setProjectList()
       }

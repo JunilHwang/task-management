@@ -51,33 +51,20 @@
       }
     },
     methods: {
-      setState (state) {
+      async setState (state) {
         const tidx = this.tidx
-        Api.putTaskState({state, tidx}).then(response => {
-          response.data.success ? this.getTask() : console.log(response.data.err)
-        })
+        const data = await this.getApiData(Api.putTaskState({state, tidx}))
+        this.getTask()
       },
-      getTask () {
-        Api.getTask(this.tidx).then(response => {
-          const data = response.data
-          if (data.success) {
-            this.task = data.task
-          } else {
-            console.log(data.err)
-          }
-        })
+      async getTask () {
+        const data = await this.getApiData(Api.getTask(this.tidx))
+        this.task = data.task
       },
-      deleteTask () {
+      async deleteTask () {
         if (!confirm('정말로 삭제하시겠습니까?')) return
-        Api.deleteTask(this.tidx).then(response => {
-          const data = response.data
-          if (data.success) {
-            alert('삭제되었습니다.')
-            this.$router.push('/project/view/' + this.task.pidx)
-          } else {
-            console.log(data.err)
-          }
-        })
+        const data = await this.getApiData(Api.deleteTask(this.tidx))
+        alert('삭제되었습니다.')
+        this.$router.push('/project/view/' + this.task.pidx)
       }
     }
   }
