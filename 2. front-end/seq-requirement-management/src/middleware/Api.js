@@ -6,6 +6,7 @@ const Api = class {
   postMember () { throw `don't postMember impolemented` }
   getMember () { throw `don't getMember impolemented` }
   postProject () { throw `don't postProject impolemented` }
+  postProjectAccess () { throw `don't postProjectAccess impolemented` }
   getProjectListOfMain () { throw `don't getProjectListOfMain impolemented` }
   getProject () { throw `don't getProject impolemented` }
   postTask () { throw `don't postTask impolemented` }
@@ -29,6 +30,7 @@ const RestApi = class extends Api {
   postMember (params) { return axios.post(`${baseURL}/member`, params) }
   getMember () { }
   postProject (params) { return axios.post(`${baseURL}/project`, params) }
+  postProjectAccess (params) { return axios.post(`${baseURL}/project/access`, params) }
   getProjectListOfMain (id) { return axios.get(`${baseURL}/projects/${id}`) }
   getProject (pidx) { return axios.get(`${baseURL}/project/${pidx}`) }
   postTask (params) { return axios.post(`${baseURL}/task`, params) }

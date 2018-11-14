@@ -1,21 +1,14 @@
 <template>
   <div class="project-create">
-    <h3 class="layer-title">프로젝트 생성</h3>
-    <form action="" method="post" @submit="projectCreate" id="projectCreate" @keyup="requiredCheck">
-      <fieldset><legend>프로젝트 생성</legend>
+    <h3 class="layer-title">프로젝트 엑세스</h3>
+    <form action="" method="post" @submit="projectAccess" @keyup="requiredCheck" name="access">
+      <fieldset><legend>프로젝트 엑세스</legend>
         <ul class="fields">
           <li>
             <label class="input-label">
               <span class="pre"><i class="fas fa-file-signature"></i></span>
-              <input type="text" name="title" class="full-width" required>
-              <span class="lbl">제목</span>
-            </label>
-          </li>
-          <li>
-            <label class="input-label">
-              <span class="pre"><i class="fas fa-align-left"></i></span>
-              <input type="text" name="description" class="full-width" required>
-              <span class="lbl">간략 설명</span>
+              <input type="text" name="access_token" class="full-width" required>
+              <span class="lbl">엑세스 토큰 입력</span>
             </label>
           </li>
           <li v-if="required">
@@ -31,37 +24,28 @@
   import Api from '@/middleware/Api.js'
   export default {
     data () {
-      return {
-        required: false
-      }
+      return { required: false }
     },
     methods: {
-      projectCreate (e) {
-        const frm = e.target
-        const data = {
-          writer: this.$store.state.member.id,
-          title: frm.title.value,
-          description: frm.description.value
+      async projectAccess (e) {
+        const access_token = e.target.access_token.value
+        const mid = this.$store.state.member.id
+        const accessData = await this.getApiData(Api.postProjectAccess({access_token, mid}))
+        if (accessData.msg) {
+          alert(accessData.msg)
+          return
         }
-        Api.postProject(data).then(res => {
-          if (res.data.success) {
-            Api.getProjectListOfMain(this.$store.state.member.id).then(res => {
-              alert('프로젝트가 추가되었습니다.')
-              this.$store.commit('setState', ['projectList', res.data.list])
-              this.$store.commit('closeLayer')
-            })
-          } else {
-            throw res.data.err
-          }
-        })
+        alert('프로젝트가 추가되었습니다.')
+        const data = await this.getApiData(Api.getProjectListOfMain(mid))
+        this.$store.commit('setState', ['projectList', data.list])
+        this.$store.commit('closeLayer')
       },
       requiredCheck () {
-        const frm = document.querySelector('#projectCreate')
-        this.required = frm.title.value.length > 0 && frm.description.value.length > 0
+        this.required = document.forms.access.access_token.value.length
       }
     },
     mounted () {
-      document.querySelector('#projectCreate').title.focus()
+      document.forms.access.access_token.focus()
     },
     props: ['send'],
   }  

@@ -28,11 +28,9 @@
     async created () {
       const pidx = this.$route.params.pidx
       const uri = decodeURIComponent(this.$route.params.uri)
-      Api.getProject(pidx).then(response => {
-        const projectData = response.data.project
-        this.$store.commit('setState', ['projectData', projectData])
-        this.$store.commit('setState', ['pidx', projectData.idx])
-      })
+      const data = await this.getApiData(Api.getProject(pidx))
+      this.$store.commit('setState', ['projectData', data.project])
+      this.$store.commit('setState', ['pidx', data.project.idx])
     },
     data () {
       return {
@@ -40,17 +38,7 @@
       }
     },
     computed: {
-      projectData () {
-        return this.$store.state.projectData
-      }
-    },
-    methods: {
-      setCardList () {
-        const store = this.$store
-        Api.getCardList(store.state.pidx, store.state.selectedCategory).then(res => {
-          store.commit('setState', ['cardList', res.rows])
-        })
-      }
+      projectData () { return this.$store.state.projectData }
     }
   }
 </script>
