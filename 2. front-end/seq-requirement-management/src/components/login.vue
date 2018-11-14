@@ -72,6 +72,7 @@
       async signInByGoogle () {
         // google 에서 user 정보 가져오기 
         const user = await this.$gAuth.signIn()
+        console.log(user)
         const member = {
           google_access_token: user.Zi.access_token,
           id: user.El,
