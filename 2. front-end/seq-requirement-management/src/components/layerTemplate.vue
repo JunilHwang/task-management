@@ -12,10 +12,11 @@
   import login from './login'
   import project_create from './project/create'
   import project_access from './project/access'
+  import github_repository from './project/gitRepoAdd'
   export default {
     props: ['layerContent', 'send'],
     components: {
-      category, login, project_create, project_access
+      category, login, project_create, project_access, github_repository
     },
     methods: {
       close () {
