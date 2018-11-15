@@ -12,7 +12,7 @@ const RestApi = class {
   postProjectAccess (params) { return axios.post(`${baseURL}/project/access`, params) }
   getProjectListOfMain (id) { return axios.get(`${baseURL}/projects/${id}`) }
   getProject (pidx) { return axios.get(`${baseURL}/project/${pidx}`) }
-  putProject (params) { return axios.post(`${baseURL}/project`, params) }
+  putProject (params) { return axios.put(`${baseURL}/project`, params) }
 
   postTask (params) { return axios.post(`${baseURL}/task`, params) }
   getTaskList (pidx) { return axios.get(`${baseURL}/tasks/${pidx}`) }
@@ -35,7 +35,7 @@ const RestApi = class {
   putComment (params) { return axios.put(`${baseURL}/comment`, params) }
   deleteComment (cidx) { return axios.delete(`${baseURL}/comment/${cidx}`) }
   
-  getRepo () {}
+  getRepos (pidx) { return axios.get(`${baseURL}/github/repos/${pidx}`) }
   postRepo (params) { return axios.post(`${baseURL}/github/repo`, params) }
 }
 

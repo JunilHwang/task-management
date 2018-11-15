@@ -2,7 +2,22 @@
   <section>
     <div class="setting-container">
       <h3 class="setting-title">Github API 연동</h3>
-      
+      <ul class="connected-list">
+        <li v-for="(repo, key) in repos" :key="key">
+          <p class="full_name">
+            <span class="icon-wrap"><i class="fab fa-github"></i></span>
+            <span class="icon-after" v-html="repo.full_name" />
+          </p>
+          <p class="description">
+            <span class="icon-wrap"><i class="fas fa-align-left"></i></span>
+            <span class="icon-after" v-html="repo.description || '설명이 없습니다.'" />
+          </p>
+          <p class="register_date">
+            <span class="icon-wrap"><i class="far fa-calendar-alt"></i></span>
+            <span class="icon-after" v-html="moment(repo.register_date).format('MM. DD HH:mm')"></span>
+          </p>
+       </li>
+      </ul>
       <form action="" method="post" @submit="openGitRepositoryAdd">
         <fieldset>
           <ul class="fields">
@@ -16,6 +31,9 @@
             <li>
               <button type="submit" class="btn btn-full submit">Repository 선택</button>
             </li>
+            <li>
+              <a href="https://github.com/settings/tokens/new" target="_blank" class="btn btn-full default">access token 생성</a>
+            </li>
           </ul>
         </fieldset>
       </form>
@@ -23,21 +41,46 @@
   </section>
 </template>
 <script>
-  // import Api from '@/middleware/Api.js'
+  import Api from '@/middleware/Api.js'
   export default {
     computed: {
-      projectdata () {
-        return this.$store.state.projectData
+      repos () {
+        return this.$store.state.repos
+      }
+    },
+    created () {
+      this.getRepos()
+    },
+    data () {
+      return {
+        pidx: this.$route.params.pidx
       }
     },
     methods: {
       openGitRepositoryAdd (e) {
         this.$store.commit('setState', ['githubToken', e.target.github_token.value])
         this.$store.commit('openLayer', 'github_repository')
+      },
+      async getRepos () {
+        const data = await this.getApiData(Api.getRepos(this.pidx))
+        this.$store.commit('setState', ['repos', data.repos])
       }
-    }
+    },
+    props: ['projectData']
   }
 </script>
-<style>
-
+<style lang="scss">
+.connected-list{margin-bottom:10px;
+  li{display:block;border:1px solid #ddd;padding:10px;border-radius:3px;
+    &:hover{border-color:#000;}
+    +li{margin-top:3px;}
+  }
+  p{display:flex;align-items:center;line-height:100%;
+    +p{margin-top:10px;}
+    .icon-wrap{margin-right:10px;width:15px;text-align:center;}
+  }
+  .full_name{font-size:17px;}
+  .description{font-size:13px;color:#444;}
+  .register_date{font-size:11px;color:#777;}
+}
 </style>

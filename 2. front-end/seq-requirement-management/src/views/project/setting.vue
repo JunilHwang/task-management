@@ -1,18 +1,19 @@
 <template>
   <section>
-    <div class="setting-wrap">
-      <settingDefault />
+    <div class="setting-wrap" v-if="projectData">
       <!-- <settingMember></settingMember> -->
-      <settingGithub />
-      <settingCalendar />
+      <settingDefault :projectData="projectData" />
+      <settingGithub :projectData="projectData" />
+      <settingCalendar :projectData="projectData" />
     </div>
-    <div class="btn-group btm">
+    <div class="btn-group btm" v-if="projectData">
       <router-link :to="`/project/view/${projectData.writer}/${projectData.uri}`" class="btn point">설정완료</router-link>&nbsp;
     </div>
   </section>
 </template>
 
 <script>
+  import Api from '@/middleware/Api.js'
   export default {
     components: {
       settingDefault: () => import(`@/components/project/setting-default`),
@@ -20,10 +21,15 @@
       settingGithub: () => import(`@/components/project/setting-github`),
       settingCalendar: () => import(`@/components/project/setting-calendar`)
     },
-    computed: {
-      projectData () {
-        return this.$store.state.projectData
+    data () {
+      return {
+        pidx: this.$route.params.pidx,
+        projectData: null
       }
+    },
+    async created () {
+      const data = await this.getApiData(Api.getProject(this.pidx))
+      this.projectData = data.project
     }
   }
 </script>
