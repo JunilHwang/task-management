@@ -1,32 +1,32 @@
 <template>
   <div class="login">
-      <h3 class="layer-title">사이트 로그인</h3>
-      <ul class="social-buttons">
-        <li>
-          <button type="button" class="btn btn-social-google full-width" @click="signInByGoogle">
-            <span class="btn-icon"><i class="fab fa-google"></i></span>
-            Login with Google
-          </button>
-        </li>
-        <li>
-          <a href="#" id="btn-naver-custom" @click.prevent="naverLoginOpen" class="btn btn-social-naver full-width">
-            <span class="btn-icon"><img src="@/assets/naver-icon.png" alt="n" height="16"></span>
-            Login with Naver
-          </a>
-        </li>
-        <li>
-          <button type="button" class="btn btn-social-facebook full-width">
-            <span class="btn-icon"><i class="fab fa-facebook-f"></i></span>
-            Login with Facebook
-          </button>
-        </li>
-        <li>
-          <button type="button" class="btn btn-social-kakao full-width">
-            <span class="btn-icon"><i class="fas fa-comment"></i></span>
-            Login with Kakao
-          </button>
-        </li>
-      </ul>
+    <h3 class="layer-title">사이트 로그인</h3>
+    <ul class="social-buttons">
+      <li>
+        <button type="button" class="btn btn-social-google full-width" @click="signInByGoogle">
+          <span class="btn-icon"><i class="fab fa-google"></i></span>
+          Login with Google
+        </button>
+      </li>
+      <li>
+        <a href="#" id="btn-naver-custom" @click.prevent="naverLoginOpen" class="btn btn-social-naver full-width">
+          <span class="btn-icon"><img src="@/assets/naver-icon.png" alt="n" height="16"></span>
+          Login with Naver
+        </a>
+      </li>
+      <li>
+        <button type="button" class="btn btn-social-facebook full-width">
+          <span class="btn-icon"><i class="fab fa-facebook-f"></i></span>
+          Login with Facebook
+        </button>
+      </li>
+      <li>
+        <button type="button" class="btn btn-social-kakao full-width" @click="signInKakaotalk">
+          <span class="btn-icon"><i class="fas fa-comment"></i></span>
+          Login with Kakao
+        </button>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -91,20 +91,38 @@
         this.$store.commit('closeLayer')   
         this.$store.commit('setState', ['projectList', projectData.list])
       },
+      signInKakaotalk(){
+        Kakao.init('62972c20fe0428fe86b0bf5339114c75')
+        Kakao.Auth.login({
+          success: function(authObj) {
+            const member = {
+              kakao_access_token: authObj.access_toekn,
+              id: user.El,
+              name: user.w3.ig,
+              email: user.w3.U3,
+              photo_src: user.w3.Paa
+            }
+            alert(JSON.stringify(authObj));
+          },
+          fail: function(err) {
+            alert(JSON.stringify(err));
+          }
+        })
+      }
     }
   }  
 </script>
 
 <style lang="scss" scoped>
-  @import "@/assets/scss/_lib.scss";
-  .login{width:250px;}
-  .social-buttons li+li{margin-top:5px;}
-  .btn{text-shadow:none;border-radius:3px;text-align:left;height:40px;line-height:26px;
-    i{font-size:18px;}
-  }
-  .btn-icon{margin-top:-2px;width:60px;display:inline-block;text-align:center;}
-  .btn-social-google{background:$color-google;}
-  .btn-social-naver{background:$color-naver;}
-  .btn-social-facebook{background:$color-facebook;}
-  .btn-social-kakao{background:$color-kakao;color:#3c1e1e;}
+@import "@/assets/scss/_lib.scss";
+.login{width:250px;}
+.social-buttons li+li{margin-top:5px;}
+.btn{text-shadow:none;border-radius:3px;text-align:left;height:40px;line-height:26px;
+  i{font-size:18px;}
+}
+.btn-icon{margin-top:-2px;width:60px;display:inline-block;text-align:center;}
+.btn-social-google{background:$color-google;}
+.btn-social-naver{background:$color-naver;}
+.btn-social-facebook{background:$color-facebook;}
+.btn-social-kakao{background:$color-kakao;color:#3c1e1e;}
 </style>
