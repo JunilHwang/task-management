@@ -27,7 +27,7 @@
             <dd>
               <p class="list-content">
                 <span class="icon"><i class="fas fa-align-left"></i></span>
-                <span>{{contentPreview(task.description, 50)}}</span>
+                <span>{{contentPreview(task.description, 20)}}</span>
               </p>
               <p class="date range">
                 <span class="icon"><i class="far fa-clock"></i></span>
