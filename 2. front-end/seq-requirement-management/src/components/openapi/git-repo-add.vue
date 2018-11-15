@@ -35,6 +35,10 @@
         const pidx = this.$route.params.pidx
         const params = {pidx, access_url, full_name, access_token}
         const data = await this.getApiData(Api.postRepo(params))
+        if (data.msg) {
+          alert('이미 등록된 repository입니다.')
+          return
+        }
         alert('github repository가 등록되었습니다.')
         this.$store.commit('closeLayer')
       }

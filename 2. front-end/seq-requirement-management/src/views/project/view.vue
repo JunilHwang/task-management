@@ -9,7 +9,6 @@
         <router-view></router-view>
       </section>
       <div class="btn-group">
-        <a href="#" class="btn default" @click.prevent>테스크 삭제 내역</a>
         <router-link to="/project" class="btn point">프로젝트 목록</router-link>
         <router-link :to="`/project/setting/${projectData.pidx}`" class="btn point">프로젝트 설정</router-link>
         <router-link :to="`/project/view/${$route.params.pidx}/task/create`" class="btn submit">테스크 추가</router-link>

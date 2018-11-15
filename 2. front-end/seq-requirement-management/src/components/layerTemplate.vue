@@ -12,7 +12,7 @@
   import login from './login'
   import project_create from './project/create'
   import project_access from './project/access'
-  import github_repository from './openapi/gitRepoAdd'
+  import github_repository from './openapi/git-repo-add'
   export default {
     props: ['layerContent', 'send'],
     components: {

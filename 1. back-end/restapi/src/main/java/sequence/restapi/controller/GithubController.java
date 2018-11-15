@@ -33,7 +33,12 @@ public class GithubController {
         HashMap obj = new HashMap();
         Boolean success = true;
         try {
-            githubMapper.postRepo(params);
+            int cnt = githubMapper.getRepoCount(params);
+            if (cnt == 0) {
+                githubMapper.postRepo(params);
+            } else {
+                obj.put("msg", "이미 등록된 Repository 입니다.");
+            }
         } catch (Exception e) {
             obj.put("err", e);
             success = false;

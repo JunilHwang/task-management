@@ -34,29 +34,24 @@
 <script>
   import Api from '@/middleware/Api.js'
   export default {
-    computed: {
-      projectData () {
-        return this.$store.state.projectData
+    async created () {
+      const data = await this.getApiData(Api.getProject(this.pidx))
+      this.projectData = data.project
+    },
+    data () {
+      return {
+        projectData: [],
+        pidx: this.$route.params.pidx
       }
     },
-    created () {
-      this.setProjectData()
-    },
     methods: {
-      setProjectData () {
-        const _this = this
-
-      },
-      projectDefaultUpdate (e) {
-        const _this = this
+      async projectDefaultUpdate (e) {
         const frm = e.target
         const title = frm.title.value
         const description = frm.description.value
-        const idx = _this.$route.params.idx
-        Api.putProject({title, description, idx}).then(() => {
-          alert('수정되었습니다')
-          _this.setProjectData()
-        })
+        const pidx = this.pidx
+        await this.getApiData(Api.putProject({title, description, pidx}))
+        alert('수정되었습니다')
       }
     }
   }
