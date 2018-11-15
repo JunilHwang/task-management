@@ -13,12 +13,12 @@ public class GithubController {
     @Resource
     GithubMapper githubMapper;
 
-    @GetMapping(value="/api/github/repo/{pidx}")
+    @GetMapping(value="/api/github/repos/{pidx}")
     HashMap getRepo (@PathVariable int pidx) {
         HashMap obj = new HashMap();
         Boolean success = true;
         try {
-            List repos = githubMapper.getRepo(pidx);
+            List repos = githubMapper.getRepos(pidx);
             obj.put("repos", repos);
         } catch (Exception e) {
             obj.put("err", e);

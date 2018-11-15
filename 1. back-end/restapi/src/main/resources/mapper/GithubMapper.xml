@@ -6,7 +6,7 @@
 <mapper namespace="sequence.restapi.mapper.GithubMapper">
 
 
-    <select id="getRepo" parameterType="Integer" resultType="HashMap">
+    <select id="getRepos" parameterType="Integer" resultType="HashMap">
         SELECT * FROM github_repository WHERE pidx = #{pidx}
     </select>
 
@@ -23,6 +23,7 @@
         full_name = #{full_name},
         access_url = #{access_url},
         access_token = #{access_token},
+        description = #{description},
         register_date = now()
     </insert>
 

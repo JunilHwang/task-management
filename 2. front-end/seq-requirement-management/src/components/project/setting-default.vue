@@ -5,7 +5,7 @@
         <h3>기본 설정</h3>
         <span>Default Setting</span>
       </header>
-      <form action="" method="post" @submit="projectDefaultUpdate">
+      <form action="" method="post" @submit="updateProject">
         <fieldset><legend>기본 설정</legend>
           <ul class="fields">
             <li>
@@ -34,18 +34,13 @@
 <script>
   import Api from '@/middleware/Api.js'
   export default {
-    async created () {
-      const data = await this.getApiData(Api.getProject(this.pidx))
-      this.projectData = data.project
-    },
     data () {
       return {
-        projectData: [],
         pidx: this.$route.params.pidx
       }
     },
     methods: {
-      async projectDefaultUpdate (e) {
+      async updateProject (e) {
         const frm = e.target
         const title = frm.title.value
         const description = frm.description.value
@@ -53,6 +48,7 @@
         await this.getApiData(Api.putProject({title, description, pidx}))
         alert('수정되었습니다')
       }
-    }
+    },
+    props: ['projectData']
   }
 </script>
