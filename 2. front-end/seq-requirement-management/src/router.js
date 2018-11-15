@@ -69,21 +69,7 @@ export default new Router({
         },
         {
           path: 'view/:pidx',
-          component: () => import(`${project}/view.vue`),
-          children: [
-            {
-              path: '',
-              component: () => import(`${task}/list.vue`)
-            },
-            {
-              path: 'task/create',
-              component: () => import(`${task}/create.vue`)
-            },
-            {
-              path: 'task/update/:tidx',
-              component: () => import(`${task}/update.vue`)
-            }
-          ]
+          component: () => import(`${project}/view.vue`)
         },
         {
           path: 'setting/:pidx',

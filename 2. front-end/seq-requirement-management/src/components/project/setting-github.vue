@@ -60,7 +60,7 @@
     methods: {
       openGitRepositoryAdd (e) {
         this.$store.commit('setState', ['githubToken', e.target.github_token.value])
-        this.$store.commit('openLayer', 'github_repository')
+        this.$store.commit('openLayer', 'githubRepository')
       },
       async getRepos () {
         const data = await this.getApiData(Api.getRepos(this.pidx))

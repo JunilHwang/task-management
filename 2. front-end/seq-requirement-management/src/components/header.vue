@@ -16,10 +16,10 @@
   export default {
     methods: {
       openLogin () {
-        this.$store.commit('openLayer', 'loginPopup')
+        this.$store.commit('openLayer', 'login')
       },
       openProjectPopup () {
-        this.$store.commit('openLayer', 'projectPopup')
+        this.$store.commit('openLayer', 'projectCreate')
       },
       openProjectAccess () {
         this.$store.commit('openLayer', 'projectAccess')
@@ -38,7 +38,7 @@
     .logo a{font-size:25px;color:$color1;font-weight:300;text-decoration:none}
     >div{display:flex;justify-content:space-between;align-items:center;height:60px;}
     .gnb{display:flex; 
-      a{display:block;margin:0 40px;font-size:17px;font-weight:400;text-decoration:none;transition:.3s;line-height:60px;
+      a{display:block;margin:0 20px;font-size:13px;font-weight:400;text-decoration:none;transition:.3s;line-height:60px;
         &:hover{color:$color1}
         &.router-link-active{position:relative;color:$color1;
           &:after{content:"";display:block;position:absolute;left:0;right:0;bottom:-1px;height:3px;background:$color1;}

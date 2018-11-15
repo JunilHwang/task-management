@@ -1,8 +1,8 @@
 <template>
-  <div class="layer">
+  <div class="layer" v-if="$store.state.layerState !== false">
     <span class="middle"></span><div>
       <a href="#" class="close" @click.prevent="close">X</a>
-      <component :is="layerContent" :send="send" />
+      <component :is="$store.state.layerState" />
     </div>    
   </div>
 </template>
@@ -10,18 +10,23 @@
 <script>
   import category from './category'
   import login from './login'
-  import project_create from './project/create'
-  import project_access from './project/access'
-  import github_repository from './openapi/git-repo-add'
+  import projectCreate from './project/create'
+  import projectAccess from './project/access'
+  import githubRepository from './openapi/git-repo-add'
+  import taskCreate from './task/create'
+  import taskUpdate from './task/update'
   export default {
-    props: ['layerContent', 'send'],
     components: {
-      category, login, project_create, project_access, github_repository
+      category,
+      login,
+      projectCreate,
+      projectAccess,
+      githubRepository,
+      taskCreate,
+      taskUpdate
     },
     methods: {
-      close () {
-        this.$store.commit('closeLayer')
-      }
+      close () { this.$store.commit('closeLayer') }
     }
   }  
 </script>

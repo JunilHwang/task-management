@@ -50,15 +50,16 @@
 </template>
 
 <script>
-  import Api from '@/middleware/Api.js'
+  import Task from '@/middleware/Task.js'
+
   export default {
     async created () {
-      const data = await this.getApiData(Api.getTaskList(this.$route.params.pidx))
-      this.tasks = data.list
+      Task.init(this)
+      Task.getList()
     },
-    data () {
-      return {
-        tasks: []
+    computed: { 
+      tasks () {
+        return this.$store.state.taskList
       }
     }
   }
