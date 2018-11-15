@@ -35,9 +35,11 @@ const RestApi = class {
   deleteComment (cidx) { return axios.delete(`${baseURL}/comment/${cidx}`) }
   
   getRepos (pidx) { return axios.get(`${baseURL}/github/repos/${pidx}`) }
+  getCommits (tidx) { return axios.get(`${baseURL}/github/commit/${tidx}`)}
   postRepo (params) { return axios.post(`${baseURL}/github/repo`, params) }
-  deleteRepo (gridx) { return axios.delete(`${baseURL}/github/repo/${gridx}`) }
   postTaskCommit (params) { return axios.post(`${baseURL}/github/match`, params)}
+  deleteRepo (gridx) { return axios.delete(`${baseURL}/github/repo/${gridx}`) }
+  deleteCommitOnTask (tidx, sha) { return axios.delete(`${baseURL}/github/match/${tidx}/${sha}`) }
 }
 
 export default new RestApi();

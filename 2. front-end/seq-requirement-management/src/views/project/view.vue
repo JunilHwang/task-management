@@ -51,7 +51,7 @@
         input.remove()
         alert('토큰이 복사되었습니다.');
       },
-      matchingOn (state, commit) { this.matching = {state, commit} },
+      matchingOn (state, commit) { this.matching = {state, commit}; console.log(commit)},
       matchingOff () {
         this.matching = {state: false, commit: null}
       }
