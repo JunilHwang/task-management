@@ -1,8 +1,8 @@
 <template>
   <section>
     <div class="setting-wrap" v-if="projectData">
-      <!-- <settingMember></settingMember> -->
       <settingDefault :projectData="projectData" />
+      <settingMember :projectData="projectData" />
       <settingGithub :projectData="projectData" />
       <settingCalendar :projectData="projectData" />
     </div>

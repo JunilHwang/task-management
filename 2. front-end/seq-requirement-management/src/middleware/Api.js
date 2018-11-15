@@ -5,7 +5,7 @@ const RestApi = class {
   constructor () { }
   
   postMember (params) { return axios.post(`${baseURL}/member`, params) }
-  getMember () { }
+  getMemberOnProject (pidx) { return axios.get(`${baseURL}/memberOnProject/${pidx}`) }
   
   postProject (params) { return axios.post(`${baseURL}/project`, params) }
   postProjectAccess (params) { return axios.post(`${baseURL}/project/access`, params) }

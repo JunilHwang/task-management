@@ -1,8 +1,6 @@
 package sequence.restapi.controller;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import sequence.restapi.mapper.MemberMapper;
 
 import javax.annotation.Resource;
@@ -13,6 +11,21 @@ public class MemberController {
 
     @Resource
     public MemberMapper memberMapper;
+
+    @GetMapping(value="/api/memberOnProject/{pidx}")
+    HashMap getMemberOnProject (@PathVariable int pidx) {
+        HashMap obj = new HashMap();
+        Boolean success = true;
+        try {
+            List member = memberMapper.getMemberOnProject(pidx);
+            obj.put("member", member);
+        } catch (Exception e) {
+            success = false;
+            obj.put("err", e);
+        }
+        obj.put("success", success);
+        return obj;
+    }
 
     /**
      * 최초 로그인 시 회원 등록
