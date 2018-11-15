@@ -23,7 +23,7 @@
 .requirement-title{font-size:21px;margin-bottom:20px;font-weight:normal;
   &:before{content:"";display:inline-block;vertical-align:middle;width:3px;background:$color1;height:21px;margin-right:10px;}
 }
-.full-width{width:100%;box-sizing:border-box;}
+.full-width{width:100%;box-sizing:border-box;display:block;}
 .al-l{text-align:left;}
 .al-r{text-align:right;}
 .al-c{text-align:center;}

@@ -10,7 +10,18 @@
     </select>
 
     <select id="getProjectList" resultType="HashMap" parameterType="String">
-        SELECT * FROM project where writer in (SELECT mid FROM project_access where mid = #{id});
+        SELECT * FROM project where pidx in (SELECT pidx FROM project_access where mid = #{id});
+    </select>
+
+    <select id="getProjectIdByToken" resultType="Integer" parameterType="String">
+        SELECT pidx FROM project where access_token = #{access_token}
+    </select>
+
+    <select id="getAlreadyAccess" resultType="Integer" parameterType="HashMap">
+        SELECT  count(*) as cnt
+        FROM    project_access
+        where   pidx = (SELECT pidx FROM project WHERE access_token = #{access_token})
+        AND     mid = #{mid}
     </select>
 
     <insert id="postProject" parameterType="HashMap">
@@ -24,8 +35,20 @@
         INSERT INTO project_access SET `pidx` = #{pidx}, `mid` = #{writer}
     </insert>
 
+    <insert id="postProjectAccessByToken" parameterType="HashMap">
+        INSERT INTO project_access
+        SELECT  pidx, #{mid}
+        FROM    project
+        WHERE   access_token = #{access_token}
+    </insert>
+
     <update id="putProject" parameterType="HashMap">
         UPDATE project SET title = #{title}, description = #{description} where pidx = #{pidx}
+    </update>
+
+
+    <update id="putProjectToken" parameterType="HashMap">
+        UPDATE project SET access_token = #{access_token} where pidx = #{pidx}
     </update>
 
     <delete id="deleteProject" parameterType="integer">

@@ -52,10 +52,9 @@
 <script>
   import Api from '@/middleware/Api.js'
   export default {
-    created () {
-      Api.getTaskList(this.$route.params.pidx).then(response => {
-        this.tasks = response.data.list
-      })
+    async created () {
+      const data = await this.getApiData(Api.getTaskList(this.$route.params.pidx))
+      this.tasks = data.list
     },
     data () {
       return {

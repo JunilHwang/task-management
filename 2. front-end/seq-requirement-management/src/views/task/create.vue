@@ -92,11 +92,9 @@
     components: {
       Datepicker
     },
-    created () {
-      Api.getTaskList(this.$route.params.pidx).then(response => {
-        this.$store.commit('setState', ['taskList', response.data.list])
-        const frm = document.forms.task
-      })
+    async created () {
+      const data = await this.getApiData(Api.getTaskList(this.$route.params.pidx))
+      this.tasks = data.list
     },
     data () {
       return {
@@ -110,35 +108,21 @@
       getSubDay (date = new Date()) {
         return new Date(this.moment(date).subtract(1, 'days').format())
       },
-      setStartDisable (selectDate) {
-        console.log('setStartDisable', this.moment(selectDate).format('YYYY-MM-DD'))
-        this.disableStart.from = selectDate
-        console.log(this.disableStart)
-      },
-      setLimitDisable (selectDate) {
-        console.log('setLimitDisable', this.moment(selectDate).format('YYYY-MM-DD'))
-        this.disableLimit.to = selectDate
-      },
+      setStartDisable (selectDate) { this.disableStart.from = selectDate },
+      setLimitDisable (selectDate) { this.disableLimit.to = selectDate },
       requiredCheck () {
         const frm = document.forms.task
-        const title = frm.title.value.length,
-              start = frm.start.value.length,
-              start_h = frm.start_h.value.length,
-              start_m = frm.start_m.value.length,
-              limit = frm.limit.value.length,
-              limit_h = frm.limit_h.value.length,
-              limit_m = frm.limit_m.value.length,
-              description = frm.description.value.length
-        this.required = title > 0 &&
-                        start > 0 &&
-                        start_h > 0 &&
-                        start_m > 0 &&
-                        limit > 0 &&
-                        limit_h > 0 &&
-                        limit_m > 0 &&
-                        description > 0
+        const title = frm.title.value.length > 0,
+              start = frm.start.value.length > 0,
+              start_h = frm.start_h.value.length > 0,
+              start_m = frm.start_m.value.length > 0,
+              limit = frm.limit.value.length > 0,
+              limit_h = frm.limit_h.value.length > 0,
+              limit_m = frm.limit_m.value.length > 0,
+              description = frm.description.value.length > 0
+        this.required = title && start && start_h && start_m && limit && limit_h && limit_m && description
       },
-      taskCreate (e) {
+      async taskCreate (e) {
         const frm = e.target
         const title = frm.title.value,
               parent = frm.parent.value,
@@ -146,15 +130,10 @@
               limit_date = `${frm.limit.value} ${frm.limit_h.value}:${frm.limit_m.value}:00`,
               description = frm.description.value,
               pidx = this.$route.params.pidx
-        const data = {pidx, parent, title, start_date, limit_date, description}
-        Api.postTask(data).then(response => {
-          if (response.data.success) {
-            alert('완료되었습니다.')
-            this.$router.push('/project/view/' + data.pidx)
-          } else {
-            console.log(response.data.err)
-          }
-        })
+        const params = {pidx, parent, title, start_date, limit_date, description}
+        await this.getApiData(Api.postTask(params))
+        alert('완료되었습니다.')
+        this.$router.push('/project/view/' + pidx)
       }
     }
   }

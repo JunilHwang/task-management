@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="sequence.restapi.mapper.GithubMapper">
+
+
+    <select id="getRepo" parameterType="Integer" resultType="HashMap">
+        SELECT * FROM github_repository WHERE pidx = #{pidx}
+    </select>
+
+    <select id="getRepoCount" parameterType="HashMap" resultType="Integer">
+        SELECT count(*) as cnt FROM github_repository
+        WHERE pidx = #{pidx}
+        and access_token = #{access_token}
+        and full_name = #{full_name}
+    </select>
+
+    <insert id="postRepo" parameterType="HashMap">
+        INSERT INTO github_repository SET
+        pidx = #{pidx},
+        full_name = #{full_name},
+        access_url = #{access_url},
+        access_token = #{access_token},
+        register_date = now()
+    </insert>
+
+    <insert id="postCommit" parameterType="HashMap">
+
+    </insert>
+
+    <select id="getCommitOnTask" parameterType="HashMap" resultType="HashMap">
+
+    </select>
+
+    <delete id="deleteCommit" parameterType="HashMap">
+
+    </delete>
+
+</mapper>

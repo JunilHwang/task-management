@@ -1,6 +1,9 @@
 package sequence.restapi.controller;
 
 import java.lang.Exception;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.*;
 import sequence.restapi.mapper.ProjectMapper;
@@ -29,9 +32,47 @@ public class ProjectController {
         try {
             projectMapper.postProject(data);
             projectMapper.postProjectAccess(data);
-            obj.put("lastId", data.get("pidx"));
+            String  title = data.get("title").toString(),
+                    writer = data.get("writer").toString(),
+                    pidx = data.get("pidx").toString();
+            String access_token = Jwts.builder()
+                    .setHeaderParam("typ", "JWT")
+                    .setHeaderParam("issueDate", System.currentTimeMillis())
+                    .setSubject(title)
+                    .signWith(SignatureAlgorithm.HS512, writer + pidx)
+                    .compact();
+            data.put("access_token", access_token);
+            projectMapper.putProjectToken(data);
         } catch (Exception e) {
             success = false;
+            System.out.println(e);
+            obj.put("err", e);
+        }
+        obj.put("success", success);
+        return obj;
+    }
+
+
+    /**
+     * 프로젝트 엑세스 등록
+     * consumes = {"application/json"} 을 통하여 json string을 hashmap 혹은 list로 받아올 수 있다.
+     * @Param params = {mid, access_token}
+     * @return {success, err}
+     */
+    @PostMapping(value="/api/project/access", consumes = {"application/json"})
+    HashMap postProjectAaccess (@RequestBody HashMap params) {
+        HashMap obj = new HashMap();
+        Boolean success = true;
+        try {
+            int cnt = projectMapper.getAlreadyAccess(params);
+            if (cnt == 0) {
+                projectMapper.postProjectAccessByToken(params);
+            } else {
+                obj.put("msg", "이미 등록된 프로젝트입니다.");
+            }
+        } catch (Exception e) {
+            success = false;
+            System.out.println(e);
             obj.put("err", e);
         }
         obj.put("success", success);
@@ -54,7 +95,6 @@ public class ProjectController {
             obj.put("err", e);
         }
         obj.put("success", success);
-        System.out.println(obj);
         return obj;
     }
 

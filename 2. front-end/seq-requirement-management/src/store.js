@@ -5,21 +5,22 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    member: JSON.parse(sessionStorage.getItem('member')) || null,
+    member: JSON.parse(localStorage.getItem('member')) || null,
     layerState: false,
     taskList: [],
     projectData: {},
     projectList: [],
-    commentList: []
+    commentList: [],
+    githubToken: null
   },
   mutations: {
     loggedIn (state, data) {
       state.member = data
-      sessionStorage.setItem('member', JSON.stringify(data))
+      localStorage.setItem('member', JSON.stringify(data))
     },
     logout (state) {
       state.member = null
-      sessionStorage.removeItem('member')
+      localStorage.removeItem('member')
     },
     openLayer (state, val) {
       state.layerState = val

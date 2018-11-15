@@ -44,12 +44,7 @@
     },
     methods: {
       async getCommentList (tidx) {
-        const response = await Api.getCommentList(tidx)
-        const data = response.data
-        if (!data.success) {
-          console.log(data.err)
-          return
-        }
+        const data = await this.getApiData(await Api.getCommentList(tidx))
         data.list.map(obj => {
           obj.updateSwitch = false
           obj.replySwitch = false
@@ -61,11 +56,7 @@
         submitMethod[this.type](e.target)
       },
       setChecked (key, tag) {
-        if (this.type === 'update') {
-          return tag === this.comment.tag
-        } else {
-          return key === 0
-        }
+        return this.type === 'update' ? tag === this.comment.tag : key === 0
       },
       async postComment (frm) {
         const params = {
@@ -76,22 +67,14 @@
           writer: this.$store.state.member.id,
           content: frm.content.value
         }
-        const result = await Api.postComment(params)
-        if (!result.data.success) {
-          console.log(result.data.err)
-          return
-        }
+        await this.getApiData(Api.postComment(params))
         this.getCommentList(params.tidx)
         frm.content.value = ''
       },
       async putComment (frm) {
         this.comment.tag = frm.tag.value
         this.comment.content = frm.content.value
-        const result = await Api.putComment(this.comment)
-        if (!result.data.success) {
-          console.log(result.data.err)
-          return
-        }
+        await this.getApiData(Api.postComment(this.comment))
         this.comment.updateSwitch = false
       },
       async postCommentReply (frm) {
@@ -104,11 +87,7 @@
           writer: this.$store.state.member.id,
           content: frm.content.value
         }
-        const result = await Api.postCommentReply(params)
-        if (!result.data.success) {
-          console.log(result.data.err)
-          return
-        }
+        await this.getApiData(Api.postCommentReply(params))
         this.getCommentList(params.tidx)
       }
     }

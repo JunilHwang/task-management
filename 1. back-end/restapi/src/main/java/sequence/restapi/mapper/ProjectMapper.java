@@ -10,11 +10,23 @@ public interface ProjectMapper {
     // 단일 프로젝트 가져오기
     HashMap getProject(int pidx);
 
+    // 엑세스 토큰에 해당하는 project id 가져오기
+    int getProjectIdByToken(String access_token);
+
+    // 이미 엑세스 권한이 등록되어있나 확인
+    int getAlreadyAccess(HashMap params);
+
     // 프로젝트 등록하기
     void postProject(HashMap params);
 
+    // 프로젝트 엑세스 토큰 등록하기
+    void putProjectToken(HashMap params);
+
     // 프로젝트 엑세스 권한 등록하기
     void postProjectAccess(HashMap params);
+
+    // 엑세스 토큰으로 프로젝트 엑세스 권한 등록하기
+    void postProjectAccessByToken(HashMap params);
 
     // 프로젝트 정보 수정
     void putProject(HashMap params);
