@@ -17,6 +17,21 @@
         and full_name = #{full_name}
     </select>
 
+    <select id="getCommitCount" parameterType="HashMap" resultType="Integer">
+        SELECT count(*) as cnt FROM github_commits WHERE sha = #{sha}
+    </select>
+
+    <select id="getCommitOnTaskCount" parameterType="HashMap" resultType="Integer">
+        SELECT  count(*) as cnt FROM task_commit
+        WHERE   sha = #{sha}
+        AND     tidx in (${tidx})
+    </select>
+
+    <select id="getCommitOnTask" parameterType="HashMap" resultType="HashMap">
+        SELECT * FROM github_commits
+        WHERE sha in (SELECT sha FROM task_commit where tidx = #{tidx})
+    </select>
+
     <insert id="postRepo" parameterType="HashMap">
         INSERT INTO github_repository SET
         pidx = #{pidx},
@@ -27,20 +42,27 @@
         register_date = now()
     </insert>
 
+    <insert id="postCommit" parameterType="HashMap">
+        INSERT INTO github_commits SET
+        sha = #{sha},
+        name = #{name},
+        image = #{image},
+        message = #{message},
+        register_date = #{register_date},
+        html_url = #{html_url}
+    </insert>
+
+    <insert id="postCommitOnTask" parameterType="HashMap">
+        INSERT INTO task_commit
+        SELECT tidx, #{sha} FROM task where tidx in (${tidx})
+    </insert>
+
     <delete id="deleteRepo" parameterType="Integer">
         DELETE FROM github_repository WHERE gridx = #{gridx}
     </delete>
 
-    <insert id="postCommit" parameterType="HashMap">
-
-    </insert>
-
-    <select id="getCommitOnTask" parameterType="HashMap" resultType="HashMap">
-
-    </select>
-
-    <delete id="deleteCommit" parameterType="HashMap">
-
+    <delete id="deleteCommitOnTask" parameterType="HashMap">
+        DELETE FROM task_commit where tidx = #{tidx} and sha = #{sha}
     </delete>
 
 </mapper>

@@ -6,7 +6,7 @@
     </header>
     <section class="project-view" v-if="typeof projectData.pidx !== 'undefined'">
       <section class="tasks">
-        <taskList />
+        <taskList :matching="matching" />
       </section>
       <projectGithubRepos />
       <div class="btn-group">
@@ -36,7 +36,7 @@
     },
     data () {
       return {
-        uri: this.$route.params.uri
+        matching: {state: false, commit: null}
       }
     },
     methods: {
@@ -50,6 +50,10 @@
         document.execCommand('copy')
         input.remove()
         alert('토큰이 복사되었습니다.');
+      },
+      matchingOn (state, commit) { this.matching = {state, commit} },
+      matchingOff () {
+        this.matching = {state: false, commit: null}
       }
     }
   }

@@ -1,4 +1,3 @@
-import Model from './Model.js'
 import axios from 'axios'
 
 const baseURL = 'http://localhost:8090/api'
@@ -38,6 +37,7 @@ const RestApi = class {
   getRepos (pidx) { return axios.get(`${baseURL}/github/repos/${pidx}`) }
   postRepo (params) { return axios.post(`${baseURL}/github/repo`, params) }
   deleteRepo (gridx) { return axios.delete(`${baseURL}/github/repo/${gridx}`) }
+  postTaskCommit (params) { return axios.post(`${baseURL}/github/match`, params)}
 }
 
 export default new RestApi();

@@ -52,10 +52,12 @@ span.middle{display:inline-block;vertical-align:middle;height:100%;width:0;
 
 /* button */
 a.btn{text-decoration:none;text-align:center;}
-.btn{border:none;padding:7px 15px;vertical-align:middle;font-size:15px;font-family:inherit;color:#FFF;transition:.3s;vertical-align:middle;cursor:pointer;
+.btn{border:none;padding:7px 15px;vertical-align:middle;font-size:15px;font-family:inherit;color:#FFF;transition:.3s;vertical-align:middle;cursor:pointer;display:inline-block;
   &.btn-full{display:block;text-align:center;width:100%;box-sizing:border-box;padding:10px 0;font-size:17px;font-weight:400;}
   &.mini{padding:3px 7px;font-size:13px;}
-  &.white{border:1px solid #fff;}
+  &.white{border:1px solid #fff;
+    &:hover{background:#fff;color:#444;}
+  }
   &.submit{background:$color1;}
   &.point{background:$color1-darken-10;}
   &.join{background:$color1-darken-10;}

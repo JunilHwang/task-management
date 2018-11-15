@@ -10,7 +10,7 @@
                 <span class="pre"><i class="fas fa-arrow-up"></i></span>
                 <select name="parent" class="full-width">
                   <option value="0">상위 task 선택</option>
-                  <option v-for="t in tasks" v-if="t.tidx !== task.tidx" :value="t.tidx" v-html="t.title" :selected="t.tidx === task.parent"></option>
+                  <option v-for="(t, optionKey) in tasks" v-if="t.tidx !== task.tidx" :value="t.tidx" v-html="t.title" :selected="t.tidx === task.parent" :key="optionKey" />
                 </select>
               </label>
             </li>
@@ -32,14 +32,14 @@
                 <span class="pre"><i class="far fa-clock"></i></span>
                 <select name="start_h" required>
                   <option value="">시간 선택</option>
-                  <option v-for="i in 24" :value="digit(i - 1)" v-html="digit(i - 1) + ' 시'" :selected="digit(i - 1) === start_h"></option>
+                  <option v-for="i in 24" :value="digit(i - 1)" v-html="digit(i - 1) + ' 시'" :selected="digit(i - 1) === start_h" :key="i" />
                 </select>
               </label>
               <label class="input-label inline">
                 <span class="pre"><i class="far fa-clock"></i></span>
                 <select name="start_m" required>
                   <option value="">분 선택</option>
-                  <option v-for="i in 60" :value="digit(i - 1)" v-html="digit(i - 1) + ' 분'" :selected="digit(i - 1) === start_m"></option>
+                  <option v-for="i in 60" :value="digit(i - 1)" v-html="digit(i - 1) + ' 분'" :selected="digit(i - 1) === start_m" :key="i" />
                 </select>
               </label>
             </li>
@@ -54,21 +54,21 @@
                 <span class="pre"><i class="far fa-clock"></i></span>
                 <select name="limit_h" required>
                   <option value="">시간 선택</option>
-                  <option v-for="i in 24" :value="digit(i - 1)" v-html="digit(i - 1) + ' 시'" :selected="digit(i - 1) === limit_h"></option>
+                  <option v-for="i in 24" :value="digit(i - 1)" v-html="digit(i - 1) + ' 시'" :selected="digit(i - 1) === limit_h" :key="i" />
                 </select>
               </label>
               <label class="input-label inline">
                 <span class="pre"><i class="far fa-clock"></i></span>
                 <select name="limit_m" required>
                   <option value="">분 선택</option>
-                  <option v-for="i in 60" :value="digit(i - 1)" v-html="digit(i - 1) + ' 분'" :selected="digit(i - 1) === limit_m"></option>
+                  <option v-for="i in 60" :value="digit(i - 1)" v-html="digit(i - 1) + ' 분'" :selected="digit(i - 1) === limit_m" :key="i" />
                 </select>
               </label>
             </li>
             <li>
               <label class="input-label">
                 <span class="pre"><i class="fas fa-align-left"></i></span>
-                <textarea type="text" name="description" class="full-width" cols="80" rows="10" required v-html="task.description"></textarea>
+                <textarea type="text" name="description" class="full-width" cols="80" rows="10" required v-html="task.description" />
                 <span class="lbl">간략 설명</span>
               </label>
             </li>

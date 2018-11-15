@@ -13,13 +13,15 @@
         </div>
       </header>
       <ul v-if="shows[key]">
-        <li v-for="(commit, key2) in repo.commits" :key="key2" v-if="key2 < nowLimit[key]">
+        <li v-for="(commit, key2) in repo.commits" :key="key2" v-if="key2 < nowLimit[key]"
+            :class="{active: $parent.matching.state && $parent.matching.commit == commit }">
           <span class="image" :style="{backgroundImage: `url(${commit.image})`}" />
           <span class="author" v-html="commit.name" />
           <span class="message">
             <a :href="commit.html_url" v-html="commit.message" target="_blank" />
           </span>
-          <span class="register_date" v-html="commit.register_date" />
+          <span class="register_date" v-html="getFlowDate(commit.register_date)" />
+          <a href="#" class="plug" @click.prevent="matchCommit(commit)"><i class="fas fa-plug"></i></a>
         </li>
         <li v-if="!repo.commits">
           등록된 commit이 없습니다.
@@ -61,19 +63,19 @@
         })
       },
       getFilter (v, k, repo) {
+        const sha = v.sha
         const name = v.commit.author.name
-        const register_date = this.getFlowDate(v.commit.author.date)
+        const register_date = v.commit.author.date
         const image = v.author ? v.author.avatar_url : ''
         const message = v.commit.message
         const html_url = v.html_url
-        repo.commits[k] = {name, image, message, register_date, html_url}
+        repo.commits[k] = {sha, name, image, message, register_date, html_url}
       },
-      limitSet (key, limit) {
-        this.$set(this.nowLimit, key, limit)
+      matchCommit (commitData) {
+        this.$parent.matchingOn(true, commitData)
       },
-      showSet (key) {
-        this.$set(this.shows, key, !this.shows[key])
-      }
+      limitSet (key, limit) { this.$set(this.nowLimit, key, limit) },
+      showSet (key) { this.$set(this.shows, key, !this.shows[key]) }
     }
   }
 </script>
@@ -91,13 +93,18 @@
       }
     }
     ul{margin-top:10px;}
-    li{background:#fff;border:1px solid #ddd;padding:10px;border-radius:3px;font-size:13px;
+    li{background:#fff;border:1px solid #ddd;padding:10px;border-radius:3px;font-size:13px;position:relative;
       +li{margin-top:3px;}
       span{display:inline-block;vertical-align:middle;}
+      .plug{position:absolute;right:10px;font-size:20px;opacity:0.3;transition:0.3s;top:0;bottom:0;display:flex;align-items:center;text-decoration:none;}
+      &:hover{border-color:#000;}
+      &.active{border-color:#000;
+        .plug{opacity:1;}
+      }
     }
     .image{width:15px;height:15px;background:no-repeat center / cover;margin-right:5px;}
     .author{width:100px;}
-    .register_date{float:right;color:#666;}
+    .register_date{float:right;color:#666;margin-right:20px;}
   }
   .git-icon{font-size:17px;margin-right:5px;}
   .repo-name{font-size:17px;font-weight:normal;margin-right:5px;}

@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import Api from './Api.js'
 
 const Task = class {
@@ -33,7 +32,7 @@ const Task = class {
   static async setState (state) {
     const vue = Task.instance
     const tidx = vue.$route.params.tidx
-    const data = await vue.getApiData(Api.putTaskState({state, tidx}))
+    await vue.getApiData(Api.putTaskState({state, tidx}))
     Task.getOne()
   }
   
@@ -47,7 +46,7 @@ const Task = class {
   static async delete () {
     if (!confirm('정말로 삭제하시겠습니까?')) return
     const vue = Task.instance
-    const data = await vue.getApiData(Api.deleteTask(vue.task.tidx))
+    await vue.getApiData(Api.deleteTask(vue.task.tidx))
     vue.$router.push('/project/view/' + vue.task.pidx)
   }
 

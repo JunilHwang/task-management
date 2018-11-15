@@ -9,7 +9,7 @@
               <span class="pre"><i class="fas fa-arrow-up"></i></span>
               <select name="parent" class="full-width">
                 <option value="0">상위 task 선택</option>
-                <option v-for="task in tasks" :value="task.tidx" v-html="task.title"></option>
+                <option v-for="(task, taskKey) in tasks" :value="task.tidx" v-html="task.title" :key="taskKey" />
               </select>
             </label>
           </li>
@@ -31,14 +31,14 @@
               <span class="pre"><i class="far fa-clock"></i></span>
               <select name="start_h" required>
                 <option value="">시간 선택</option>
-                <option v-for="i in 24" :value="digit(i - 1)" v-html="digit(i - 1) + ' 시'"></option>
+                <option v-for="i in 24" :value="digit(i - 1)" v-html="digit(i - 1) + ' 시'" :key="i" />
               </select>
             </label>
             <label class="input-label inline">
               <span class="pre"><i class="far fa-clock"></i></span>
               <select name="start_m" required>
                 <option value="">분 선택</option>
-                <option v-for="i in 60" :value="digit(i - 1)" v-html="digit(i - 1) + ' 분'"></option>
+                <option v-for="i in 60" :value="digit(i - 1)" v-html="digit(i - 1) + ' 분'" :key="i" />
               </select>
             </label>
           </li>
@@ -53,14 +53,14 @@
               <span class="pre"><i class="far fa-clock"></i></span>
               <select name="limit_h" required>
                 <option value="">시간 선택</option>
-                <option v-for="i in 24" :value="digit(i - 1)" v-html="digit(i - 1) + ' 시'"></option>
+                <option v-for="i in 24" :value="digit(i - 1)" v-html="digit(i - 1) + ' 시'" :key="i" />
               </select>
             </label>
             <label class="input-label inline">
               <span class="pre"><i class="far fa-clock"></i></span>
               <select name="limit_m" required>
                 <option value="">분 선택</option>
-                <option v-for="i in 60" :value="digit(i - 1)" v-html="digit(i - 1) + ' 분'"></option>
+                <option v-for="i in 60" :value="digit(i - 1)" v-html="digit(i - 1) + ' 분'" :key="i" />
               </select>
             </label>
           </li>

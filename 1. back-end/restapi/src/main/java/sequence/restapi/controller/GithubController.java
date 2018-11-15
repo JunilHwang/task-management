@@ -75,4 +75,32 @@ public class GithubController {
         obj.put("success", success);
         return obj;
     }
+
+    /**
+     *
+     * @param params
+     * @return
+     */
+    @PostMapping(value="/api/github/match", consumes = {"application/json"})
+    HashMap postTaskCommit (@RequestBody HashMap params) {
+        HashMap obj = new HashMap();
+        Boolean success = true;
+        try {
+            int cnt = githubMapper.getCommitCount(params.get("sha").toString());
+            if (cnt == 0) {
+                githubMapper.postCommit(params);
+            }
+            cnt = githubMapper.getCommitOnTaskCount(params);
+            if (cnt == 0) {
+                githubMapper.postCommitOnTask(params);
+            } else {
+                obj.put("msg", "이미 매칭된 task와 commit 입니다.");
+            }
+        } catch (Exception e) {
+            obj.put("err", e);
+            success = false;
+        }
+        obj.put("success", success);
+        return obj;
+    }
 }

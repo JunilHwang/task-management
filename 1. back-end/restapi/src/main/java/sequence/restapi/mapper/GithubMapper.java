@@ -6,9 +6,14 @@ import java.util.List;
 public interface GithubMapper {
     List getRepos(int pidx);
     int getRepoCount(HashMap parmas);
+    int getCommitCount(String sha);
+    int getCommitOnTaskCount(HashMap params);
+    HashMap getCommitOnTask(int tidx);
+
     void postRepo(HashMap params);
-    void deleteRepo(int gridx);
     void postCommit(HashMap params);
-    List getCommitOnTask(HashMap params);
-    void deleteCommit(int idx);
+    void postCommitOnTask(HashMap params);
+
+    void deleteRepo(int gridx);
+    void deleteCommitOnTask(int idx);
 }

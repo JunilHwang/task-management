@@ -15,9 +15,17 @@
       </div>
     </div>
     <div v-if="tasks.length">
+      <div class="matching" v-if="$parent.matching.state">
+        <div>[{{$parent.matching.commit.message}}] 과 매칭할 Task를 선택해주세요</div>
+        <div class="btns">
+          <a href="#" class="btn white mini" @click.prevent="matchingComplete" v-if="matchList.length">완료</a>
+          <a href="#" class="btn white mini" @click.prevent="matchingOff">취소</a>
+        </div>
+      </div>
       <ul class="float-wrap">
         <li v-for="(task, key) in tasks" :key="key">
-          <dl @click.prevent="$router.push(`/task/view/${task.tidx}`)">
+          <dl @click.prevent="$parent.matching.state ? matchSelect(task.tidx) : $router.push(`/task/view/${task.tidx}`)"
+              :class="{active: matchList.indexOf(task.tidx) !== -1}">
             <dt class="title">
               <p>
                 <span :class="`color-label color${task.state + 1}`" />
@@ -51,6 +59,7 @@
 
 <script>
   import Task from '@/middleware/Task.js'
+  import Api from '@/middleware/Api.js'
 
   export default {
     async created () {
@@ -60,6 +69,36 @@
     computed: { 
       tasks () {
         return this.$store.state.taskList
+      }
+    },
+    data () {
+      return {
+        matchList: []
+      }
+    },
+    methods: {
+      matchSelect (tidx) {
+        const matchList = this.matchList
+        const index = matchList.indexOf(tidx)
+        index === -1 ? matchList.push(tidx) : matchList.splice(index, 1)
+        this.$forceUpdate()
+      },
+      async matchingComplete () {
+        const params = this.$parent.matching.commit
+        params.register_date = this.moment(params.reigster_date).format('YYYY-MM-DD HH:mm:00')
+        params.tidx = this.matchList.toString()
+        const data = await this.getApiData(Api.postTaskCommit(params))
+        if (data.msg) {
+          alert(data.msg)
+          return
+        }
+        alert('task와 commit을 매칭하였습니다.')
+        this.matchList = []
+        this.matchingOff()
+      },
+      matchingOff () {
+        this.matchList = []
+        this.$parent.matchingOff()
       }
     }
   }
@@ -71,8 +110,11 @@
     li{width:33%;float:left;margin-bottom:0.5%;
       &:nth-child(3n-1){margin:0 0.5%;};
     }
+    .matching{border-radius:3px;background:#333;padding:10px;cursor:pointer;position:relative;margin-bottom:10px;color:#fff;display:flex;justify-content:space-between;align-items:center;
+    }
     dl{border-radius:3px;border:1px solid #ddd;background:#fff;padding:20px;cursor:pointer;position:relative;
-      &:hover{border-color:#444;}
+      &:hover,
+      &.active{border-color:#444;}
     }
     .title{font-size:15px;}
     .date{font-size:11px;color:#666;margin-top:3px;}
