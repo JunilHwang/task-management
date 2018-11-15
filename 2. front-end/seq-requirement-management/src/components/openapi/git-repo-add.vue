@@ -43,7 +43,7 @@
         const full_name = repo.full_name
         const access_token = this.$store.state.githubToken
         const pidx = this.$route.params.pidx
-        const description = repo.description
+        const description = repo.description || 'No Description'
         const params = {pidx, access_url, full_name, access_token, description}
         const data = await this.getApiData(Api.postRepo(params))
         if (data.msg) {
