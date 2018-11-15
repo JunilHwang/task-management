@@ -4,6 +4,7 @@
       <h3 class="setting-title">Github API 연동</h3>
       <ul class="connected-list">
         <li v-for="(repo, key) in repos" :key="key">
+          <a href="#" class="close" @click="deleteRepo(repo.gridx)"><i class="fas fa-times-circle"></i></a>
           <p class="full_name">
             <span class="icon-wrap"><i class="fab fa-github"></i></span>
             <span class="icon-after" v-html="repo.full_name" />
@@ -64,6 +65,11 @@
       async getRepos () {
         const data = await this.getApiData(Api.getRepos(this.pidx))
         this.$store.commit('setState', ['repos', data.repos])
+      },
+      async deleteRepo (gridx) {
+        if (!confirm('정말로 삭제하시겠습니까?')) return;
+        await this.getApiData(Api.deleteRepo(gridx))
+        this.getRepos()
       }
     },
     props: ['projectData']
@@ -71,9 +77,12 @@
 </script>
 <style lang="scss">
 .connected-list{margin-bottom:10px;
-  li{display:block;border:1px solid #ddd;padding:10px;border-radius:3px;
-    &:hover{border-color:#000;}
-    +li{margin-top:3px;}
+  .close{position:absolute;right:-12px;top:-12px;font-size:24px;z-index:10;opacity:0;transition:.5s;width:24px;height:24px;background:#fff;border-radius:12px;}
+  li{display:block;border:1px solid #ddd;padding:10px;border-radius:3px;position:relative;
+    &:hover{border-color:#000;
+      .close{opacity:1;transform:inherit;}
+    }
+    +li{margin-top:10px;}
   }
   p{display:flex;align-items:center;line-height:100%;
     +p{margin-top:10px;}

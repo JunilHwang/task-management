@@ -27,6 +27,10 @@
         register_date = now()
     </insert>
 
+    <delete id="deleteRepo" parameterType="Integer">
+        DELETE FROM github_repository WHERE gridx = #{gridx}
+    </delete>
+
     <insert id="postCommit" parameterType="HashMap">
 
     </insert>

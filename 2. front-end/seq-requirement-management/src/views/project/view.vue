@@ -5,9 +5,10 @@
       <p v-html="projectData.description" />
     </header>
     <section class="project-view" v-if="typeof projectData.pidx !== 'undefined'">
-      <section class="cards">
+      <section class="tasks">
         <router-view></router-view>
       </section>
+      <projectGithubRepos />
       <div class="btn-group">
         <router-link to="/project" class="btn point">프로젝트 목록</router-link>
         <router-link :to="`/project/setting/${projectData.pidx}`" class="btn point">프로젝트 설정</router-link>
@@ -20,11 +21,9 @@
 
 <script>
   import Api from '@/middleware/Api.js'
-  import layerTemplate from '@/components/layerTemplate'
+  import projectGithubRepos from './github-repos'
   export default {
-    components: {
-      layerTemplate
-    },
+    components: { projectGithubRepos },
     computed: {
       projectData () { return this.$store.state.projectData }
     },
@@ -58,7 +57,6 @@
 
 <style lang="scss">
   @import "@/assets/scss/_lib.scss";
-  .project-view{}
   .content-title{
     &:after{margin:10px auto;}
   }
@@ -66,7 +64,7 @@
     h4{font-size:25px;}
     p{font-size:17px;color:#666;}
   }
-  .cards{
+  .tasks{
     header{margin-bottom:20px}
   }
   .requirement{background:#fff;border-radius:3px;border:1px solid #ddd;min-height:200px;padding:30px;}
