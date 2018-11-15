@@ -94,5 +94,5 @@
   .color-description{float:right;
     >span+span{margin-left:10px;}
   }
-  .none{background:#fff;border:1px solid #ddd;padding:10px;}
+  .none{background:#fff;border:1px solid #ddd;padding:10px;border-radius:3px;}
 </style>

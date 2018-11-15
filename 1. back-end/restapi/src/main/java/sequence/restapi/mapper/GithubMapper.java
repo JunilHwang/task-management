@@ -7,6 +7,7 @@ public interface GithubMapper {
     List getRepos(int pidx);
     int getRepoCount(HashMap parmas);
     void postRepo(HashMap params);
+    void deleteRepo(int gridx);
     void postCommit(HashMap params);
     List getCommitOnTask(HashMap params);
     void deleteCommit(int idx);

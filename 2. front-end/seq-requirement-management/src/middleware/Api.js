@@ -37,6 +37,7 @@ const RestApi = class {
   
   getRepos (pidx) { return axios.get(`${baseURL}/github/repos/${pidx}`) }
   postRepo (params) { return axios.post(`${baseURL}/github/repo`, params) }
+  deleteRepo (gridx) { return axios.delete(`${baseURL}/github/repo/${gridx}`) }
 }
 
 export default new RestApi();

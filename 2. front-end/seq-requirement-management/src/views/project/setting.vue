@@ -7,7 +7,7 @@
       <settingCalendar :projectData="projectData" />
     </div>
     <div class="btn-group btm" v-if="projectData">
-      <router-link :to="`/project/view/${projectData.writer}/${projectData.uri}`" class="btn point">설정완료</router-link>&nbsp;
+      <router-link :to="`/project/view/${projectData.pidx}`" class="btn point">설정완료</router-link>&nbsp;
     </div>
   </section>
 </template>
