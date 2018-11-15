@@ -25,47 +25,33 @@
       </div>
       <div class="btn-group">
         <router-link :to="`/project/view/${task.pidx}`" class="btn default">목록으로</router-link>
-        <router-link :to="`/project/view/${task.pidx}/task/update/${task.tidx}`" class="btn submit">수정하기</router-link>
-        <a href="#" class="btn submit" @click="deleteTask">삭제하기</a>
-        <a v-if="task.state != 1" href="#" class="btn complete" @click.prevent="setState(1)">완료</a>
-        <a v-if="task.state != 2" href="#" class="btn error" @click.prevent="setState(2)">에러</a>
-        <a v-if="task.state != 0" href="#" class="btn process" @click.prevent="setState(0)">진행</a>
+        <a href="#" class="btn submit" @click.prevent="$store.commit('openLayer', 'taskUpdate')">수정하기</a>
+        <a href="#" class="btn submit" @click.prevent="TaskCore.delete">삭제하기</a>
+        <a v-if="task.state != 1" href="#" class="btn complete" @click.prevent="TaskCore.setState(1)">완료</a>
+        <a v-if="task.state != 2" href="#" class="btn error" @click.prevent="TaskCore.setState(2)">에러</a>
+        <a v-if="task.state != 0" href="#" class="btn process" @click.prevent="TaskCore.setState(0)">진행</a>
       </div>
     </template>
   </section>
 </template>
 
 <script>
-  import Api from '@/middleware/Api.js'
+  import TaskCore from '@/middleware/Task.js'
   export default {
     components: {
       comment: () => import(`@/components/comment/index.vue`)
     },
     created () {
-      this.getTask()
+      TaskCore.init(this)
+      TaskCore.getOne()
+    },
+    computed: {
+      task () {
+        return this.$store.state.nowTask
+      }
     },
     data () {
-      return {
-        task: null,
-        tidx: this.$route.params.tidx
-      }
-    },
-    methods: {
-      async setState (state) {
-        const tidx = this.tidx
-        const data = await this.getApiData(Api.putTaskState({state, tidx}))
-        this.getTask()
-      },
-      async getTask () {
-        const data = await this.getApiData(Api.getTask(this.tidx))
-        this.task = data.task
-      },
-      async deleteTask () {
-        if (!confirm('정말로 삭제하시겠습니까?')) return
-        const data = await this.getApiData(Api.deleteTask(this.tidx))
-        alert('삭제되었습니다.')
-        this.$router.push('/project/view/' + this.task.pidx)
-      }
+      return { TaskCore }
     }
   }
 </script>

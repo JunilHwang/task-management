@@ -6,13 +6,13 @@
     </header>
     <section class="project-view" v-if="typeof projectData.pidx !== 'undefined'">
       <section class="tasks">
-        <router-view></router-view>
+        <taskList />
       </section>
       <projectGithubRepos />
       <div class="btn-group">
         <router-link to="/project" class="btn point">프로젝트 목록</router-link>
         <router-link :to="`/project/setting/${projectData.pidx}`" class="btn point">프로젝트 설정</router-link>
-        <router-link :to="`/project/view/${$route.params.pidx}/task/create`" class="btn submit">테스크 추가</router-link>
+        <a href="#" class="btn submit" @click.prevent="$store.commit('openLayer', 'taskCreate')">테스크 추가</a>
         <a href="#" class="btn submit" @click.prevent="copyToken">토큰 복사</a>
       </div>
     </section>
@@ -22,14 +22,14 @@
 <script>
   import Api from '@/middleware/Api.js'
   import projectGithubRepos from './github-repos'
+  import taskList from '@/components/task/list'
   export default {
-    components: { projectGithubRepos },
+    components: { projectGithubRepos, taskList },
     computed: {
       projectData () { return this.$store.state.projectData }
     },
     async created () {
       const pidx = this.$route.params.pidx
-      const uri = decodeURIComponent(this.$route.params.uri)
       const data = await this.getApiData(Api.getProject(pidx))
       this.$store.commit('setState', ['projectData', data.project])
       this.$store.commit('setState', ['pidx', data.project.idx])

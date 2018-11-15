@@ -2,7 +2,7 @@
   <section>
     <div class="requirement-create">
     <h3 class="requirement-title">Task 수정</h3>
-      <form action="" method="post" name="task" @submit="taskUpdate" @keyup="requiredCheck" @change="requiredCheck">
+      <form action="" method="post" name="task" @submit="TaskCore.update" @keyup="requiredCheck" @change="requiredCheck">
         <fieldset><legend>Task 수정</legend>
           <ul class="fields">
             <li>
@@ -75,9 +75,6 @@
             <li v-if="required">
               <button type="submit" class="btn btn-full submit">작성완료</button>
             </li>
-            <li>
-              <router-link :to="`/task/view/${task.tidx}`" class="btn btn-full default">목록으로</router-link>
-            </li>
           </ul>
         </fieldset>
       </form>
@@ -86,23 +83,28 @@
 </template>
 
 <script>
-  import Api from '@/middleware/Api.js'
+  import TaskCore from '@/middleware/Task.js'
   import Datepicker from 'vuejs-datepicker';
   export default {
     components: {
       Datepicker
     },
     async created () {
-      this.getTasks()
-      this.getNowTask()
+      TaskCore.init(this)
+      this.task = this.$store.state.nowTask
+      TaskCore.getList(this.task.pidx)
+      this.getNow()
+    },
+    computed: {
+      tasks () {
+        return this.$store.state.taskList
+      }
     },
     data () {
       return {
-        tidx: this.$route.params.tidx,
-        pidx: this.$route.params.pidx,
+        tidx: null,
         required: true,
         task: {},
-        tasks: [],
         disableStart: {to: this.getSubDay(), from: null},
         disableLimit: {to: this.getSubDay()},
         start: null,
@@ -110,29 +112,11 @@
         start_m: null,
         limit: null,
         limit_h: null,
-        limit_m: null
+        limit_m: null,
+        TaskCore
       }
     },
     methods: {
-      async getTasks () {
-        const data = await this.getApiData(Api.getTaskList(this.pidx))
-        this.tasks = data.list
-      },
-      async getNowTask () {
-        const data = await this.getApiData(Api.getTask(this.tidx))
-        const task = data.task
-        const start_date = this.moment(task.start_date)
-        const limit_date = this.moment(task.limit_date)
-        this.start = start_date.format("YYYY-MM-DD")
-        this.start_h = start_date.format("HH")
-        this.start_m = start_date.format("mm")
-        this.limit = limit_date.format("YYYY-MM-DD")
-        this.limit_h = limit_date.format("HH")
-        this.limit_m = limit_date.format("mm")
-        this.task = data.task
-        this.setStartDisable(new Date(limit_date.format()))
-        this.setLimitDisable(new Date(start_date.format()))
-      },
       getSubDay (date = new Date()) {
         return new Date(this.moment(date).subtract(1, 'days').format())
       },
@@ -150,17 +134,19 @@
               description = frm.description.value.length > 0
         this.required = title && start && start_h && start_m && limit && limit_h && limit_m && description
       },
-      async taskUpdate (e) {
-        const frm = e.target
-        const title = frm.title.value,
-              start_date = `${frm.start.value} ${frm.start_h.value}:${frm.start_m.value}:00`,
-              limit_date = `${frm.limit.value} ${frm.limit_h.value}:${frm.limit_m.value}:00`,
-              description = frm.description.value,
-              tidx = this.tidx
-        const params = {tidx, title, start_date, limit_date, description}
-        await this.getApiData(Api.putTask(params))
-        alert('완료되었습니다.')
-        this.$router.push('/task/view/' + tidx)
+      getNow () {
+        const task = this.task
+        const start_date = this.moment(task.start_date)
+        const limit_date = this.moment(task.limit_date)
+        this.tidx = this.task.tidx
+        this.start = start_date.format("YYYY-MM-DD")
+        this.start_h = start_date.format("HH")
+        this.start_m = start_date.format("mm")
+        this.limit = limit_date.format("YYYY-MM-DD")
+        this.limit_h = limit_date.format("HH")
+        this.limit_m = limit_date.format("mm")
+        this.setStartDisable(new Date(limit_date.format()))
+        this.setLimitDisable(new Date(start_date.format()))
       }
     }
   }
@@ -168,7 +154,7 @@
 
 <style lang="scss">
   @import "@/assets/scss/_lib.scss";
-  .requirement-create{width:700px;margin:0 auto;background:#fff;padding:30px;border:1px solid #ddd;border-radius:3px;}
+  .requirement-create{width:700px;}
   .full-width input{width:100% !important}
   .input-label.inline{display:inline-block;margin-right:5px;
     select{width:200px;}
