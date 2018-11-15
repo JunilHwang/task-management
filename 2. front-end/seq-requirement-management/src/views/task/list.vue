@@ -73,7 +73,6 @@
     dl{border-radius:3px;border:1px solid #ddd;background:#fff;padding:20px;cursor:pointer;position:relative;
       &:hover{border-color:#444;}
     }
-    .none{padding:20px;}
     .title{font-size:15px;}
     .date{font-size:11px;color:#666;margin-top:3px;}
     .icon{display:inline-block;width:11px;text-align:center;margin-right:5px;font-size:11px;
@@ -94,5 +93,5 @@
   .color-description{float:right;
     >span+span{margin-left:10px;}
   }
-  .none{background:#fff;border:1px solid #ddd;padding:10px;}
+  .none{background:#fff;border:1px solid #ddd;padding:10px;border-radius:3px;}
 </style>

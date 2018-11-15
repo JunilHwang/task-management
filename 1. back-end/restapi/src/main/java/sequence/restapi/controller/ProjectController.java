@@ -124,12 +124,11 @@ public class ProjectController {
      * @Param data = {title, description}
      * @return {success, err or lastId}
      */
-    @PutMapping(value="/api/project/{pidx}", consumes = {"application/json"})
-    HashMap putProject (@PathVariable int pidx, @RequestBody HashMap data) {
+    @PutMapping(value="/api/project", consumes = {"application/json"})
+    HashMap putProject (@RequestBody HashMap data) {
         HashMap obj = new HashMap();
         Boolean success = true;
         try {
-            data.put("pidx", pidx);
             projectMapper.putProject(data);
         } catch (Exception e) {
             success = false;

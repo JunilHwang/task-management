@@ -64,7 +64,7 @@ a.btn{text-decoration:none;text-align:center;}
   &.complete{background:$color-naver}
   &.error{background:$color-google}
   &.process{background:$color-kakao;color:#3c1e1e;}
-  +.btn{margin-left:3px;}
+  +.btn:not(.btn-full){margin-left:3px;}
 }
 .btn-group{text-align:center;padding:40px 0;
   &.left{text-align:left;}

@@ -6,8 +6,15 @@
 <mapper namespace="sequence.restapi.mapper.GithubMapper">
 
 
-    <select id="getRepo" parameterType="Integer" resultType="HashMap">
+    <select id="getRepos" parameterType="Integer" resultType="HashMap">
         SELECT * FROM github_repository WHERE pidx = #{pidx}
+    </select>
+
+    <select id="getRepoCount" parameterType="HashMap" resultType="Integer">
+        SELECT count(*) as cnt FROM github_repository
+        WHERE pidx = #{pidx}
+        and access_token = #{access_token}
+        and full_name = #{full_name}
     </select>
 
     <insert id="postRepo" parameterType="HashMap">
@@ -16,8 +23,13 @@
         full_name = #{full_name},
         access_url = #{access_url},
         access_token = #{access_token},
+        description = #{description},
         register_date = now()
     </insert>
+
+    <delete id="deleteRepo" parameterType="Integer">
+        DELETE FROM github_repository WHERE gridx = #{gridx}
+    </delete>
 
     <insert id="postCommit" parameterType="HashMap">
 
