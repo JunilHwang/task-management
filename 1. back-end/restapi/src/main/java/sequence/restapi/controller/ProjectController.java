@@ -138,6 +138,21 @@ public class ProjectController {
         return obj;
     }
 
+    @PutMapping(value="/api/project/star", consumes = {"application/json"})
+    HashMap putProjectStar (@RequestBody HashMap params) {
+        System.out.println(params);
+        HashMap obj = new HashMap();
+        Boolean success = true;
+        try {
+            projectMapper.putStar(params);
+        } catch (Exception e) {
+            success = false;
+            obj.put("err", e);
+        }
+        obj.put("success", success);
+        return obj;
+    }
+
     /**
      * 프로젝트 삭제
      * @param pidx : project index number
@@ -149,19 +164,6 @@ public class ProjectController {
         Boolean success = true;
         try {
             projectMapper.deleteProject(pidx);
-        } catch (Exception e) {
-            success = false;
-            obj.put("err", e);
-        }
-        obj.put("success", success);
-        return obj;
-    }
-    @PutMapping(value="/api/project/star", consumes = {"application/json"})
-    HashMap putProjectStart (@RequestBody HashMap params) {
-        HashMap obj = new HashMap();
-        Boolean success = true;
-        try {
-            projectMapper.putStar(params);
         } catch (Exception e) {
             success = false;
             obj.put("err", e);
