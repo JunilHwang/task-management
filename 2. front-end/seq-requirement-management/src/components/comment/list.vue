@@ -66,7 +66,7 @@
 
 <style lang="scss" scoped>
 @import "@/assets/scss/_lib.scss";
-.comment-header{margin-bottom:10px;border-bottom:1px solid #ddd;padding-bottom:10px;}
+.comment-header{margin-bottom:10px;}
 .comment-content{border-radius:3px;}
 .comment-component{background:$color-grey;padding:10px;border-radius:3px;margin-bottom:10px;border:1px solid #ddd;}
 article{

@@ -23,7 +23,16 @@
               </label>
             </li>
             <li>
+              <label class="input-label">
+                <span class="pre"><i class="fas fa-lock"></i></span>
+                <input type="text" class="full-width" :value="projectData.access_token" readonly>
+              </label>
+            </li>
+            <li>
               <button type="submit" class="btn btn-full submit">작성완료</button>
+            </li>
+            <li>
+              <a href="#" class="btn btn-full point" @click.prevent="copyToken">프로젝트 Token 복사</a>
             </li>
           </ul>
         </fieldset>
@@ -47,6 +56,17 @@
         const pidx = this.pidx
         await this.getApiData(Api.putProject({title, description, pidx}))
         alert('수정되었습니다')
+      },
+      copyToken () {
+        const input = document.createElement('input')
+        input.type = 'text'
+        input.value = this.projectData.access_token
+        input.id = 'copy'
+        document.body.appendChild(input)
+        input.select()
+        document.execCommand('copy')
+        input.remove()
+        alert('토큰이 복사되었습니다.');
       }
     },
     props: ['projectData']

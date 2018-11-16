@@ -10,7 +10,7 @@
             {{getDateFormat(task.register_date)}}
           </span>
         </header>
-        <div class="task-bottom">
+        <div class="task-info">
           <p>
             <strong class="lbl">기간</strong>
             <span v-html="getRange(task.start_date, task.limit_date)" />
@@ -19,9 +19,19 @@
             <strong class="lbl">종료</strong>
             <span v-html="getRemaining(task.limit_date)" />
           </p>
+          <p>
+            <strong class="lbl">선행</strong>
+            <span v-if="parent === null">없습니다.</span>
+            <a v-else href="#" @click.prevent="change(`/task/view/${parent.tidx}`)">
+              <span :class="`color-label color${parent.state + 1}`" />
+              {{parent.title}} / 
+              {{contentPreview(parent.description, 40)}}
+            </a>
+          </p>
         </div>
         <div class="task-content" v-html="(task.description+'').replace(/\n/gi, '<br />')" />
-        <comment />
+        <commitList :commits="commits" />
+        <commentList />
       </div>
       <div class="btn-group">
         <router-link :to="`/project/view/${task.pidx}`" class="btn default">목록으로</router-link>
@@ -37,13 +47,15 @@
 
 <script>
   import TaskCore from '@/middleware/Task.js'
+  import Api from '@/middleware/Api.js'
   export default {
     components: {
-      comment: () => import(`@/components/comment/index.vue`)
+      commitList: () => import('@/components/task/commit-list.vue'),
+      commentList: () => import(`@/components/comment/index.vue`)
     },
     created () {
       TaskCore.init(this)
-      TaskCore.getOne()
+      this.load()
     },
     computed: {
       task () {
@@ -51,7 +63,23 @@
       }
     },
     data () {
-      return { TaskCore }
+      return {
+        TaskCore,
+        parent: null,
+        commits: []
+      }
+    },
+    methods: {
+      async load () {
+        const task = await TaskCore.getOne()
+        this.parent = task.parent ? await TaskCore.getOne(task.parent) : null
+        const data = await this.getApiData(Api.getCommits(task.tidx))
+        this.commits = data.commits
+      },
+      change (link) {
+        this.$router.push(link)
+        this.load()
+      }
     }
   }
 </script>
@@ -70,16 +98,12 @@
     i{margin-top:-3px;}
   }
   .category-name{color:#aaa;display:inline-block;margin-right:5px}
-  .task-content{
-    >div{margin-top:15px;line-height:160%;}
-  }
+  .task-content{line-height:160%;min-height:200px;}
   .writer{
     i{margin-top:-3px;}
   }
-  .task-bottom{
+  .task-info{
     p{line-height:200%;}
-    .lbl{color:$color1;display:inline-block;width:80px;margin-right:10px;position:relative;
-      &:after{content:"";display:inline-block;width:1px;background:#aaa;vertical-align:middle;position:absolute;right:15px;top:10px;bottom:10px;}
-    }
+    .lbl{color:$color1;display:inline-block;width:80px;position:relative;}
   }
 </style>

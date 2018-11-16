@@ -35,7 +35,7 @@
             <dd>
               <p class="list-content">
                 <span class="icon"><i class="fas fa-align-left"></i></span>
-                <span>{{contentPreview(task.description, 20)}}</span>
+                <span v-html="contentPreview(task.description, 20)" />
               </p>
               <p class="date range">
                 <span class="icon"><i class="far fa-clock"></i></span>
@@ -85,7 +85,7 @@
       },
       async matchingComplete () {
         const params = this.$parent.matching.commit
-        params.register_date = this.moment(params.reigster_date).format('YYYY-MM-DD HH:mm:00')
+        params.register_date = this.moment(new Date(params.register_date)).format('YYYY-MM-DD HH:mm:00')
         params.tidx = this.matchList.toString()
         const data = await this.getApiData(Api.postTaskCommit(params))
         if (data.msg) {

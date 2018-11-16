@@ -36,11 +36,12 @@ const Task = class {
     Task.getOne()
   }
   
-  static async getOne () {
+  static async getOne (parent = null) {
     const vue = Task.instance
-    const tidx = vue.$route.params.tidx
+    const tidx = parent || vue.$route.params.tidx
     const data = await vue.getApiData(Api.getTask(tidx))
-    vue.$store.commit('setState', ['nowTask', data.task])
+    if (parent == null) vue.$store.commit('setState', ['nowTask', data.task])
+    return data.task
   }
   
   static async delete () {
