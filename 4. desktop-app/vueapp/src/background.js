@@ -10,16 +10,16 @@ const isDevelopment = process.env.NODE_ENV !== 'production'
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win
+
 // Standard scheme must be registered before the app is ready
 protocol.registerStandardSchemes(['app'], { secure: true })
 function createWindow () {
   // Create the browser window.
-  win = new BrowserWindow({ minWidth: 1300, minHeight:500,  width: 1300, height: 700, frame: false, useContentSize: true, title: "Project Task Management" })
+  win = new BrowserWindow({ width: 800, height: 600 })
 
   if (isDevelopment || process.env.IS_TEST) {
     // Load the url of the dev server if in development mode
     win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
-
     if (!process.env.IS_TEST) win.webContents.openDevTools()
   } else {
     createProtocol('app')

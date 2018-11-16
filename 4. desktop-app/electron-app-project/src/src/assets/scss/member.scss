@@ -1,0 +1,8 @@
+@import "lib";
+.member-wrap{}
+.cols{display:flex;}
+.member-title{text-align:left;display:inline-block;border:1px solid #aaa;border-width:1px 0;margin-bottom:15px;padding:10px;
+  h3{font-weight:normal;font-size:21px;display:inline-block;vertical-align:middle;}
+  span{display:inline-block;vertical-align:middle;color:#aaa;margin-left:10px;}
+}
+.member-container{width:400px;margin:0 auto;position:relative;}
