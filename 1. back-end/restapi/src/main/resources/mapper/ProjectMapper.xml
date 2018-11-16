@@ -46,9 +46,12 @@
         UPDATE project SET title = #{title}, description = #{description} where pidx = #{pidx}
     </update>
 
-
     <update id="putProjectToken" parameterType="HashMap">
         UPDATE project SET access_token = #{access_token} where pidx = #{pidx}
+    </update>
+
+    <update id="putStar" parameterType="HashMap">
+        UPDATE project SET star = #{star} where pidx = #{pidx}
     </update>
 
     <delete id="deleteProject" parameterType="integer">

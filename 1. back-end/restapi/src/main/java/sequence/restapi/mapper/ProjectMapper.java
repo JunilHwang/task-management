@@ -33,4 +33,6 @@ public interface ProjectMapper {
 
     // 프로젝트 삭제
     void deleteProject(int pidx);
+
+    void putStar(HashMap params);
 }

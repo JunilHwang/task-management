@@ -93,14 +93,10 @@
     },
     methods: {
       getURI: uri => encodeURIComponent(uri),
-      async icon (idx, star) {
-        if (star === 0) {
-          star = 1
-        } else {
-          star = 0
-        }
-        Api.putStar({idx, star})
-        this.projectList = (await Api.getProjectListOfMain(this.$store.state.member.idx)).rows
+      async icon (pidx, star) {
+        star = star === 0 ? 1 : 0
+        await this.getApiData(Api.putProjectStar({pidx, star}))
+        this.setProjectList()
       },
       setProjectList () {
         Api.getProjectListOfMain(this.$store.state.member.id).then(response => {
