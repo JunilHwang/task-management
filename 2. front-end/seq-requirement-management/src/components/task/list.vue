@@ -27,10 +27,9 @@
           <dl @click.prevent="$parent.matching.state ? matchSelect(task.tidx) : $router.push(`/task/view/${task.tidx}`)"
               :class="{active: matchList.indexOf(task.tidx) !== -1}">
             <dt class="title">
-              <p>
-                <span :class="`color-label color${task.state + 1}`" />
-                <span class="task-name" v-html="task.title" />
-              </p>
+              <span :class="`color-label color${task.state + 1}`" />
+              <span class="task-name" v-html="task.title" />
+              <span class="comment_cnt" v-html="task.comment_cnt" />
             </dt>
             <dd>
               <p class="list-content">
@@ -116,7 +115,8 @@
       &:hover,
       &.active{border-color:#444;}
     }
-    .title{font-size:15px;}
+    .title{font-size:15px;display:flex;align-items:center;}
+    .comment_cnt{display:inline-block;vertical-align:middle;font-size:11px;margin-left:10px;background:#ededee;color:#586069;padding:2px 5px;line-height:1;border-radius:20px;font-weight:600;}
     .date{font-size:11px;color:#666;margin-top:3px;}
     .icon{display:inline-block;width:11px;text-align:center;margin-right:5px;font-size:11px;
       i{margin-top:-3px;}

@@ -7,10 +7,10 @@ const RestApi = class {
   postMember (params) { return axios.post(`${baseURL}/member`, params) }
   getMemberOnProject (pidx) { return axios.get(`${baseURL}/memberOnProject/${pidx}`) }
   
+  getProjectList (mid) { return axios.get(`${baseURL}/projects/${mid}`) }
+  getProject (pidx) { return axios.get(`${baseURL}/project/${pidx}`) }
   postProject (params) { return axios.post(`${baseURL}/project`, params) }
   postProjectAccess (params) { return axios.post(`${baseURL}/project/access`, params) }
-  getProjectListOfMain (id) { return axios.get(`${baseURL}/projects/${id}`) }
-  getProject (pidx) { return axios.get(`${baseURL}/project/${pidx}`) }
   putProject (params) { return axios.put(`${baseURL}/project`, params) }
   putProjectStar(params) { return axios.put(`${baseURL}/project/star`, params)}
 
@@ -29,6 +29,7 @@ const RestApi = class {
   putViewDate() { throw `don't putViewDate impolemented` }
   
   getCommentList (tidx) { return axios.get(`${baseURL}/comments/${tidx}`) }
+  getCommentRecentlyList (mid) { return axios.get(`${baseURL}/comment/recently/${mid}`) }
   getComment (cidx) { return axios.get(`${baseURL}/comment/${cidx}`) }
   postComment (params) { return axios.post(`${baseURL}/comment/${params.tidx}`, params) }
   postCommentReply (params) { return axios.post(`${baseURL}/comment/reply`, params) }

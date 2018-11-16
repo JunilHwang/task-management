@@ -45,7 +45,6 @@ public class ProjectController {
             projectMapper.putProjectToken(data);
         } catch (Exception e) {
             success = false;
-            System.out.println(e);
             obj.put("err", e);
         }
         obj.put("success", success);
@@ -72,26 +71,6 @@ public class ProjectController {
             }
         } catch (Exception e) {
             success = false;
-            System.out.println(e);
-            obj.put("err", e);
-        }
-        obj.put("success", success);
-        return obj;
-    }
-
-    /**
-     * 프로젝트 목록을 가져온다.
-     * @param id : 데이터베이스에 등록된 회원의 id값.
-     * @return
-     */
-    @GetMapping(value="/api/projects/{id}")
-    HashMap getProjectList (@PathVariable String id) {
-        HashMap obj = new HashMap();
-        Boolean success = true;
-        try {
-            List list = projectMapper.getProjectList(id);
-            obj.put("list", list);
-        } catch (Exception e) {
             obj.put("err", e);
         }
         obj.put("success", success);
@@ -112,6 +91,27 @@ public class ProjectController {
             HashMap data = projectMapper.getProject(pidx);
             obj.put("project", data);
         } catch (Exception e) {
+            success = false;
+            obj.put("err", e);
+        }
+        obj.put("success", success);
+        return obj;
+    }
+
+    /**
+     * 프로젝트 목록을 가져온다.
+     * @param mid : 데이터베이스에 등록된 회원의 id값.
+     * @return
+     */
+    @GetMapping(value="/api/projects/{mid}")
+    HashMap getProjectList (@PathVariable String mid) {
+        HashMap obj = new HashMap();
+        Boolean success = true;
+        try {
+            List list = projectMapper.getProjectList(mid);
+            obj.put("list", list);
+        } catch (Exception e) {
+            success = false;
             obj.put("err", e);
         }
         obj.put("success", success);

@@ -124,7 +124,7 @@
         const memberData = await this.getApiData(Api.postMember(member))
 
         // 프로젝트 정보 가져오기
-        const projectData = await this.getApiData(Api.getProjectListOfMain(member.id))
+        const projectData = await this.getApiData(Api.getProjectList(member.id))
 
         // store에 저장 및 layer 닫기
         this.$store.commit('loggedIn', memberData.member)

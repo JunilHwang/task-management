@@ -15,6 +15,21 @@
         order by od asc
     </select>
 
+    <select id="getCommentListRecently" resultType="HashMap" parameterType="String">
+        SELECT  c.*,
+                m.name as writer_name,
+                m.photo_src,
+                p.pidx,
+                p.title as project_title,
+                t.title as task_title
+        FROM    comment c
+        JOIN    member m on c.writer = m.id
+        JOIN    task t on c.tidx = t.tidx
+        JOIN    project p on t.pidx = p.pidx
+        WHERE   c.tidx in (SELECT tidx FROM task where pidx in (SELECT pidx FROM project_access where mid = #{mid}))
+        order by c.update_date asc limit 10
+    </select>
+
     <select id="getComment" resultType="HashMap" parameterType="integer">
         SELECT * FROM comment where cidx = #{cidx}
     </select>
@@ -32,11 +47,12 @@
         tag = #{tag},
         writer = #{writer},
         content = #{content},
-        register_date = now();
+        register_date = now(),
+        update_date = now();
     </insert>
 
     <update id="updateComment" parameterType="HashMap">
-        UPDATE comment SET content = #{content}, tag = #{tag} where cidx = #{cidx}
+        UPDATE comment SET content = #{content}, tag = #{tag}, update_date = now() where cidx = #{cidx}
     </update>
 
     <update id="updateCommentOd" parameterType="HashMap">

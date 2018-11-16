@@ -10,10 +10,11 @@
     </select>
 
     <select id="getProjectList" resultType="HashMap" parameterType="String">
-        SELECT  p.*, s.midx as star
+        SELECT  p.*, s.mid as star
         FROM    project p LEFT
-        JOIN    project_star s on p.pidx = s.pidx
-        where   p.pidx in (SELECT pidx FROM project_access where mid = #{id});
+        JOIN    project_star s on p.pidx = s.pidx AND s.mid = #{mid}
+        where   p.pidx in (SELECT pidx FROM project_access where mid = #{mid})
+        order by p.register_date desc;
     </select>
 
     <select id="getProjectIdByToken" resultType="Integer" parameterType="String">
@@ -46,7 +47,7 @@
     </insert>
 
     <insert id="postStarOnMember" parameterType="HashMap">
-        INSERT INTO project_star SET pidx = #{pidx}, midx = #{midx}
+        INSERT INTO project_star SET pidx = #{pidx}, mid = #{mid}
     </insert>
 
     <update id="putProject" parameterType="HashMap">
@@ -62,7 +63,7 @@
     </delete>
 
     <delete id="deleteStarOnMember" parameterType="HashMap">
-        DELETE FROM project_star where pidx = #{pidx} and midx = #{midx}
+        DELETE FROM project_star where pidx = #{pidx} and mid = #{mid}
     </delete>
 
 </mapper>

@@ -7,15 +7,7 @@
       <projectMainList :projectList="projectListOnStar" type="star" />
       <projectMainList :projectList="projectList" type="default" />
       <projectTaskRecently :taskList="taskList" />
-      <section>
-        <h4 class="section-title">업데이트/생성 댓글 Top 10</h4>
-        <div class="section-content">
-          <template v-if="commntList.length">
-
-          </template>
-          <p class="none" v-else>구현 목록이 없습니다.</p>
-        </div>
-      </section>
+      <projectCommentRecently :commentList="commentList" />
     </div>
   </section>
 </template>
@@ -25,36 +17,43 @@
   import memberInfo from '@/components/member/info'
   import projectMainList from '@/components/project/main-list'
   import projectTaskRecently from '@/components/project/task-list-recently'
+  import projectCommentRecently from '@/components/project/comment-list-recently'
   export default {
     components: {
-      memberInfo, projectMainList, projectTaskRecently
+      memberInfo, projectMainList, projectTaskRecently, projectCommentRecently
     },
-    created () {
+    async created () {
       this.getProjectList()
       this.getTaskRecentlyList()
+      this.getCommentRecentlyList()
     },
     data () {
       return {
         taskList: [],
-        commntList: [],
+        commentList: [],
         projectList: [],
         projectListOnStar: [],
+        mid: this.$store.state.member.id
       }
     },
     methods: {
       async getProjectList () {
-        const data = await this.getApiData(Api.getProjectListOfMain(this.$store.state.member.id))
+        const data = await this.getApiData(Api.getProjectList(this.mid))
         const projectList = data.list
         const projectListOnStar = []
         projectList.forEach(v => {
-          if (v.star === 1) projectListOnStar.push(v)
+          if (v.star !== undefined) projectListOnStar.push(v)
         })
         this.projectList = projectList
         this.projectListOnStar = projectListOnStar
       },
       async getTaskRecentlyList () {
-        const data = await this.getApiData(Api.getTaskListRecently(this.$store.state.member.id))
+        const data = await this.getApiData(Api.getTaskListRecently(this.mid))
         this.taskList = data.list
+      },
+      async getCommentRecentlyList () {
+        const data = await this.getApiData(Api.getCommentRecentlyList(this.mid))
+        this.commentList = data.list
       }
     }
   }

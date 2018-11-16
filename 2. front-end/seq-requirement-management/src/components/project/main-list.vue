@@ -27,15 +27,15 @@
       const isStar = this.type === 'star'
       return {
         isStar,
-        title: isStar ? '즐겨찾기' : '참여 프로젝트'
+        title: isStar ? '즐겨찾기' : '참여 프로젝트',
+        midx: this.$store.state.member.midx
       }
     },
     methods: {
       async icon (pidx, star) {
         star = +!star
-        console.log(star)
-        const midx = this.$store.state.member.midx
-        await this.getApiData(Api.putProjectStar({pidx, midx, star}))
+        const mid = this.$store.state.member.id
+        await this.getApiData(Api.putProjectStar({pidx, mid, star}))
         this.$parent.getProjectList()
       },
     }

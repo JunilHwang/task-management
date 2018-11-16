@@ -35,6 +35,26 @@ public class CommentController {
     }
 
     /**
+     * 참여중인 프로젝트의 댓글 목록 중 최근에 업데이트된 top 10을 가져온다.
+     * @param mid : member id
+     * @return
+     */
+    @GetMapping(value="/api/comment/recently/{mid}")
+    HashMap getCommentRecently (@PathVariable String mid) {
+        HashMap obj = new HashMap();
+        Boolean success = true;
+        try {
+            List list = commentMapper.getCommentListRecently(mid);
+            obj.put("list", list);
+        } catch (Exception e) {
+            obj.put("err", e);
+            success = false;
+        }
+        obj.put("success", success);
+        return obj;
+    }
+
+    /**
      * 단일 댓글 정보를 가져온다.
      * @param cidx : comment index number
      * @return
