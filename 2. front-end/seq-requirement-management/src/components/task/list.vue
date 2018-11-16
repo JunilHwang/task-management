@@ -3,14 +3,8 @@
     <div class="list-header float-wrap">
       <p class="cnt">{{tasks.length}}개의 task가 존재합니다.</p>
       <div class="color-description">
-        <span class="color-label color1"> 
-          <span>진행</span>
-        </span>
-        <span class="color-label color2"> 
-          <span>완료</span>
-        </span>
-        <span class="color-label color3"> 
-          <span>에러</span>
+        <span v-for="(txt, key) in ['진행', '완료', '에러']" class="color-label workflow" :class="`color${key + 1} ${colorState === key ? 'active' : ''}`" :key="key"> 
+          <span @click="workflowSelect(key)" v-html="txt" />
         </span>
       </div>
     </div>
@@ -23,7 +17,7 @@
         </div>
       </div>
       <ul class="float-wrap">
-        <li v-for="(task, key) in tasks" :key="key">
+        <li v-for="(task, key) in tasks" :key="key" v-if="colorState === null || (colorState !== null && task.state === colorState)">
           <dl @click.prevent="$parent.matching.state ? matchSelect(task.tidx) : $router.push(`/task/view/${task.tidx}`)"
               :class="{active: matchList.indexOf(task.tidx) !== -1}">
             <dt class="title">
@@ -73,7 +67,8 @@
     },
     data () {
       return {
-        matchList: []
+        matchList: [],
+        colorState: null
       }
     },
     methods: {
@@ -99,6 +94,9 @@
       matchingOff () {
         this.matchList = []
         this.$parent.matchingOff()
+      },
+      workflowSelect(color){
+      	this.colorState = color === this.colorState ? null : color
       }
     }
   }
@@ -134,7 +132,10 @@
   .list-header{border-radius:3px;background:#fff;border:1px solid #ddd;padding:10px;margin-bottom:5px;}
   .cnt{float:left;}
   .color-description{float:right;
-    >span+span{margin-left:10px;}
+    span{padding:0 5px;}
   }
   .none{background:#fff;border:1px solid #ddd;padding:10px;border-radius:3px;}
+  .workflow{cursor:pointer;
+  	&.active{background:#f5f5f5;border-radius:10px;}
+  }
 </style>
