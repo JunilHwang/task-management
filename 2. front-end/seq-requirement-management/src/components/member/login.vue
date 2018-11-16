@@ -67,7 +67,6 @@
         const $s = require('scriptjs')
         $s('/js/kakao.sdk.js', () => {
           this.Kakao = Kakao
-          console.log(Kakao)
           Kakao.init('6304630a23985088f334f209161baec1')
         })
       },

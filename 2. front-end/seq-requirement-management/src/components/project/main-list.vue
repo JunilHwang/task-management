@@ -40,7 +40,7 @@
   }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "@/assets/scss/_lib.scss";
 .description{font-size:13px;margin-bottom:5px;height:20px;}
 .date{font-size:13px;color:#aaa}
