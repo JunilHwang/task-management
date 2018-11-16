@@ -9,7 +9,7 @@
             <p class="description" v-html="project.description" />
             <p class="date" v-html="getDateFormat(project.register_date)" />
           </div>
-          <a v-if="!isStar" href="#" class="star" :class="{active: project.star === 1}" @click.prevent="icon(project.pidx, project.star)">
+          <a v-if="!isStar" href="#" class="star" :class="{active: project.star}" @click.prevent="icon(project.pidx, project.star !== undefined)">
             <i class="far fa-star"></i>
           </a>
         </article>
@@ -32,8 +32,10 @@
     },
     methods: {
       async icon (pidx, star) {
-        star = star === 0 ? 1 : 0
-        await this.getApiData(Api.putProjectStar({pidx, star}))
+        star = +!star
+        console.log(star)
+        const midx = this.$store.state.member.midx
+        await this.getApiData(Api.putProjectStar({pidx, midx, star}))
         this.$parent.getProjectList()
       },
     }
