@@ -13,6 +13,12 @@
         SELECT * FROM task where pidx = #{pidx} and parent = #{parent}
     </select>
 
+    <select id="getTaskRecently" resultType="HashMap" parameterType="String">
+        SELECT * FROM task
+        where pidx in (SELECT pidx FROM project_access where mid = #{mid})
+        order by update_date desc limit 10
+    </select>
+
     <select id="getTask" resultType="HashMap" parameterType="integer">
         SELECT * FROM task where tidx = #{tidx}
     </select>
@@ -27,7 +33,8 @@
         start_date = #{start_date},
         limit_date = #{limit_date},
         state = 0,
-        register_date = now();
+        register_date = now(),
+        update_date = now();
     </insert>
 
     <update id="updateTask" parameterType="HashMap">
@@ -35,7 +42,8 @@
         title = #{title},
         description = #{description},
         start_date = #{start_date},
-        limit_date = #{limit_date}
+        limit_date = #{limit_date},
+        update_date = now()
         WHERE tidx = #{tidx}
     </update>
 

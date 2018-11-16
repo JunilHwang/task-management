@@ -45,7 +45,26 @@ public class TaskController {
         Boolean success = true;
         try {
             List list = taskMapper.getTaskListAll(pidx);
-            System.out.println(list);
+            obj.put("list", list);
+        } catch (Exception e) {
+            obj.put("err", e);
+            success = false;
+        }
+        obj.put("success", success);
+        return obj;
+    }
+
+    /**
+     * 참여중인 프로젝트의 task 목록 중 최근에 업데이트된 top 10을 가져온다.
+     * @param mid : member id
+     * @return
+     */
+    @GetMapping(value="/api/task/recently/{mid}")
+    HashMap getTaskRecently (@PathVariable String mid) {
+        HashMap obj = new HashMap();
+        Boolean success = true;
+        try {
+            List list = taskMapper.getTaskRecently(mid);
             obj.put("list", list);
         } catch (Exception e) {
             obj.put("err", e);
@@ -64,7 +83,6 @@ public class TaskController {
     HashMap postTask (@RequestBody HashMap data) {
         HashMap obj = new HashMap();
         Boolean success = true;
-        System.out.println(data);
         int parent = Integer.parseInt(data.get("parent").toString());
         int depth = 0;
         try {

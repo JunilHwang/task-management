@@ -31,8 +31,12 @@ public interface ProjectMapper {
     // 프로젝트 정보 수정
     void putProject(HashMap params);
 
+    // 즐겨찾기 추가
+    void postStarOnMember(HashMap params);
+
     // 프로젝트 삭제
     void deleteProject(int pidx);
 
-    void putStar(HashMap params);
+    // 즐겨찾기 삭제
+    void deleteStarOnMember(HashMap params);
 }

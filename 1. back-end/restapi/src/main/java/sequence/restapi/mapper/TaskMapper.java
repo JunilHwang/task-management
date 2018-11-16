@@ -10,6 +10,9 @@ public interface TaskMapper {
     // parent 값을 통하여 task list 불러오기
     List getTaskListByParent(HashMap params);
 
+    // 참여중인 프로젝트에서 최근에 없데이트된 task top 10 가져오기
+    List getTaskRecently(String mid);
+
     // 단일 task 불러오기
     HashMap getTask(int tidx);
 

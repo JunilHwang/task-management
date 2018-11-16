@@ -16,6 +16,7 @@ const RestApi = class {
 
   postTask (params) { return axios.post(`${baseURL}/task`, params) }
   getTaskList (pidx) { return axios.get(`${baseURL}/tasks/${pidx}`) }
+  getTaskListRecently (mid) { return axios.get(`${baseURL}/task/recently/${mid}`) }
   getTask (tidx) { return axios.get(`${baseURL}/task/${tidx}`) }
   putTask (params) { return axios.put(`${baseURL}/task`, params) }
   putTaskState (params) {

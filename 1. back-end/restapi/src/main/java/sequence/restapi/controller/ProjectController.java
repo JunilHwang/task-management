@@ -138,13 +138,23 @@ public class ProjectController {
         return obj;
     }
 
+    /**
+     * project 즐겨찾기 토글
+     * @param params {pidx, midx, star}
+     * @return
+     */
     @PutMapping(value="/api/project/star", consumes = {"application/json"})
     HashMap putProjectStar (@RequestBody HashMap params) {
         System.out.println(params);
         HashMap obj = new HashMap();
         Boolean success = true;
         try {
-            projectMapper.putStar(params);
+            System.out.println(params);
+            if (Integer.parseInt(params.get("star").toString()) == 1) {
+                projectMapper.postStarOnMember(params);
+            } else {
+                projectMapper.deleteStarOnMember(params);
+            }
         } catch (Exception e) {
             success = false;
             obj.put("err", e);
