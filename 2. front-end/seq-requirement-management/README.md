@@ -30,4 +30,6 @@ npm run lint
 npm run test:unit
 ```
 ### Desktop App Excute
+```
 yarn electron:serve
+```
