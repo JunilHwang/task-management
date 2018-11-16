@@ -12,6 +12,7 @@ const RestApi = class {
   getProjectListOfMain (id) { return axios.get(`${baseURL}/projects/${id}`) }
   getProject (pidx) { return axios.get(`${baseURL}/project/${pidx}`) }
   putProject (params) { return axios.put(`${baseURL}/project`, params) }
+  putProjectStar(params) { return axios.put(`${baseURL}/project/star`, params)}
 
   postTask (params) { return axios.post(`${baseURL}/task`, params) }
   getTaskList (pidx) { return axios.get(`${baseURL}/tasks/${pidx}`) }
@@ -24,7 +25,6 @@ const RestApi = class {
   }
   deleteTask (tidx) { return axios.delete(`${baseURL}/task/${tidx}`) }
   
-  putStar() { throw `don't putStar impolemented` }
   putViewDate() { throw `don't putViewDate impolemented` }
   
   getCommentList (tidx) { return axios.get(`${baseURL}/comments/${tidx}`) }

@@ -156,4 +156,17 @@ public class ProjectController {
         obj.put("success", success);
         return obj;
     }
+    @PutMapping(value="/api/project/star", consumes = {"application/json"})
+    HashMap putProjectStart (@RequestBody HashMap params) {
+        HashMap obj = new HashMap();
+        Boolean success = true;
+        try {
+            projectMapper.putStar(params);
+        } catch (Exception e) {
+            success = false;
+            obj.put("err", e);
+        }
+        obj.put("success", success);
+        return obj;
+    }
 }

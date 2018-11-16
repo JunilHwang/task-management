@@ -4,11 +4,11 @@
       <section class="section float-wrap">
         <h4 class="section-title">즐겨찾기</h4>
         <template v-if="projectList.length">
-          <article v-for="(data, key) in projectList" :key="key" v-if="data.star == 1" >
+          <article v-for="(data, key) in projectList" :key="key" v-if="data.star == 1">
             <div @click.prevent="$router.push(`/project/view/${data.pidx}`)">
-              <p class="article-title" v-html="data.subject" />
+              <p class="article-title" v-html="data.title" />
               <p class="description" v-html="data.description" />
-              <p class="date" v-html="getDateFormat(data.date)" />
+              <p class="date" v-html="getDateFormat(data.register_date)" />
             </div>
             <i :class="data.star==1 ? 'star' : null" 
             @click.prevent="icon(data.pidx, data.star)" class="color far fa-star animated fadeInRight"></i>
@@ -48,7 +48,7 @@
               <p class="date" v-html="getDateFormat(data.register_date)" />
             </div>
             <i :class="data.star==1 ? 'star' : null" 
-            @click.prevent="icon(data.idx, data.star)" class="color far fa-star animated fadeInRight"></i>
+            @click.prevent="icon(data.pidx, data.star)" class="color far fa-star animated fadeInRight"></i>
           </article>
         </template>
         <p v-else>참여 참여 목록이 없습니다.</p>
@@ -103,14 +103,10 @@
     },
     methods: {
       getURI: uri => encodeURIComponent(uri),
-      async icon (idx, star) {
-        if (star === 0) {
-          star = 1
-        } else {
-          star = 0
-        }
-        Api.putStar({idx, star})
-        this.projectList = (await Api.getProjectListOfMain(this.$store.state.member.idx)).rows
+      async icon (pidx, star) {
+        star = star === 0 ? 1 : 0
+        await this.getApiData(Api.putProjectStar({pidx, star}))
+        this.setProjectList()
       },
       previousSlide () {
         if (this.viewCount < 3 || this.pos === 0) {
