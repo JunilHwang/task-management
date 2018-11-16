@@ -6,15 +6,7 @@
     <div class="project-main-list">
       <projectMainList :projectList="projectListOnStar" type="star" />
       <projectMainList :projectList="projectList" type="default" />
-      <section>
-        <h4 class="section-title">업데이트/생성 테스크 Top 10</h4>
-        <div class="section-content">
-          <template v-if="taskList.length">
-
-          </template>
-          <p class="none" v-else>이슈 목록이 없습니다.</p>
-        </div>
-      </section>
+      <projectTaskRecently :taskList="taskList" />
       <section>
         <h4 class="section-title">업데이트/생성 댓글 Top 10</h4>
         <div class="section-content">
@@ -32,16 +24,19 @@
   import Api from '@/middleware/Api.js'
   import memberInfo from '@/components/member/info'
   import projectMainList from '@/components/project/main-list'
+  import projectTaskRecently from '@/components/project/task-list-recently'
   export default {
     components: {
-      memberInfo, projectMainList
+      memberInfo, projectMainList, projectTaskRecently
     },
-    created () { this.getProjectList() },
+    created () {
+      this.getProjectList()
+      this.getTaskRecentlyList()
+    },
     data () {
       return {
         taskList: [],
         commntList: [],
-        testList: [],
         projectList: [],
         projectListOnStar: [],
       }
@@ -56,6 +51,10 @@
         })
         this.projectList = projectList
         this.projectListOnStar = projectListOnStar
+      },
+      async getTaskRecentlyList () {
+        const data = await this.getApiData(Api.getTaskListRecently(this.$store.state.member.id))
+        this.taskList = data.list
       }
     }
   }

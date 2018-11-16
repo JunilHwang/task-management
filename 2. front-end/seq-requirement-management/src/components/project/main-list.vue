@@ -48,6 +48,7 @@
 .date{font-size:13px;color:#aaa}
 article{position:relative;background:#fff;padding:10px 15px;border-radius:3px;border:1px solid #ddd;transition:.3s;cursor:pointer;float:left;width:calc(50% - 5px);box-sizing:border-box;margin-bottom:10px;
   &:nth-child(2n){margin-left:10px;}
+  &:hover{border-color:#000;}
 }
 .star{color:$color-kakao;position:absolute;font-size:20px;right:10px;bottom:10px;
   &.active, &:hover{
