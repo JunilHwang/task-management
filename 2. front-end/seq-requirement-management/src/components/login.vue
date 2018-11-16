@@ -9,7 +9,7 @@
         </button>
       </li>
       <li>
-        <a href="#" id="btn-naver-custom" @click.prevent="naverLoginOpen" class="btn btn-social-naver full-width">
+        <a href="#" id="btn-naver-custom" @click.prevent="centerPopupOpen" class="btn btn-social-naver full-width">
           <span class="btn-icon"><img src="@/assets/naver-icon.png" alt="n" height="16"></span>
           Login with Naver
         </a>
@@ -21,10 +21,10 @@
         </button>
       </li>
       <li>
-        <button type="button" class="btn btn-social-kakao full-width" @click="signInKakaotalk">
+        <a href="#" class="btn btn-social-kakao full-width" @click.prevent="loginWithKakao">
           <span class="btn-icon"><i class="fas fa-comment"></i></span>
           Login with Kakao
-        </button>
+        </a>
       </li>
     </ul>
   </div>
@@ -35,26 +35,67 @@
   export default {
     props: ['send'],
     created () {
-      const $s = require('scriptjs')
-      $s('/js/naver.sdk.js', () => {
-        const naverLogin = new naver.LoginWithNaverId({
-          clientId: "onePygBsyBG0fbTiQKSI",
-          callbackUrl: "http://localhost:8080/naver/oauth",
-          isPopup: true
-          //loginButton: {color: "green", type: 3, height: 60}
-        })
-        /* (4) 네아로 로그인 정보를 초기화하기 위하여 init을 호출 */
-        naverLogin.init();
-
-        const sel = ele => document.querySelector(ele)
-        const loginBtn = sel('#btn-naver-custom')
-        
-        /* (4-1) 임의의 링크를 설정해줄 필요가 있는 경우 */
-        loginBtn.href = naverLogin.generateAuthorizeUrl()
-      })
+      this.naverInit()
+      this.kakaoInit()
+    },
+    data () {
+      return {
+        Kakao: null
+      }
     },
     methods: {
-      naverLoginOpen (e) {
+      naverInit () {
+        const $s = require('scriptjs')
+        $s('/js/naver.sdk.js', () => {
+          const naverLogin = new naver.LoginWithNaverId({
+            clientId: "onePygBsyBG0fbTiQKSI",
+            callbackUrl: "http://localhost:8080/naver/oauth",
+            isPopup: true
+            //loginButton: {color: "green", type: 3, height: 60}
+          })
+          /* (4) 네아로 로그인 정보를 초기화하기 위하여 init을 호출 */
+          naverLogin.init();
+
+          const sel = ele => document.querySelector(ele)
+          const loginBtn = sel('#btn-naver-custom')
+          
+          /* (4-1) 임의의 링크를 설정해줄 필요가 있는 경우 */
+          loginBtn.href = naverLogin.generateAuthorizeUrl()
+        })
+      },
+      kakaoInit () {
+        const $s = require('scriptjs')
+        $s('/js/kakao.sdk.js', () => {
+          this.Kakao = Kakao
+          console.log(Kakao)
+          Kakao.init('6304630a23985088f334f209161baec1')
+        })
+      },
+      loginWithKakao () {
+        // 로그인 창을 띄웁니다.
+        const $http = this.$http
+        console.log(this.Kakao)
+        this.Kakao.Auth.login({
+          success (authObj) {
+            const access_token = authObj.access_token
+            const url = 'https://kapi.kakao.com/v2/user/me'
+            $http({
+              method: 'get',
+              url,
+              header: {
+                authorization: `Bearer ${access_token}`,
+                contentType: 'application/x-www-form-urlencoded;charset=utf-8'
+              }
+            }).then(response => {
+              console.log(response)
+            })
+          },
+          fail (err) {
+            alert(JSON.stringify(err))
+          }
+        });
+      },
+      centerPopupOpen (e) {
         const url = e.target.href
         
         const dualScreenLeft = window.screenLeft || window.screenX;
@@ -67,7 +108,7 @@
         const left = ((width / 2) - (w / 2)) + dualScreenLeft;
         const top = ((height / 2) - (h / 2)) + dualScreenTop;
 
-        window.open(url, 'naver login', `scrollbars=yes, width=${w}, height=${h}, top=${top}, left=${left}`)
+        window.open(url, 'login popup', `scrollbars=yes, width=${w}, height=${h}, top=${top}, left=${left}`)
       },
       async signInByGoogle () {
         // google 에서 user 정보 가져오기 
@@ -90,24 +131,6 @@
         this.$store.commit('loggedIn', memberData.member)
         this.$store.commit('closeLayer')   
         this.$store.commit('setState', ['projectList', projectData.list])
-      },
-      signInKakaotalk(){
-        Kakao.init('62972c20fe0428fe86b0bf5339114c75')
-        Kakao.Auth.login({
-          success: function(authObj) {
-            const member = {
-              kakao_access_token: authObj.access_toekn,
-              id: user.El,
-              name: user.w3.ig,
-              email: user.w3.U3,
-              photo_src: user.w3.Paa
-            }
-            alert(JSON.stringify(authObj));
-          },
-          fail: function(err) {
-            alert(JSON.stringify(err));
-          }
-        })
       }
     }
   }  

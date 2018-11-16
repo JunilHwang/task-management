@@ -32,6 +32,10 @@ export default new Router({
       component: () => import(`${view}/naver-oauth.vue`)
     },
     {
+      path: '/kakao/oauth',
+      component: () => import(`${view}/kakao-oauth.vue`)
+    },
+    {
       path: '/member/login',
       component: () => import(`${member}/login.vue`)
     },
