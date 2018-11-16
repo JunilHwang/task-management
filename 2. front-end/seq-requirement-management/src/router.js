@@ -7,7 +7,6 @@ Vue.use(Router)
 
 // path
 const view = './views'
-const member = `${view}/member`
 const project = `${view}/project`
 const task = `${view}/task`
 
@@ -30,30 +29,6 @@ export default new Router({
     {
       path: '/naver/oauth',
       component: () => import(`${view}/naver-oauth.vue`)
-    },
-    {
-      path: '/member/login',
-      component: () => import(`${member}/login.vue`)
-    },
-    {
-      path: '/member/join',
-      component: () => import(`${member}/join.vue`)
-    },
-    {
-      path: '/member/pw-search',
-      component: () => import(`${member}/pw-search.vue`)
-    },/*
-    {
-      path: '/member/mypage',
-      component: () => import(`${member}/mypage.vue`)
-    },*/
-    {
-      path: '/member/info-update',
-      component: () => import(`${member}/info-update.vue`)
-    },
-    {
-      path: '/member/pw-update',
-      component: () => import(`${member}/pw-update.vue`)
     },
     {
       path: '/project/',

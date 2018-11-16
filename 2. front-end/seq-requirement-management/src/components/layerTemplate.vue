@@ -8,16 +8,14 @@
 </template>
 
 <script>
-  import category from './category'
-  import login from './login'
+  import login from './member/login'
   import projectCreate from './project/create'
   import projectAccess from './project/access'
-  import githubRepository from './openapi/git-repo-add'
+  import githubRepository from './openapi/github-select'
   import taskCreate from './task/create'
   import taskUpdate from './task/update'
   export default {
     components: {
-      category,
       login,
       projectCreate,
       projectAccess,

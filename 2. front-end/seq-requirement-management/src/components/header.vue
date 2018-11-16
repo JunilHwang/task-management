@@ -3,11 +3,10 @@
     <div class="container">
       <h3 class="logo"><router-link to="/project">Project Task Management</router-link></h3>
       <ul class="gnb">
-        <li><router-link to="/project">프로젝트 관리</router-link></li>
         <template v-if="$store.state.member">
+          <li><router-link to="/project">프로젝트 관리</router-link></li>
           <li><a href="#" @click.prevent="openProjectAccess">프로젝트 엑세스</a></li>
           <li><a href="#" @click.prevent="openProjectPopup">프로젝트 생성</a></li>          
-          <li><router-link to="/member/mypage">마이페이지</router-link></li>
           <li><a href="#" @click.prevent="logout">로그아웃</a></li>
         </template>
         <template v-else>
@@ -33,6 +32,7 @@
         this.$store.commit('setState', ['projectList', []])
         this.$store.commit('logout')
         alert('로그아웃 되었습니다')
+        this.$router.push('/project')
       }
     }
   }

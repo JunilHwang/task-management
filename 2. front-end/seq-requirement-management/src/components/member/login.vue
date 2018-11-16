@@ -21,7 +21,7 @@
         </button>
       </li>
       <li>
-        <button type="button" class="btn btn-social-kakao full-width" @click="signInKakaotalk">
+        <button type="button" class="btn btn-social-kakao full-width">
           <span class="btn-icon"><i class="fas fa-comment"></i></span>
           Login with Kakao
         </button>
@@ -90,24 +90,6 @@
         this.$store.commit('loggedIn', memberData.member)
         this.$store.commit('closeLayer')   
         this.$store.commit('setState', ['projectList', projectData.list])
-      },
-      signInKakaotalk(){
-        Kakao.init('62972c20fe0428fe86b0bf5339114c75')
-        Kakao.Auth.login({
-          success: function(authObj) {
-            const member = {
-              kakao_access_token: authObj.access_toekn,
-              id: user.El,
-              name: user.w3.ig,
-              email: user.w3.U3,
-              photo_src: user.w3.Paa
-            }
-            alert(JSON.stringify(authObj));
-          },
-          fail: function(err) {
-            alert(JSON.stringify(err));
-          }
-        })
       }
     }
   }  
