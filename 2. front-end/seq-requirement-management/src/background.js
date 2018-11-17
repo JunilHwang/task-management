@@ -14,12 +14,12 @@ let win
 protocol.registerStandardSchemes(['app'], { secure: true })
 function createWindow () {
   // Create the browser window.
-  win = new BrowserWindow({ width: 1300, height: 700, frame: false, useContentSize: true, title: "Project Task Management" })
+  win = new BrowserWindow({ width: 1300, height: 700, useContentSize: true, title: "Project Task Management" })
 
   if (isDevelopment || process.env.IS_TEST) {
     // Load the url of the dev server if in development mode
     win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
-
+    win.setMenu(null);
     if (!process.env.IS_TEST) win.webContents.openDevTools()
   } else {
     createProtocol('app')
