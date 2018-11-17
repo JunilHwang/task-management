@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseURL = 'http://localhost:8090/api'
+const baseURL = '/api'
 const RestApi = class {
   constructor () { }
   
@@ -13,6 +13,7 @@ const RestApi = class {
   postProjectAccess (params) { return axios.post(`${baseURL}/project/access`, params) }
   putProject (params) { return axios.put(`${baseURL}/project`, params) }
   putProjectStar(params) { return axios.put(`${baseURL}/project/star`, params)}
+  deleteProject (pidx) { return axios.delete(`${baseURL}/project/${pidx}`) }
 
   postTask (params) { return axios.post(`${baseURL}/task`, params) }
   getTaskList (pidx) { return axios.get(`${baseURL}/tasks/${pidx}`) }

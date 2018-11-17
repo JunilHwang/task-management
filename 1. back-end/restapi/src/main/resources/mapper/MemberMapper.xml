@@ -19,11 +19,12 @@
 
     <insert id="postMember" parameterType="HashMap">
         INSERT INTO member SET
-        `google_access_token` = #{google_access_token},
         `id` = #{id},
         `name` = #{name},
         `email` = #{email},
         `photo_src` = #{photo_src},
+        `google_access_token` = #{google_access_token},
+        `kakao_access_token` = #{kakao_access_token},
         register_date = now();
     </insert>
 </mapper>

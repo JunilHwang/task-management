@@ -46,8 +46,7 @@
         }
         await this.getApiData(Api.postProject(params))
         alert('프로젝트가 추가되었습니다.')
-        const data = await this.getApiData(Api.getProjectListOfMain(writer))
-        this.$store.commit('setState', ['projectList', data.list])
+        if (window.setProjectList) window.setProjectList()
         this.$store.commit('closeLayer')
       },
       requiredCheck () {

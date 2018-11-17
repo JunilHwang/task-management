@@ -59,7 +59,13 @@
     </update>
 
     <delete id="deleteProject" parameterType="integer">
-        DELETE FROM project WHERE pidx = #{pidx}
+        DELETE FROM comment where tidx in (SELECT tidx FROM task where pidx = #{pidx});
+        DELETE FROM task_commit where tidx in (SELECT tidx FROM task where pidx = #{pidx});
+        DELETE FROM task where pidx = #{pidx};
+        DELETE FROM github_repository WHERE pidx = #{pidx};
+        DELETE FROM project_access where pidx = #{pidx};
+        DELETE FROM project_star where pidx = #{pidx};
+        DELETE FROM project where pidx = #{pidx};
     </delete>
 
     <delete id="deleteStarOnMember" parameterType="HashMap">

@@ -3,7 +3,7 @@
     <h4 class="section-title">업데이트/생성 댓글 Top 10</h4>
     <div class="section-content">
       <template v-if="commentList.length">
-        <article class="comment-component" v-for="(comment, key) in commentList" :key="key" :style="{marginLeft: comment.depth * 20 + 'px'}">
+        <article class="comment-component" v-for="(comment, key) in commentList" :key="key">
           <header>
             <div class="writer">
               <span class="photo" :style="`background-image:url(${comment.photo_src})`"></span>

@@ -45,13 +45,11 @@
           name: user.name,
           email: user.email,
           photo_src: user.profile_image,
-          google_access_token: ''
+          google_access_token: '',
+          kakao_access_token: ''
         }
-        const memberResponse = await Api.postMember(member)
-        const memberData = memberResponse.data
-        if (!memberData.success) throw memberData.err
-        this.$store.commit('loggedIn', memberData.member)
-        window.opener.location.reload()
+        const memberData = await this.getApiData(await Api.postMember(member))
+        window.opener.naverCallback(memberData.member)
         window.close()
       }
     }

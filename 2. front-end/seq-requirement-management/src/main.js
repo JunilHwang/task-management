@@ -81,7 +81,9 @@ Vue.prototype.getApiData = async (promise) => {
 
 Vue.use(GAuth, {
   clientId: googleKey.web.client_id,
-  scope: 'profile email https://www.googleapis.com/auth/plus.login'
+  scope: 'profile email https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/calendar',
+  apiKey: googleKey.apiKey,
+  discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest']
 })
 
 new Vue({

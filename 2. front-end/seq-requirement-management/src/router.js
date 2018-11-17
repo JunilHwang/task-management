@@ -16,7 +16,13 @@ export default new Router({
   routes: [
     {
       path: '',
-      component: () => import(`${view}/main.vue`)
+      component: () => import(`${view}/main.vue`),
+      children: [
+        {
+          path: '',
+          component: () => import(`${project}/main.vue`)
+        }
+      ]
     },
     {
       path: '/google',
@@ -32,7 +38,7 @@ export default new Router({
     },
     {
       path: '/project/',
-      component: () => import(`${project}/index.vue`),
+      component: () => import(`${view}/main.vue`),
       children: [
         {
           path: '',
@@ -54,7 +60,7 @@ export default new Router({
     },
     {
       path: '/task/',
-      component: () => import(`${project}/index.vue`),
+      component: () => import(`${view}/main.vue`),
       children: [
         {
           path: 'view/:tidx',

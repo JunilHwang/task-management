@@ -34,6 +34,9 @@
             <li>
               <a href="#" class="btn btn-full point" @click.prevent="copyToken">프로젝트 Token 복사</a>
             </li>
+            <li>
+              <a href="#" class="btn btn-full point" @click.prevent="deleteProject">프로젝트 삭제</a>
+            </li>
           </ul>
         </fieldset>
       </form>
@@ -56,6 +59,11 @@
         const pidx = this.pidx
         await this.getApiData(Api.putProject({title, description, pidx}))
         alert('수정되었습니다')
+      },
+      async deleteProject () {
+        if (!confirm('정말로 삭제하시겠습니까?')) return
+        await this.getApiData(Api.deleteProject(this.pidx))
+        this.$router.push('/')
       },
       copyToken () {
         const input = document.createElement('input')

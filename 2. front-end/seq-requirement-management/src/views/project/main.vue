@@ -26,6 +26,10 @@
       this.getProjectList()
       this.getTaskRecentlyList()
       this.getCommentRecentlyList()
+      window.setProjectList = () => {
+        this.getProjectList()
+        this.getTaskRecentlyList()        
+      }
     },
     data () {
       return {

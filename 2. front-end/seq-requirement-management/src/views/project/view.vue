@@ -10,7 +10,7 @@
       </section>
       <projectGithubRepos />
       <div class="btn-group">
-        <router-link to="/project" class="btn point">프로젝트 목록</router-link>
+        <router-link to="/" class="btn point">프로젝트 목록</router-link>
         <router-link :to="`/project/setting/${projectData.pidx}`" class="btn point">프로젝트 설정</router-link>
         <a href="#" class="btn submit" @click.prevent="$store.commit('openLayer', 'taskCreate')">테스크 추가</a>
         <a href="#" class="btn submit" @click.prevent="copyToken">토큰 복사</a>

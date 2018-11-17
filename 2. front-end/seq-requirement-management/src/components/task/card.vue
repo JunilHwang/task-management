@@ -1,7 +1,8 @@
 <template>  
   <dl @click.prevent="$router.push(`/task/view/${task.tidx}`)">
-    <dt class="title">
+    <dt class="list-header">
       <span :class="`color-label color${task.state + 1}`" />
+      <span class="project-title" v-html="`[${task.project_title}]`" />
       <span class="task-name" v-html="task.title" />
       <span class="comment_cnt" v-html="task.comment_cnt" />
     </dt>
@@ -36,8 +37,9 @@
   dl{border-radius:3px;border:1px solid #ddd;background:#fff;padding:20px;cursor:pointer;position:relative;
     &:hover{border-color:#444;}
   }
+  .list-header{font-size:15px;display:flex;align-items:center;}
   .comment_cnt{display:inline-block;vertical-align:middle;font-size:11px;margin-left:10px;background:#ededee;color:#586069;padding:2px 5px;line-height:1;border-radius:20px;font-weight:600;}
-  .title{font-size:15px;display:flex;align-items:center;}
+  .project-title{color:$color1-darken-20;margin-right:5px;}
   .date{font-size:11px;color:#666;margin-top:3px;}
   .icon{display:inline-block;width:11px;text-align:center;margin-right:5px;font-size:11px;
     i{margin-top:-3px;}
@@ -46,5 +48,5 @@
     &.before{color:$color-google}
     &.after{color:$color-facebook}
   }
-  .list-content{margin:10px 0;word-break:break-all;}
+  .list-content{margin:5px 0;word-break:break-all;}
 </style>

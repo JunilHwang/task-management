@@ -14,7 +14,7 @@
           </a>
         </article>
       </template>
-      <p v-else>참여 참여 목록이 없습니다.</p>
+      <p class="none" v-else>참여 참여 목록이 없습니다.</p>
     </div>
   </section>
 </template>

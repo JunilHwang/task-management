@@ -36,7 +36,7 @@
     props: ['send'],
     created () {
       this.naverInit()
-      this.kakaoInit()
+      //this.kakaoInit()
     },
     data () {
       return {
@@ -55,12 +55,10 @@
           })
           /* (4) 네아로 로그인 정보를 초기화하기 위하여 init을 호출 */
           naverLogin.init();
-
-          const sel = ele => document.querySelector(ele)
-          const loginBtn = sel('#btn-naver-custom')
           
           /* (4-1) 임의의 링크를 설정해줄 필요가 있는 경우 */
-          loginBtn.href = naverLogin.generateAuthorizeUrl()
+          document.querySelector('#btn-naver-custom').href = naverLogin.generateAuthorizeUrl()
+          window.naverCallback = user => this.naverCallback(user)
         })
       },
       kakaoInit () {
@@ -71,9 +69,10 @@
         })
       },
       loginWithKakao () {
+        alert('공사중')
+        return
         // 로그인 창을 띄웁니다.
         const $http = this.$http
-        console.log(this.Kakao)
         this.Kakao.Auth.login({
           success (authObj) {
             const access_token = authObj.access_token
@@ -130,6 +129,9 @@
         this.$store.commit('loggedIn', memberData.member)
         this.$store.commit('closeLayer')   
         this.$store.commit('setState', ['projectList', projectData.list])
+      },
+      naverCallback (user) {
+        this.$store.commit('loggedIn', user)
       }
     }
   }  

@@ -31,7 +31,7 @@ public class RestapiApplication {
         return sessionFactory.getObject();
     }
 
-    @Bean
+    /*@Bean
     public WebMvcConfigurer webMvcConfigurer() {
         return new WebMvcConfigurer() {
             @Override
@@ -43,5 +43,5 @@ public class RestapiApplication {
                         .maxAge(3600);
             }
         };
-    }
+    }*/
 }

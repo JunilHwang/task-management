@@ -18,14 +18,16 @@
 
     <select id="getTaskRecently" resultType="HashMap" parameterType="String">
         SELECT t.*,
-               (SELECT count(*) FROM comment where tidx = t.tidx) as comment_cnt
+               (SELECT count(*) FROM comment where tidx = t.tidx) as comment_cnt,
+               (SELECT title FROM project where pidx = t.pidx) as project_title
         FROM task t
         where t.pidx in (SELECT pidx FROM project_access where mid = #{mid})
         order by t.update_date desc limit 10
     </select>
 
     <select id="getTask" resultType="HashMap" parameterType="integer">
-        SELECT * FROM task where tidx = #{tidx}
+        SELECT  *
+        FROM    task where tidx = #{tidx}
     </select>
 
     <insert id="postTask" parameterType="HashMap">

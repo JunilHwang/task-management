@@ -27,7 +27,7 @@
         JOIN    task t on c.tidx = t.tidx
         JOIN    project p on t.pidx = p.pidx
         WHERE   c.tidx in (SELECT tidx FROM task where pidx in (SELECT pidx FROM project_access where mid = #{mid}))
-        order by c.update_date asc limit 10
+        order by c.update_date desc limit 10
     </select>
 
     <select id="getComment" resultType="HashMap" parameterType="integer">
