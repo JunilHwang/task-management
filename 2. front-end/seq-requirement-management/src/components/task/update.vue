@@ -100,10 +100,9 @@
     data () {
       const [tidx, required, task, start, start_h, start_m, limit, limit_h, limit_m, calendarConn] = [null, true, {}, null, null, null, null, null, null, null]
       return {
-        TaskCore, tidx, required, task, start, start_h, start_m, limit, limit_h, limit_m,
+        TaskCore, tidx, required, task, start, start_h, start_m, limit, limit_h, limit_m, calendarConn,
         disableStart: {to: this.getSubDay(), from: null},
-        disableLimit: {to: this.getSubDay()},
-        calendarConn: null
+        disableLimit: {to: this.getSubDay()}
       }
     },
     methods: {
@@ -144,8 +143,6 @@
         const email = member.email
         const startDate = this.moment(updatedTask.start_date).format()
         const limitDate = this.moment(updatedTask.limit_date).format()
-        const midx = member.midx
-        const tidx = task.tidx
         const calendarId = 'primary'
         const eventId = this.calendarConn.id
 
@@ -157,16 +154,12 @@
         }
 
         const calendar = await this.gapiInit()
-        calendar.events
-          .update({calendarId, eventId, resource})
-          .execute(async e => {
-            console.log(e)
-          })
+        calendar.events.update({calendarId, eventId, resource})
       },
       async gapiInit () {
         return new Promise (resolve => {
-          gapi.load('client:auth2', async () => {
-            await gapi.client.init(this.getGoogleConfig())
+          window.gapi.load('client:auth2', async () => {
+            await window.gapi.client.init(this.getGoogleConfig())
             this.gapiCalendar = window.gapi.client.calendar
             resolve(window.gapi.client.calendar)
           })          

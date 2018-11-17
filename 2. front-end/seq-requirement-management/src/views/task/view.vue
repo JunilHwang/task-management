@@ -106,8 +106,8 @@
             await this.getApiData(Api.putMemberGoogleToken({midx, token}))
             this.$store.state.member.google_access_token = token
           }
-          gapi.load('client:auth2', async () => {
-            await gapi.client.init(this.getGoogleConfig())
+          window.gapi.load('client:auth2', async () => {
+            await window.gapi.client.init(this.getGoogleConfig())
             this.gapiCalendar = window.gapi.client.calendar
             resolve(window.gapi.client.calendar)
           })
@@ -152,7 +152,7 @@
       async deleteCalendar () {
         if (!confirm('정말로 삭제하시겠습니까?')) return
         const calendar = await this.gapiInit()
-        calendar.events.delete({calendarId: 'primary', eventId: this.calendarConn.id}).execute(async e => {
+        calendar.events.delete({calendarId: 'primary', eventId: this.calendarConn.id}).execute(async () => {
           await this.getApiData(Api.deleteTaskOnCalendar(this.calendarConn.id))
           this.calendarConn = null
           alert('삭제 되었습니다')

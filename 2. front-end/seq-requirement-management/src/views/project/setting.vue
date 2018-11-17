@@ -4,7 +4,6 @@
       <settingDefault :projectData="projectData" />
       <settingMember :projectData="projectData" />
       <settingGithub :projectData="projectData" />
-      <settingCalendar :projectData="projectData" />
     </div>
     <div class="btn-group btm" v-if="projectData">
       <router-link :to="`/project/view/${projectData.pidx}`" class="btn point">설정완료</router-link>&nbsp;
@@ -18,8 +17,7 @@
     components: {
       settingDefault: () => import(`@/components/project/setting-default`),
       settingMember: () => import(`@/components/project/setting-member`),
-      settingGithub: () => import(`@/components/project/setting-github`),
-      settingCalendar: () => import(`@/components/project/setting-calendar`)
+      settingGithub: () => import(`@/components/project/setting-github`)
     },
     data () {
       return {

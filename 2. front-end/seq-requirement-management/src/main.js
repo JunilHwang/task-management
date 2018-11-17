@@ -20,7 +20,7 @@ const access = Vue.prototype.$access = (bool, msg, url = false) => {
   }
 }
 
-const digit = Vue.prototype.digit = num => {
+Vue.prototype.digit = num => {
   num = ('0' + num).slice(-2)
   return num
 }
@@ -57,7 +57,7 @@ const getFlowDate = Vue.prototype.getFlowDate = time => {
   return newTime
 }
 Vue.prototype.$http = axios
-Vue.prototype.getRange = (start_date, limit_date, limit_time) => {
+Vue.prototype.getRange = (start_date, limit_date) => {
   const start = moment(start_date).format('MM. DD HH:mm')
   const limit = moment(limit_date).format('MM. DD HH:mm')
   return `${start} ~ ${limit}`
@@ -72,10 +72,7 @@ Vue.prototype.getRemaining = (date, toString = true) => {
 Vue.prototype.getApiData = async (promise) => {
   const response = await promise
   const data = response.data
-  if (!data.success) {
-    throw data.err
-    return
-  }
+  if (!data.success) throw data.err
   return data
 }
 Vue.prototype.getGoogleConfig = () => googleKey.config

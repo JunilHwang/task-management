@@ -15,7 +15,6 @@
 </template>
 
 <script>
-  import Api from '@/middleware/Api.js'
   import taskCard from '@/components/task/card'
   export default {
     props: ['taskList'],

@@ -95,7 +95,7 @@
         this.$parent.matchingOff()
       },
       workflowSelect(color){
-      	this.colorState = color === this.colorState ? null : color
+        this.colorState = color === this.colorState ? null : color
       }
     }
   }
@@ -136,6 +136,6 @@
   }
   .none{background:#fff;border:1px solid #ddd;padding:10px;border-radius:3px;}
   .workflow{cursor:pointer;
-  	&.active{background:#f5f5f5;border-radius:10px;}
+    &.active{background:#f5f5f5;border-radius:10px;}
   }
 </style>

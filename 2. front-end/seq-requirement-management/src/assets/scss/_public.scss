@@ -13,9 +13,10 @@
 
 /* layout */
 .float-wrap:after{content:"";display:block;clear:both;}
-.site-content{background:$color-grey;
+.site-content{background:url(../bg.jpg) no-repeat center / cover;position:relative;
+  &:before{content:"";position:absolute;left:0;top:0;bottom:0;right:0;background:$color-grey;opacity:0.9;}
   >div{min-height:300px;}
-  .container-inner{padding:50px}
+  .container-inner{padding:50px;position:relative;z-index:20;}
 }
 .content-title{font-size:30px;text-align:center;color:$color1-darken-10;font-weight:400;
   &:after{content:"";display:block;height:1px;width:50px;margin:20px auto 30px;background:#bebebe;}
@@ -52,7 +53,7 @@ span.middle{display:inline-block;vertical-align:middle;height:100%;width:0;
 
 /* button */
 a.btn{text-decoration:none;text-align:center;}
-.btn{border:none;padding:7px 15px;vertical-align:middle;font-size:15px;font-family:inherit;color:#FFF;transition:.3s;vertical-align:middle;cursor:pointer;display:inline-block;
+.btn{border:none;padding:7px 15px;vertical-align:middle;font-size:15px;font-family:inherit;color:#FFF;transition:.3s;vertical-align:middle;cursor:pointer;display:inline-block;border-radius:3px;
   &.btn-full{display:block;text-align:center;width:100%;box-sizing:border-box;padding:10px 0;font-size:17px;font-weight:400;}
   &.mini{padding:3px 7px;font-size:13px;}
   &.white{border:1px solid #fff;

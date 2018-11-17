@@ -19,7 +19,6 @@ export default {
     const apiURL = 'https://api.github.com/repos/lecture4u/capstone-capsequence/commits?per_page=100&sha=&branch=master&access_token=264962a4f21c5d6c0b13d0f4e321899ce3716c69'
     this.$http.get(apiURL).then(res => {
       this.commitList = res.data
-      console.log(res.data)
     })
   }
 }

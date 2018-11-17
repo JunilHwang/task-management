@@ -47,7 +47,7 @@
       naverInit () {
         const $s = require('scriptjs')
         $s('/js/naver.sdk.js', () => {
-          const naverLogin = new naver.LoginWithNaverId({
+          const naverLogin = new window.naver.LoginWithNaverId({
             clientId: "onePygBsyBG0fbTiQKSI",
             callbackUrl: "http://localhost:8080/naver/oauth",
             isPopup: true
@@ -64,34 +64,27 @@
       kakaoInit () {
         const $s = require('scriptjs')
         $s('/js/kakao.sdk.js', () => {
-          this.Kakao = Kakao
-          Kakao.init('6304630a23985088f334f209161baec1')
+          window.Kakao.init('6304630a23985088f334f209161baec1')
         })
       },
       loginWithKakao () {
-        alert('공사중')
-        return
         // 로그인 창을 띄웁니다.
-        const $http = this.$http
-        this.Kakao.Auth.login({
-          success (authObj) {
-            const access_token = authObj.access_token
-            const url = 'https://kapi.kakao.com/v2/user/me'
-            $http({
-              method: 'get',
-              url,
-              header: {
-                authorization: `Bearer ${access_token}`,
-                contentType: 'application/x-www-form-urlencoded;charset=utf-8'
-              }
-            }).then(response => {
-              console.log(response)
-            })
-          },
-          fail (err) {
-            alert(JSON.stringify(err))
-          }
-        });
+        const success = authObj => {
+          const access_token = authObj.access_token
+          const url = 'https://kapi.kakao.com/v2/user/me'
+          this.$http({
+            method: 'get',
+            url,
+            header: {
+              authorization: `Bearer ${access_token}`,
+              contentType: 'application/x-www-form-urlencoded;charset=utf-8'
+            }
+          }).then(response => {
+            throw response
+          })
+        }
+        const fail = err => alert(JSON.stringify(err))
+        window.Kakao.Auth.login({success, fail})
       },
       centerPopupOpen (e) {
         const url = e.target.href
