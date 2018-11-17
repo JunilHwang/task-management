@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import $ from 'jquery'
-import GAuth from 'vue-google-oauth2'
+import GAuth from './middleware/gauth.js'
 import axios from 'axios'
 import moment from 'moment'
 
@@ -78,13 +78,9 @@ Vue.prototype.getApiData = async (promise) => {
   }
   return data
 }
+Vue.prototype.getGoogleConfig = () => googleKey.config
 
-Vue.use(GAuth, {
-  clientId: googleKey.web.client_id,
-  scope: 'profile email https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/calendar',
-  apiKey: googleKey.apiKey,
-  discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest']
-})
+Vue.use(GAuth, googleKey.config)
 
 new Vue({
   router,

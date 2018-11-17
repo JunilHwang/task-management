@@ -16,4 +16,7 @@ public interface MemberMapper {
 
     // 회원 등록하기
     void postMember(HashMap data);
+
+    // 구글 토큰 업데이트
+    void putMemberGoogleToken(HashMap data);
 }

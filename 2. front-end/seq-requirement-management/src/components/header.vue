@@ -9,9 +9,6 @@
           <li><a href="#" @click.prevent="openProjectPopup">프로젝트 생성</a></li>          
           <li><a href="#" @click.prevent="logout">로그아웃</a></li>
         </template>
-        <template v-else>
-          <li><a href="#" @click.prevent="openLogin">로그인</a></li>          
-        </template>
       </ul>
     </div>
   </header>
