@@ -2,7 +2,8 @@
   <section>
     <div class="requirement-create">
     <h3 class="requirement-title">Task 수정</h3>
-      <form action="" method="post" name="task" @submit="TaskCore.update" @keyup="requiredCheck" @change="requiredCheck">
+      <CustomLoading :loading="loading" />
+      <form v-if="loading" action="" method="post" name="task" @submit="TaskCore.update" @keyup="requiredCheck" @change="requiredCheck">
         <fieldset><legend>Task 수정</legend>
           <ul class="fields">
             <li>
@@ -84,14 +85,17 @@
 
 <script>
   import TaskCore from '@/middleware/Task.js'
-  import Datepicker from 'vuejs-datepicker';
+  import Datepicker from 'vuejs-datepicker'
+  import CustomLoading from '@/components/loading'
+
   export default {
-    components: { Datepicker },
+    components: { Datepicker, CustomLoading },
     async created () {
       TaskCore.init(this)
       this.task = this.$store.state.nowTask
       await TaskCore.getList(this.task.pidx)
       this.getNow()
+      this.loading = true
       await TaskCore.getOnCalendar()
     },
     computed: {
@@ -102,7 +106,8 @@
       return {
         TaskCore, tidx, required, task, start, start_h, start_m, limit, limit_h, limit_m, calendarConn,
         disableStart: {to: this.getSubDay(), from: null},
-        disableLimit: {to: this.getSubDay()}
+        disableLimit: {to: this.getSubDay()},
+        loading: false
       }
     },
     methods: {

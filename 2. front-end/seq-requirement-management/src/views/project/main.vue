@@ -4,10 +4,10 @@
       <memberInfo />
     </div>
     <div class="project-main-list">
-      <projectMainList :projectList="projectListOnStar" type="star" />
-      <projectMainList :projectList="projectList" type="default" />
-      <projectTaskRecently :taskList="taskList" />
-      <projectCommentRecently :commentList="commentList" />
+      <projectMainList :projectList="projectListOnStar" type="star" :loading="loading.listOnStar" />
+      <projectMainList :projectList="projectList" type="default" :loading="loading.list" />
+      <projectTaskRecently :taskList="taskList" :loading="loading.taskRecently" />
+      <projectCommentRecently :commentList="commentList" :loading="loading.commentRecently" />
     </div>
   </section>
 </template>
@@ -18,6 +18,7 @@
   import projectMainList from '@/components/project/main-list'
   import projectTaskRecently from '@/components/project/task-list-recently'
   import projectCommentRecently from '@/components/project/comment-list-recently'
+
   export default {
     components: {
       memberInfo, projectMainList, projectTaskRecently, projectCommentRecently
@@ -32,7 +33,14 @@
         commentList: [],
         projectList: [],
         projectListOnStar: [],
-        mid: this.$store.state.member.id
+        mid: this.$store.state.member.id,
+        loading: {
+          listOnStar: false,
+          list: false,
+          taskRecently: false,
+          commentRecently: false
+        },
+        loadingType: 'Circle10'
       }
     },
     methods: {
@@ -49,15 +57,19 @@
           if (v.star !== undefined) projectListOnStar.push(v)
         })
         this.projectList = projectList
+        this.$set(this.loading, 'list', true)
         this.projectListOnStar = projectListOnStar
+        this.$set(this.loading, 'listOnStar', true)
       },
       async getTaskRecentlyList () {
         const data = await this.getApiData(Api.getTaskListRecently(this.mid))
         this.taskList = data.list
+        this.$set(this.loading, 'taskRecently', true)
       },
       async getCommentRecentlyList () {
         const data = await this.getApiData(Api.getCommentRecentlyList(this.mid))
         this.commentList = data.list
+        this.$set(this.loading, 'commentRecently', true)
       }
     }
   }

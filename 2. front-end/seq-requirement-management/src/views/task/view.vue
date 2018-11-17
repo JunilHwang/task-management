@@ -1,53 +1,62 @@
 <template>
-  <section class="task-view">
-    <template v-if="task !== null">
+  <section class="task-view" v-if="task">
+    <template>
       <div class="task-wrap">
-        <header class="task-title">
-          <span :class="`color-label color${task.state + 1}`" />
-          <span class="task-name" v-html="task.title" />
-          <span class="reg-date">
-            <i class="far fa-calendar-alt"></i>
-            {{getDateFormat(task.register_date)}}
-          </span>
-        </header>
-        <div class="task-info">
-          <p>
-            <strong class="lbl">기간</strong>
-            <span v-html="getRange(task.start_date, task.limit_date)" />
-            <a v-if="calendarConn === null" href="#" class="btn mini social-google left-margin" @click="insertCalendar">
-              <i class="fab fa-google-plus-g"></i>
-              Calendar 등록
-            </a>
-          </p>
-          <p>
-            <strong class="lbl">종료</strong>
-            <span v-html="getRemaining(task.limit_date)" />
-          </p>
-          <p>
-            <strong class="lbl">선행</strong>
-            <span v-if="parent === null">없습니다.</span>
-            <a v-else href="#" @click.prevent="change(`/task/view/${parent.tidx}`)">
-              <span :class="`color-label color${parent.state + 1}`" />
-              {{parent.title}} / 
-              {{contentPreview(parent.description, 40)}}
-            </a>
-          </p>
-          <p v-if="calendarConn !== null && calendarConn !== 1">
-            <strong class="lbl">달력</strong>
-            <a :href="calendarConn.html_url" class="btn mini social-naver" target="_blank">
+        <CustomLoading :loading="loading.task" />
+        <template v-if="loading.task">
+          <header class="task-title">
+            <span :class="`color-label color${task.state + 1}`" />
+            <span class="task-name" v-html="task.title" />
+            <span class="reg-date">
               <i class="far fa-calendar-alt"></i>
-              조회
-            </a>
-            <a href="#" class="btn mini social-google" @click="deleteCalendar">
-              <i class="far fa-calendar-alt"></i>
-              삭제
-            </a>
-          </p>
-        </div>
-        <div class="task-content" v-html="(task.description+'').replace(/\n/gi, '<br />')" />
-        <commitList :commits="commits" />
+              {{getDateFormat(task.register_date)}}
+            </span>
+          </header>
+          <CustomLoading :loading="loading.calendar" />
+          <div class="task-info" v-if="loading.calendar">
+            <p>
+              <strong class="lbl">기간</strong>
+              <span v-html="getRange(task.start_date, task.limit_date)" />
+              <a v-if="calendarConn === null" href="#" class="btn mini social-google left-margin" @click="insertCalendar">
+                <i class="fab fa-google-plus-g"></i>
+                Calendar 등록
+              </a>
+            </p>
+            <p>
+              <strong class="lbl">종료</strong>
+              <span v-html="getRemaining(task.limit_date)" />
+            </p>
+            <p>
+              <strong class="lbl">선행</strong>
+              <span v-if="parent === null">없습니다.</span>
+              <a v-else href="#" @click.prevent="change(`/task/view/${parent.tidx}`)">
+                <span :class="`color-label color${parent.state + 1}`" />
+                {{parent.title}} / 
+                {{contentPreview(parent.description, 40)}}
+              </a>
+            </p>
+            <p v-if="calendarConn !== null && calendarConn !== 1">
+              <strong class="lbl">달력</strong>
+              <a :href="calendarConn.html_url" class="btn mini social-naver" target="_blank">
+                <i class="far fa-calendar-alt"></i>
+                조회
+              </a>
+              <a href="#" class="btn mini social-google" @click="deleteCalendar">
+                <i class="far fa-calendar-alt"></i>
+                삭제
+              </a>
+            </p>
+          </div>
+          <div class="task-content" v-html="(task.description+'').replace(/\n/gi, '<br />')" />
+
+          <CustomLoading :loading="loading.commits" />
+          <commitList :commits="commits" v-if="loading.commits" />
+        </template>
+
         <commentList />
+
       </div>
+      
       <div class="btn-group">
         <router-link :to="`/project/view/${task.pidx}`" class="btn default">목록으로</router-link>
         <a href="#" class="btn submit" @click.prevent="$store.commit('openLayer', 'taskUpdate')">수정하기</a>
@@ -67,7 +76,8 @@
   export default {
     components: {
       commitList: () => import('@/components/task/commit-list.vue'),
-      commentList: () => import(`@/components/comment/index.vue`)
+      commentList: () => import(`@/components/comment/index.vue`),
+      CustomLoading: () => import(`@/components/loading`),
     },
     created () {
       TaskCore.init(this)
@@ -84,14 +94,22 @@
         parent: null,
         commits: [],
         calendarConn: 1,
-        gapiCalendar: null
+        gapiCalendar: null,
+        loading: {
+          task: false,
+          commits: false,
+          calendar: false
+        }
       }
     },
     methods: {
       async load () {
         await TaskCore.getOne()
+        this.$set(this.loading, 'task', true)
         await TaskCore.getCommits()
+        this.$set(this.loading, 'commits', true)
         await TaskCore.getOnCalendar()
+        this.$set(this.loading, 'calendar', true)
       },
       change (link) {
         this.$router.push(link)

@@ -1,7 +1,7 @@
 <template>
   <section>
     <h4 class="section-title">업데이트/생성 댓글 Top 10</h4>
-    <div class="section-content">
+    <div class="section-content" v-if="loading">
       <template v-if="commentList.length">
         <article class="comment-component" v-for="(comment, key) in commentList" :key="key">
           <header>
@@ -19,12 +19,15 @@
       </template>
       <p class="none" v-else>구현 목록이 없습니다.</p>
     </div>
+    <CustomLoading :loading="loading" />
   </section>
 </template>
 
 <script>
+  import CustomLoading from '@/components/loading'
   export default {
-    props: ['commentList']
+    components: { CustomLoading },
+    props: ['commentList', 'loading']
   }
 </script>
 

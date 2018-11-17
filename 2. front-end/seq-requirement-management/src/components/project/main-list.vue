@@ -1,7 +1,7 @@
 <template>
   <section class="float-wrap">
     <h4 class="section-title" v-html="title" />
-    <div class="section-content float-wrap">
+    <div class="section-content float-wrap" v-if="loading">
       <template v-if="projectList.length">
         <article v-for="(project, key) in projectList" :key="key" >
           <div @click.prevent="$router.push(`/project/view/${project.pidx}`)">
@@ -16,13 +16,16 @@
       </template>
       <p class="none" v-else>참여 참여 목록이 없습니다.</p>
     </div>
+    <CustomLoading :loading="loading" />
   </section>
 </template>
 
 <script>
   import Api from '@/middleware/Api.js'
+  import CustomLoading from '@/components/loading'
+
   export default {
-    props: ['projectList', 'type'],
+    components: { CustomLoading },
     data () {
       const isStar = this.type === 'star'
       return {
@@ -38,7 +41,8 @@
         await this.getApiData(Api.putProjectStar({pidx, mid, star}))
         this.$parent.getProjectList()
       },
-    }
+    },
+    props: ['projectList', 'type', 'loading']
   }
 </script>
 

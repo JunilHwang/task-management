@@ -32,21 +32,11 @@
 <script>
   import Api from '@/middleware/Api.js'
   import commentWrite from './write'
+
   export default {
     components: { commentWrite },
-    computed: {
-      commentList () { return this.$store.state.commentList }
-    },
-    created () { this.getCommentList() },
+    created () { this.$parent.getCommentList() },
     methods: {
-      async getCommentList () {
-        const data = await this.getApiData(Api.getCommentList(this.$route.params.tidx))
-        data.list.map(obj => {
-          obj.updateSwitch = false
-          obj.replySwitch = false
-        })
-        this.$store.commit('setState', ['commentList', data.list])
-      },
       toggleUpdateComponent (comment) {
         comment.updateSwitch = !comment.updateSwitch
         comment.replySwitch = false
@@ -58,9 +48,10 @@
       async commentDelete (cidx) {
         if (!confirm('정말로 삭제하시겠습니까?')) return
         await this.getApiData(Api.deleteComment(cidx))
-        this.getCommentList()
+        this.$parent.getCommentList()
       }
-    }
+    },
+    props: ['commentList']
   }
 </script>
 

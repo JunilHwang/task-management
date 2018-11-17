@@ -43,14 +43,6 @@
       }
     },
     methods: {
-      async getCommentList (tidx) {
-        const data = await this.getApiData(await Api.getCommentList(tidx))
-        data.list.map(obj => {
-          obj.updateSwitch = false
-          obj.replySwitch = false
-        })
-        this.$store.commit('setState', ['commentList', data.list])
-      },
       submitComment (e) {
         const submitMethod = {write: this.postComment, update: this.putComment, reply: this.postCommentReply}
         submitMethod[this.type](e.target)
@@ -68,7 +60,7 @@
           content: frm.content.value
         }
         await this.getApiData(Api.postComment(params))
-        this.getCommentList(params.tidx)
+        this.$parent.getCommentList()
         frm.content.value = ''
       },
       async putComment (frm) {
@@ -88,7 +80,7 @@
           content: frm.content.value
         }
         await this.getApiData(Api.postCommentReply(params))
-        this.getCommentList(params.tidx)
+        this.$parent.getCommentList()
       }
     }
   }

@@ -9,6 +9,7 @@
         <taskList :matching="matching" />
       </section>
       <projectGithubRepos />
+      <customLoading :loading="loading" />
       <div class="btn-group">
         <router-link to="/" class="btn point">프로젝트 목록</router-link>
         <router-link :to="`/project/setting/${projectData.pidx}`" class="btn point">프로젝트 설정</router-link>
@@ -23,8 +24,10 @@
   import Api from '@/middleware/Api.js'
   import projectGithubRepos from './github-repos'
   import taskList from '@/components/task/list'
+  import customLoading from '@/components/loading'
+
   export default {
-    components: { projectGithubRepos, taskList },
+    components: { projectGithubRepos, taskList, customLoading },
     computed: {
       projectData () { return this.$store.state.projectData }
     },
@@ -36,7 +39,8 @@
     },
     data () {
       return {
-        matching: {state: false, commit: null}
+        matching: {state: false, commit: null},
+        loading: false
       }
     },
     methods: {

@@ -1,7 +1,7 @@
 <template>
   <section>
     <h4 class="section-title">업데이트/생성 테스크 Top 10</h4>
-    <div class="section-content">
+    <div class="section-content" v-if="loading">
       <template v-if="taskList.length">
       <ul class="float-wrap">
         <li v-for="(task, key) in taskList" :key="key">
@@ -11,14 +11,17 @@
       </template>
       <p class="none" v-else>이슈 목록이 없습니다.</p>
     </div>
+    <CustomLoading :loading="loading" />
   </section>
 </template>
 
 <script>
   import taskCard from '@/components/task/card'
+  import CustomLoading from '@/components/loading'
+
   export default {
-    props: ['taskList'],
-    components: { taskCard }
+    components: { taskCard, CustomLoading },
+    props: ['taskList', 'loading']
   }
 </script>
 

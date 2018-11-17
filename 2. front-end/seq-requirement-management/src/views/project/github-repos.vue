@@ -33,6 +33,7 @@
 
 <script>
   import Api from '@/middleware/Api.js'
+
   export default {
     created () {
       this.getRepos()
@@ -48,6 +49,7 @@
     methods: {
       async getRepos () {
         const data = await this.getApiData(Api.getRepos(this.$route.params.pidx))
+        this.$parent.loading = true
         const repos = data.repos
         this.repos = repos
         repos.forEach(repo => {
