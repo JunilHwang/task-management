@@ -123,6 +123,11 @@ public class TaskController {
         return obj;
     }
 
+    /**
+     * 구글 캘린더의 연동 정보를 저장한다.
+     * @param params = { midx, tidx, id, html_url }
+     * @return
+     */
     @PostMapping(value="/api/task-on-calendar", consumes = {"application/json"})
     HashMap postTaskOnCalendar (@RequestBody HashMap params) {
         HashMap obj = new HashMap();
@@ -224,6 +229,25 @@ public class TaskController {
         Boolean success = true;
         try {
             taskMapper.deleteTask(tidx);
+        } catch (Exception e) {
+            obj.put("err", e);
+            success = false;
+        }
+        obj.put("success", success);
+        return obj;
+    }
+
+    /**
+     * 구글 캘린더의 연동 정보를 삭제한다.
+     * @param id
+     * @return
+     */
+    @DeleteMapping(value="/api/task-on-calendar/{id}")
+    HashMap deleteTaskOnCalendar (@PathVariable String id) {
+        HashMap obj = new HashMap();
+        Boolean success = true;
+        try {
+            taskMapper.deleteTaskOnCalendar(id);
         } catch (Exception e) {
             obj.put("err", e);
             success = false;

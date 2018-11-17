@@ -42,4 +42,7 @@ public interface TaskMapper {
 
     // task 삭제하기
     void deleteTask(int tidx);
+
+    // task에 연동된 calendar 삭제하기
+    void deleteTaskOnCalendar(String id);
 }

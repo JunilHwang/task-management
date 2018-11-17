@@ -17,17 +17,21 @@ const RestApi = class {
   deleteProject (pidx) { return axios.delete(`${baseURL}/project/${pidx}`) }
 
   postTask (params) { return axios.post(`${baseURL}/task`, params) }
-  postTaskOnCalendar (params) { return axios.post(`${baseURL}/task-on-calendar`, params) }
   getTask (tidx) { return axios.get(`${baseURL}/task/${tidx}`) }
   getTaskList (pidx) { return axios.get(`${baseURL}/tasks/${pidx}`) }
   getTaskListRecently (mid) { return axios.get(`${baseURL}/task/recently/${mid}`) }
-  getTaskOnCalendar (params) { return axios.get(`${baseURL}/task-on-calendar`, {params}) }
   putTask (params) { return axios.put(`${baseURL}/task`, params) }
   putTaskState (params) {
     const type = ['process', 'complete', 'error']
     let putStateURL = `${baseURL}/task/${type[params.state]}`
     return axios.put(`${putStateURL}/${params.tidx}`)
   }
+
+  getTaskOnCalendar (params) { return axios.get(`${baseURL}/task-on-calendar`, {params}) }
+  postTaskOnCalendar (params) { return axios.post(`${baseURL}/task-on-calendar`, params) }
+  putTaskOnCalendar (params) { return axios.put(`${baseURL}/task-on-calendar`, {params}) }
+  deleteTaskOnCalendar (id) { return axios.delete(`${baseURL}/task-on-calendar/${id}`) }
+
   deleteTask (tidx) { return axios.delete(`${baseURL}/task/${tidx}`) }
   
   putViewDate() { throw `don't putViewDate impolemented` }

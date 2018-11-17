@@ -64,6 +64,27 @@ const Task = class {
     alert('완료되었습니다.')
     vue.$store.commit('closeLayer')
     Task.getOne()
+    if (vue.calendarConn !== null) {
+      vue.updateCalendar(params)
+    }
+  }
+
+  static async getCommits () {
+    const vue = Task.instance
+    const task = vue.task
+    const tidx = task.tidx
+    const parent = task.parent
+    const resCommit = await vue.getApiData(Api.getCommits(tidx))
+    vue.parent = task.parent ? await Task.getOne(parent) : null
+    vue.commits = resCommit.commits
+  }
+
+  static async getOnCalendar () {
+    const vue = Task.instance
+    const tidx = vue.task.tidx
+    const midx = vue.$store.state.member.midx
+    const resConnected = await vue.getApiData(Api.getTaskOnCalendar({tidx, midx})) 
+    vue.calendarConn = resConnected.data
   }
 }
 

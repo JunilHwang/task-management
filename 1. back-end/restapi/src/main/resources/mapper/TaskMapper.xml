@@ -26,8 +26,9 @@
     </select>
 
     <select id="getTask" resultType="HashMap" parameterType="integer">
-        SELECT  *
-        FROM    task where tidx = #{tidx}
+        SELECT  t.*,
+                (SELECT title FROM project where pidx = t.pidx) as project_title
+        FROM    task t where t.tidx = #{tidx}
     </select>
 
     <select id="getTaskOnCalendar" resultType="HashMap" parameterType="HashMap">
@@ -49,7 +50,11 @@
     </insert>
 
     <insert id="postTaskOnCalendar" parameterType="HashMap">
-        INSERT INTO google_calendar_connected SET tidx = #{tidx}, midx = #{midx}, id = #{id}, html_url = #{html_url};
+        INSERT INTO google_calendar_connected SET
+        midx = #{midx},
+        tidx = #{tidx},
+        id = #{id},
+        html_url = #{html_url};
     </insert>
 
     <update id="updateTask" parameterType="HashMap">
@@ -81,5 +86,9 @@
     <delete id="deleteTask" parameterType="integer">
         DELETE FROM task where tidx = #{tidx}
     </delete>
+
+    <select id="deleteTaskOnCalendar" parameterType="HashMap">
+        DELETE FROM google_calendar_connected where id = #{id}
+    </select>
 
 </mapper>

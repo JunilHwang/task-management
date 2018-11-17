@@ -86,40 +86,28 @@
   import TaskCore from '@/middleware/Task.js'
   import Datepicker from 'vuejs-datepicker';
   export default {
-    components: {
-      Datepicker
-    },
+    components: { Datepicker },
     async created () {
       TaskCore.init(this)
       this.task = this.$store.state.nowTask
-      TaskCore.getList(this.task.pidx)
+      await TaskCore.getList(this.task.pidx)
       this.getNow()
+      await TaskCore.getOnCalendar()
     },
     computed: {
-      tasks () {
-        return this.$store.state.taskList
-      }
+      tasks () { return this.$store.state.taskList }
     },
     data () {
+      const [tidx, required, task, start, start_h, start_m, limit, limit_h, limit_m, calendarConn] = [null, true, {}, null, null, null, null, null, null, null]
       return {
-        tidx: null,
-        required: true,
-        task: {},
+        TaskCore, tidx, required, task, start, start_h, start_m, limit, limit_h, limit_m,
         disableStart: {to: this.getSubDay(), from: null},
         disableLimit: {to: this.getSubDay()},
-        start: null,
-        start_h: null,
-        start_m: null,
-        limit: null,
-        limit_h: null,
-        limit_m: null,
-        TaskCore
+        calendarConn: null
       }
     },
     methods: {
-      getSubDay (date = new Date()) {
-        return new Date(this.moment(date).subtract(1, 'days').format())
-      },
+      getSubDay (date = new Date()) { return new Date(this.moment(date).subtract(1, 'days').format()) },
       setStartDisable (selectDate) { this.disableStart.from = selectDate },
       setLimitDisable (selectDate) { this.disableLimit.to = selectDate },
       requiredCheck () {
@@ -147,7 +135,43 @@
         this.limit_m = limit_date.format("mm")
         this.setStartDisable(new Date(limit_date.format()))
         this.setLimitDisable(new Date(start_date.format()))
-      }
+      },
+      async updateCalendar (updatedTask) {
+        const member = this.$store.state.member
+        const timeZone = 'Asia/Seoul'
+        const summary = `[PTM][${this.task.project_title}] ${updatedTask.title}`
+        const description = updatedTask.description
+        const email = member.email
+        const startDate = this.moment(updatedTask.start_date).format()
+        const limitDate = this.moment(updatedTask.limit_date).format()
+        const midx = member.midx
+        const tidx = task.tidx
+        const calendarId = 'primary'
+        const eventId = this.calendarConn.id
+
+        const resource = {
+          summary, description,
+          start: { dateTime: startDate, timeZone },
+          end: { dateTime: limitDate, timeZone },
+          attendees: [ { email }, ],
+        }
+
+        const calendar = await this.gapiInit()
+        calendar.events
+          .update({calendarId, eventId, resource})
+          .execute(async e => {
+            console.log(e)
+          })
+      },
+      async gapiInit () {
+        return new Promise (resolve => {
+          gapi.load('client:auth2', async () => {
+            await gapi.client.init(this.getGoogleConfig())
+            this.gapiCalendar = window.gapi.client.calendar
+            resolve(window.gapi.client.calendar)
+          })          
+        })
+      },
     }
   }
 </script>
