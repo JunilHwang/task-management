@@ -27,4 +27,8 @@
         `kakao_access_token` = #{kakao_access_token},
         register_date = now();
     </insert>
+
+    <update id="putMemberGoogleToken" parameterType="HashMap">
+        UPDATE member SET google_access_token = #{token} where midx = #{midx}
+    </update>
 </mapper>

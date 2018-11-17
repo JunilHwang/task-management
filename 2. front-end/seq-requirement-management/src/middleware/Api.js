@@ -6,6 +6,7 @@ const RestApi = class {
   
   postMember (params) { return axios.post(`${baseURL}/member`, params) }
   getMemberOnProject (pidx) { return axios.get(`${baseURL}/memberOnProject/${pidx}`) }
+  putMemberGoogleToken (params) { return axios.put(`${baseURL}/member/google-token`, params) }
   
   getProjectList (mid) { return axios.get(`${baseURL}/projects/${mid}`) }
   getProject (pidx) { return axios.get(`${baseURL}/project/${pidx}`) }

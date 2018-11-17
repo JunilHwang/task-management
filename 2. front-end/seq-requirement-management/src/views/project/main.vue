@@ -23,13 +23,8 @@
       memberInfo, projectMainList, projectTaskRecently, projectCommentRecently
     },
     async created () {
-      this.getProjectList()
-      this.getTaskRecentlyList()
-      this.getCommentRecentlyList()
-      window.setProjectList = () => {
-        this.getProjectList()
-        this.getTaskRecentlyList()        
-      }
+      this.load()
+      window.setProjectList = () => this.load()
     },
     data () {
       return {
@@ -41,6 +36,11 @@
       }
     },
     methods: {
+      async load () {
+        this.getProjectList()
+        this.getTaskRecentlyList()
+        this.getCommentRecentlyList()
+      },
       async getProjectList () {
         const data = await this.getApiData(Api.getProjectList(this.mid))
         const projectList = data.list

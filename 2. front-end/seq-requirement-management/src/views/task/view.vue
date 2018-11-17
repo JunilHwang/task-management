@@ -14,6 +14,10 @@
           <p>
             <strong class="lbl">기간</strong>
             <span v-html="getRange(task.start_date, task.limit_date)" />
+            <a href="#" class="btn mini social-google" @click="googleCalendarAdd">
+              <i class="fab fa-google-plus-g"></i>
+              Calendar 등록
+            </a>
           </p>
           <p>
             <strong class="lbl">종료</strong>
@@ -48,6 +52,7 @@
 <script>
   import TaskCore from '@/middleware/Task.js'
   import Api from '@/middleware/Api.js'
+
   export default {
     components: {
       commitList: () => import('@/components/task/commit-list.vue'),
@@ -75,10 +80,22 @@
         this.parent = task.parent ? await TaskCore.getOne(task.parent) : null
         const data = await this.getApiData(Api.getCommits(task.tidx))
         this.commits = data.commits
+        this.gapiInit()
       },
       change (link) {
         this.$router.push(link)
         this.load()
+      },
+      async googleCalendarAdd () {
+      },
+      async gapiInit () {
+        if (!this.$store.state.member.google_access_token.length) {
+          const user = await this.$gAuth.signIn()
+          const midx = this.$store.state.member.midx
+          const token = user.Zi.access_token
+          await this.getApiData(Api.putMemberGoogleToken({midx, token}))
+          this.$store.state.member.google_access_token = token
+        }
       }
     }
   }
@@ -106,4 +123,5 @@
     p{line-height:200%;}
     .lbl{color:$color1;display:inline-block;width:80px;position:relative;}
   }
+  .social-google{background:$color-google;border-radius:3px;margin-left:10px;line-height:1;}
 </style>

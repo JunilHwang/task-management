@@ -55,4 +55,19 @@ public class MemberController {
         obj.put("success", success);
         return obj;
     }
+
+    @PutMapping(value="/api/member/google-token", consumes = {"application/json"})
+    HashMap putMemberGoogleToken (@RequestBody HashMap params) {
+        HashMap obj = new HashMap();
+        Boolean success = true;
+        HashMap member = null;
+        try {
+            memberMapper.putMemberGoogleToken(params);
+        } catch (Exception e) {
+            success = false;
+            obj.put("err", e);
+        }
+        obj.put("success", success);
+        return obj;
+    }
 }

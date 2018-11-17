@@ -12,7 +12,7 @@ import java.util.HashMap;
 public class TemplateController {
     @GetMapping(value="/google/calendar")
     String googleCalendar () {
-        return "calendar";
+        return "/google/calendar";
     }
 
     @GetMapping(value = "/{path:[^\\.]*}")
