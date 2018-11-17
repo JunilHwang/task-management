@@ -75,6 +75,29 @@ public class TaskController {
     }
 
     /**
+     * task 정보와 google calendar를 연동한다.
+     * @param midx : member index number
+     * @param tidx : task index numbber
+     * @return
+     */
+    @GetMapping(value="/api/task-on-calendar")
+    HashMap getTaskOnCalendar (@RequestParam int midx, @RequestParam int tidx) {
+        HashMap obj = new HashMap();
+        Boolean success = true;
+        try {
+            HashMap params = new HashMap();
+            params.put("midx", midx);
+            params.put("tidx", tidx);
+            obj.put("data", taskMapper.getTaskOnCalendar(params));
+        } catch (Exception e) {
+            obj.put("err", e);
+            success = false;
+        }
+        obj.put("success", success);
+        return obj;
+    }
+
+    /**
      * task를 등록한다.
      * @param data: {parent, depth, title, start_date, limit_date, limit_time, description}
      * @return
@@ -92,6 +115,20 @@ public class TaskController {
             }
             data.put("depth", depth);
             taskMapper.postTask(data);
+        } catch (Exception e) {
+            obj.put("err", e);
+            success = false;
+        }
+        obj.put("success", success);
+        return obj;
+    }
+
+    @PostMapping(value="/api/task-on-calendar", consumes = {"application/json"})
+    HashMap postTaskOnCalendar (@RequestBody HashMap params) {
+        HashMap obj = new HashMap();
+        Boolean success = true;
+        try {
+            taskMapper.postTaskOnCalendar(params);
         } catch (Exception e) {
             obj.put("err", e);
             success = false;

@@ -1,17 +1,7 @@
+const $s = require('scriptjs')
 const googleAuth = (function () {
 
-  function installClient () {
-    const apiUrl = 'https://apis.google.com/js/api.js'
-    return new Promise(resolve => {
-      const script = document.createElement('script')
-      script.src = apiUrl
-      script.onreadystatechange = script.onload = () => {
-        if (!script.readyState || /loaded|compvare/.test(script.readyState))
-          resolve()
-      }
-      document.getElementsByTagName('head')[0].appendChild(script)
-    })
-  }
+  const installClient = () => new Promise(resolve => $s('/js/google.api.js', resolve))
 
   function initClient (config) {
     return new Promise(resolve => {

@@ -14,7 +14,7 @@
           <p>
             <strong class="lbl">기간</strong>
             <span v-html="getRange(task.start_date, task.limit_date)" />
-            <a href="#" class="btn mini social-google" @click="googleCalendarAdd">
+            <a v-if="calendarConn === null" href="#" class="btn mini social-google" @click="googleCalendarAdd">
               <i class="fab fa-google-plus-g"></i>
               Calendar 등록
             </a>
@@ -31,6 +31,10 @@
               {{parent.title}} / 
               {{contentPreview(parent.description, 40)}}
             </a>
+          </p>
+          <p v-if="calendarConn !== null">
+            <strong class="lbl">달력</strong>
+            <a :href="calendarConn.html_url" href="#" v-html="calendarConn.html_url" target="_blank" />
           </p>
         </div>
         <div class="task-content" v-html="(task.description+'').replace(/\n/gi, '<br />')" />
@@ -71,31 +75,72 @@
       return {
         TaskCore,
         parent: null,
-        commits: []
+        commits: [],
+        calendarConn: 1
       }
     },
     methods: {
       async load () {
         const task = await TaskCore.getOne()
+        const resCommit = await this.getApiData(Api.getCommits(task.tidx))
+        const resConnected = await this.getApiData(Api.getTaskOnCalendar({tidx: task.tidx, midx: this.$store.state.member.midx})) 
         this.parent = task.parent ? await TaskCore.getOne(task.parent) : null
-        const data = await this.getApiData(Api.getCommits(task.tidx))
-        this.commits = data.commits
-        this.gapiInit()
+        this.commits = resCommit.commits
+        this.calendarConn = resConnected.data
+        console.log(this.calendarConn)
       },
       change (link) {
         this.$router.push(link)
         this.load()
       },
       async googleCalendarAdd () {
+        const member = this.$store.state.member
+        const task = this.task
+        const timeZone = 'Asia/Seoul'
+        const summary = task.title
+        const description = task.description
+        const email = member.email
+        const startDate = this.moment(task.start_date).format()
+        const limitDate = this.moment(task.limit_date).format()
+        const midx = member.midx
+        const tidx = task.tidx
+
+        const params = {
+          summary, description,
+          start: { dateTime: startDate, timeZone },
+          end: { dateTime: limitDate, timeZone },
+          attendees: [ { email }, ],
+        }
+        const calendar = await this.gapiInit()
+        calendar.events
+          .insert({
+            'calendarId': 'primary',
+            'resource': params
+          })
+          .execute(async e => {
+            if (e.status === 'confirmed') {
+              const id = e.id
+              const html_url = event.htmlLink
+              await this.getApiData(Api.postTaskOnCalendar({midx, tidx, id, html_url}))
+              this.calendarConn = null
+              alert('추가되었습니다.')
+            }
+          })
       },
       async gapiInit () {
-        if (!this.$store.state.member.google_access_token.length) {
-          const user = await this.$gAuth.signIn()
-          const midx = this.$store.state.member.midx
-          const token = user.Zi.access_token
-          await this.getApiData(Api.putMemberGoogleToken({midx, token}))
-          this.$store.state.member.google_access_token = token
-        }
+        return new Promise (async resolve => {
+          if (!this.$store.state.member.google_access_token.length) {
+            const user = await this.$gAuth.signIn()
+            const midx = this.$store.state.member.midx
+            const token = user.Zi.access_token
+            await this.getApiData(Api.putMemberGoogleToken({midx, token}))
+            this.$store.state.member.google_access_token = token
+          }
+          gapi.load('client:auth2', async () => {
+            await gapi.client.init(this.getGoogleConfig())
+            resolve(window.gapi.client.calendar)
+          })
+        })
       }
     }
   }

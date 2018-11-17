@@ -30,6 +30,10 @@
         FROM    task where tidx = #{tidx}
     </select>
 
+    <select id="getTaskOnCalendar" resultType="HashMap" parameterType="HashMap">
+        SELECT * FROM google_calendar_connected where midx = #{midx} and tidx = #{tidx}
+    </select>
+
     <insert id="postTask" parameterType="HashMap">
         INSERT INTO task SET
         pidx = #{pidx},
@@ -42,6 +46,10 @@
         state = 0,
         register_date = now(),
         update_date = now();
+    </insert>
+
+    <insert id="postTaskOnCalendar" parameterType="HashMap">
+        INSERT INTO google_calendar_connected SET tidx = #{tidx}, midx = #{midx}, id = #{id}, html_url = #{html_url};
     </insert>
 
     <update id="updateTask" parameterType="HashMap">

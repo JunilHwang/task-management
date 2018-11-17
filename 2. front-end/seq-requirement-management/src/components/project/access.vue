@@ -36,9 +36,7 @@
           return
         }
         alert('프로젝트가 추가되었습니다.')
-        if (window.setProjectList) {
-          window.setProjectList()
-        }
+        window.setProjectList && window.setProjectList()
         this.$store.commit('closeLayer')
       },
       requiredCheck () {

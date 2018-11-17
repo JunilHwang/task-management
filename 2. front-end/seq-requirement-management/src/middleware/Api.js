@@ -17,9 +17,11 @@ const RestApi = class {
   deleteProject (pidx) { return axios.delete(`${baseURL}/project/${pidx}`) }
 
   postTask (params) { return axios.post(`${baseURL}/task`, params) }
+  postTaskOnCalendar (params) { return axios.post(`${baseURL}/task-on-calendar`, params) }
+  getTask (tidx) { return axios.get(`${baseURL}/task/${tidx}`) }
   getTaskList (pidx) { return axios.get(`${baseURL}/tasks/${pidx}`) }
   getTaskListRecently (mid) { return axios.get(`${baseURL}/task/recently/${mid}`) }
-  getTask (tidx) { return axios.get(`${baseURL}/task/${tidx}`) }
+  getTaskOnCalendar (params) { return axios.get(`${baseURL}/task-on-calendar`, {params}) }
   putTask (params) { return axios.put(`${baseURL}/task`, params) }
   putTaskState (params) {
     const type = ['process', 'complete', 'error']

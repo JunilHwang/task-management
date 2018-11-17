@@ -16,8 +16,14 @@ public interface TaskMapper {
     // 단일 task 불러오기
     HashMap getTask(int tidx);
 
+    // 연동 중인 google calendar 가져오기
+    HashMap getTaskOnCalendar(HashMap params);
+
     // task 생성하기
     void postTask(HashMap params);
+
+    // task와 google calendar 연동
+    void postTaskOnCalendar(HashMap params);
 
     // task 수정하기
     void updateTask(HashMap params);

@@ -24,12 +24,8 @@ export default new Vuex.Store({
       state.member = null
       localStorage.removeItem('member')
     },
-    openLayer (state, val) {
-      state.layerState = val
-    },
-    closeLayer (state) {
-      state.layerState = false
-    },
+    openLayer (state, val) { state.layerState = val },
+    closeLayer (state) { state.layerState = false },
     setState (state, data) {
       state[data[0]] = data[1]
       if (data[2]) data[2]()
