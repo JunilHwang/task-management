@@ -48,7 +48,7 @@
         const memberData = await this.getApiData(await Api.postMember(member))
 
         //window.opener.naverCallback(memberData.member)
-        this.$store.commit('loggedIn', memberData)
+        this.$store.commit('loggedIn', memberData.member)
         window.opener.location.reload()
         window.close()
       }

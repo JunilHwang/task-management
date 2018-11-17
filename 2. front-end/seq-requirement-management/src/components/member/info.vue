@@ -9,9 +9,7 @@
 <script>
   export default {
     data () {
-      return {
-        member: this.$store.state.member
-      }
+      return { member: this.$store.state.member }
     }
   }
 </script>

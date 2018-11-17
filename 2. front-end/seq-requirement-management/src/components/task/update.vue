@@ -159,7 +159,9 @@
         }
 
         const calendar = await this.gapiInit()
-        calendar.events.update({calendarId, eventId, resource})
+        calendar.events.update({calendarId, eventId, resource}).execute(e => {
+          if (e.status !== 'confirmed') throw e
+        })
       },
       async gapiInit () {
         return new Promise (resolve => {
