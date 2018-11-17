@@ -19,5 +19,10 @@ public class TemplateController {
     public String redirect() {
         return "forward:/";
     }
+
+    @GetMapping(value = {"/", "/project/**", "/task/**"})
+    public String front() {
+        return "index";
+    }
 }
 
