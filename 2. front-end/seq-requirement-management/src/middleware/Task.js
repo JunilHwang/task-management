@@ -31,7 +31,7 @@ const Task = class {
   
   static async setState (state) {
     const vue = Task.instance
-    const tidx = vue.$route.params.tidx
+    const tidx = vue.$route.params.tidx || vue.task.tidx
     await vue.getApiData(Api.putTaskState({state, tidx}))
     Task.getOne()
   }

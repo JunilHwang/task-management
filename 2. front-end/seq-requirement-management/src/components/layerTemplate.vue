@@ -14,6 +14,7 @@
   import githubRepository from './openapi/github-select'
   import taskCreate from './task/create'
   import taskUpdate from './task/update'
+  import taskMiniView from './task/mini-view'
   export default {
     components: {
       login,
@@ -21,7 +22,8 @@
       projectAccess,
       githubRepository,
       taskCreate,
-      taskUpdate
+      taskUpdate,
+      taskMiniView
     },
     methods: {
       close () { this.$store.commit('closeLayer') }

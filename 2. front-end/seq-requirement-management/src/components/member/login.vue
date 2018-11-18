@@ -48,8 +48,8 @@
         const $s = require('scriptjs')
         $s('/js/naver.sdk.js', () => {
           const naverLogin = new window.naver.LoginWithNaverId({
-            clientId: "onePygBsyBG0fbTiQKSI",
-            callbackUrl: "http://localhost:8080/naver/oauth",
+            clientId: 'onePygBsyBG0fbTiQKSI',
+            callbackUrl: `http://${location.host}/naver/oauth`,
             isPopup: true
             //loginButton: {color: "green", type: 3, height: 60}
           })

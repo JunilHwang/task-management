@@ -9,6 +9,7 @@ Vue.use(Router)
 const view = './views'
 const project = `${view}/project`
 const task = `${view}/task`
+const schedule = `${view}/schedule`
 
 export default new Router({
   mode: 'history',
@@ -16,21 +17,7 @@ export default new Router({
   routes: [
     {
       path: '',
-      component: () => import(`${view}/main.vue`),
-      children: [
-        {
-          path: '',
-          component: () => import(`${project}/main.vue`)
-        }
-      ]
-    },
-    {
-      path: '/google',
-      component: () => import(`${view}/google.vue`)
-    },
-    {
-      path: '/github',
-      component: () => import(`${view}/github.vue`)
+      redirect: '/project'
     },
     {
       path: '/naver/oauth',
@@ -42,7 +29,7 @@ export default new Router({
       children: [
         {
           path: '',
-          component: () => import(`${project}/main.vue`)
+          component: () => import(`${project}/index.vue`)
         },
         {
           path: 'create',
@@ -65,6 +52,16 @@ export default new Router({
         {
           path: 'view/:tidx',
           component: () => import(`${task}/view.vue`)
+        }
+      ]
+    },
+    {
+      path: '/schedule',
+      component: () => import(`${view}/main.vue`),
+      children: [
+        {
+          path: '',
+          component: () => import(`${schedule}/index.vue`)
         }
       ]
     }

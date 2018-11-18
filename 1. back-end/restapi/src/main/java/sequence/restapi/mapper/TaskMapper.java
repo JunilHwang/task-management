@@ -16,6 +16,9 @@ public interface TaskMapper {
     // 단일 task 불러오기
     HashMap getTask(int tidx);
 
+    // 기간에 맞는 task 목록 가져오기
+    List getTaskByRange(HashMap params);
+
     // 연동 중인 google calendar 가져오기
     HashMap getTaskOnCalendar(HashMap params);
 

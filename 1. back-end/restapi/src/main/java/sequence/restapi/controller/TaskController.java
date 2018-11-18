@@ -75,6 +75,28 @@ public class TaskController {
     }
 
     /**
+     * 참여중인 프로젝트의 task 목록 중 최근에 업데이트된 top 10을 가져온다.
+     * @param params : {mid, start, end}
+     * @return
+     */
+    @GetMapping(value="/api/task-range")
+    HashMap getTaskByRange (@RequestParam HashMap params) {
+        HashMap obj = new HashMap();
+        Boolean success = true;
+        System.out.println(params);
+        try {
+            List list = taskMapper.getTaskByRange(params);
+            obj.put("list", list);
+        } catch (Exception e) {
+            obj.put("err", e);
+            System.out.println(e);
+            success = false;
+        }
+        obj.put("success", success);
+        return obj;
+    }
+
+    /**
      * task 정보와 google calendar를 연동한다.
      * @param midx : member index number
      * @param tidx : task index numbber
