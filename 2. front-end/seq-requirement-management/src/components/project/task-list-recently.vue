@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <section>
     <h4 class="section-title">업데이트/생성 테스크 Top 10</h4>
     <div class="section-content" v-if="loading">
@@ -29,4 +29,10 @@
   li{width:calc(50% - 5px);float:left;margin-bottom:10px;
     &:nth-child(2n){margin-left:10px;}
   }
+
+@import "@/assets/scss/_lib.scss";
+  @include tablet () {
+  
+
+}
 </style>

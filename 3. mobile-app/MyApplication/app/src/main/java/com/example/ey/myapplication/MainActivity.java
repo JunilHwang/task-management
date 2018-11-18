@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-        mWebView.loadUrl("http://sequence.dkuswai.info"); // 웹 서비스 주소.
+        mWebView.loadUrl("http://192.168.0.7:8080"); // 웹 서비스 주소.
 
     }
 }

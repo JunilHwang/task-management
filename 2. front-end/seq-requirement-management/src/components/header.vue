@@ -49,4 +49,7 @@
       }
     }
   }
+  @include tablet () {
+    .header .logo a{font-size:20px;font-weight:400; margin: 0 20px;}
+  }
 </style>

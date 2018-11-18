@@ -12,7 +12,7 @@ a{text-decoration:none;color:inherit}
 a:hover{text-decoration:underline}
 legend{height:0;overflow:hidden;}
 fieldset{border:none}
-%input{border:1px solid #bebebe;background:#FFF;padding:0 10px;font-size:15px;font-family:inherit;}
+%input{border:1px solid #bebebe;background:#FFF;padding:0 10px;font-size:15px;font-family:auto;}
 ::-webkit-scrollbar {     
         background-color: #fff;
         width: .4em;
@@ -22,4 +22,8 @@ fieldset{border:none}
 ::-webkit-scrollbar-thumb:window-inactive,
 ::-webkit-scrollbar-thumb {
         background:  fade-out(#000, 0.5);
+}
+@include tablet () {
+
+body{-webkit-text-size-adjust:auto}
 }
