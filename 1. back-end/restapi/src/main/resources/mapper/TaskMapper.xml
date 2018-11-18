@@ -25,6 +25,7 @@
         order by t.update_date desc limit 10
     </select>
 
+
     <select id="getTask" resultType="HashMap" parameterType="integer">
         SELECT  t.*,
                 (SELECT title FROM project where pidx = t.pidx) as project_title
@@ -33,6 +34,17 @@
 
     <select id="getTaskOnCalendar" resultType="HashMap" parameterType="HashMap">
         SELECT * FROM google_calendar_connected where midx = #{midx} and tidx = #{tidx}
+    </select>
+
+    <select id="getTaskByRange" resultType="HashMap" parameterType="HashMap">
+        SELECT t.*,
+               (SELECT count(*) FROM comment where tidx = t.tidx) as comment_cnt,
+               (SELECT title FROM project where pidx = t.pidx) as project_title,
+               (SELECT html_url FROM google_calendar_connected WHERE tidx = t.tidx AND midx = #{midx}) as html_url
+        FROM task t
+        where t.pidx in ( SELECT pidx FROM project_access where mid = #{mid} )
+        AND   (t.start_date between #{start} and #{limit} OR t.limit_date between #{start} and #{limit})
+        order by start_date asc, limit_date asc
     </select>
 
     <insert id="postTask" parameterType="HashMap">

@@ -91,6 +91,5 @@
   // .project-main-list{margin: 0 20px}
   .project-main{padding:0 3%}
   .profile {width: 250px; margin-right: 20px;}
-
 }
 </style>

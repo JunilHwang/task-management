@@ -2,13 +2,12 @@
   <header class="header">
     <div class="container">
       <h3 class="logo"><router-link to="/">Project Task Management</router-link></h3>
-      <ul class="gnb">
-        <template v-if="$store.state.member">
-          <li><router-link to="/">프로젝트 관리</router-link></li>
+      <ul class="gnb" v-if="$store.state.member">
+          <li><router-link to="/project">프로젝트 관리</router-link></li>
+          <li><router-link to="/schedule">스케쥴 관리</router-link></li>
           <li><a href="#" @click.prevent="openProjectAccess">프로젝트 엑세스</a></li>
           <li><a href="#" @click.prevent="openProjectPopup">프로젝트 생성</a></li>          
           <li><a href="#" @click.prevent="logout">로그아웃</a></li>
-        </template>
       </ul>
     </div>
   </header>
@@ -51,5 +50,8 @@
   }
   @include tablet () {
     .header .logo a{font-size:20px;font-weight:400; margin: 0 20px;}
+    .header .gnb {
+      a{font-size:10px;}
+    }
   }
 </style>
