@@ -1,15 +1,26 @@
 <template>
   <section class="schedule">
-    <h3 class="schedule-title">스케쥴 관리</h3>
-    <div class="date-info">
-      {{dateInfo.y}}-{{dateInfo.m}}-{{dateInfo.d}}
-    </div>
+    <header class="schedule-head">
+      <h3 class="content-title">스케쥴 관리</h3>
+      <div class="date-info">
+        <a href="#" class="arrow change-year left" @click="setYear(+dateInfo.y - 1)"><i class="fas fa-angle-double-left"></i></a>
+        <a href="#" class="arrow change-month left" @click="setMonth(+dateInfo.m - 1)"><i class="fas fa-angle-left"></i></a>
+        <select class="year-select" @change="setYear($event.target.value * 1)">
+          <option v-for="y in 20" :value="+dateInfo.y + y - 10" v-html="+dateInfo.y + y - 10 + ' 년'" :selected="y === 10" />
+        </select>
+        <select class="month-select" @change="setMonth($event.target.value * 1)">
+          <option v-for="m in 12" :value="m" v-html="digit(m) + ' 월'" :selected="digit(m) === dateInfo.m" />
+        </select>
+        <a href="#" class="arrow change-month right" @click="setMonth(+dateInfo.m + 1)"><i class="fas fa-angle-right"></i></a>
+        <a href="#" class="arrow change-year right" @click="setYear(+dateInfo.y + 1)"><i class="fas fa-angle-double-right"></i></a>
+      </div>
+    </header>
     <div class="calendar">
       <ul class="calendar-head">
         <li v-for="(day, key) in days" :key="key" v-html="day" :class="{red: key === 0, blue: key === 6}" />
       </ul>
       <ul class="calendar-body" v-for="(i, week) in weeks" :key="week">
-        <li v-for="(j, day) in 7" :key="day" :class="{now: getNum() === dateInfo.now}">
+        <li v-for="(j, day) in 7" :key="day" :class="{now: now === `${dateInfo.y}${dateInfo.m}${getNum()}`}">
           <template v-if="emptyCheck(week, day)">
             <div class="date" :class="{red: day === 0, blue: day === 6}">
               <span v-html="getNum()" />
@@ -37,20 +48,19 @@
     data () {
       const dateInfo = {
         y: this.moment().format('YYYY'),
-        m: this.moment().format('MM'),
-        now: this.moment().format('DD'),
-        dayNumber: 1
+        m: this.moment().format('MM')
       }
-      const first = (new Date(dateInfo.y, dateInfo.m - 1, 1)).getDay()
-      const last =  (new Date(dateInfo.y, dateInfo.m, 0)).getDate()
-      const weeks = Math.ceil((first + last) / 7)
+      const now = this.moment().format('YYYYMMDD')
       window.num = 1
       return {
-        dateInfo: dateInfo,
         days: ['Sun', 'Mon', 'Tuey', 'Wed', 'Thur', 'Fri', 'Sat'],
-        first, weeks, last,
-        num, taskOnDate: {}
+        dateInfo, now, taskOnDate: {}, 
       }
+    },
+    computed: {
+      first () { return (new Date(this.dateInfo.y, this.dateInfo.m - 1, 1)).getDay() },
+      last () { return (new Date(this.dateInfo.y, this.dateInfo.m, 0)).getDate() },
+      weeks () { return Math.ceil((this.first + this.last) / 7) }
     },
     methods: {
       getNum ()  {
@@ -59,7 +69,7 @@
       setNum: () => {window.num++},
       emptyCheck (week, day) {
         if (week === 0 && day === 0) window.num = 1
-        const firstBool = week === 0 && day <= this.first
+        const firstBool = week === 0 && day < this.first
         const lastBool = week === this.weeks - 1 && window.num > this.last
         return !(firstBool || lastBool)
       },
@@ -97,6 +107,24 @@
       openTask (task) {
         this.$store.commit('setState', ['nowTask', task])
         this.$store.commit('openLayer', 'taskMiniView')
+      },
+      setYear (y) {
+        this.$set(this.dateInfo, 'y', y)
+        this.getTaskListByRange()
+      },
+      setMonth (m) {
+        m = m * 1
+        let y = this.dateInfo.y * 1
+        if (m < 1) {
+          m = 12
+          y = +y - 1
+        } else if (m > 12) {
+          m = 1
+          y = +y + 1
+        }
+        this.$set(this.dateInfo, 'y', y)
+        this.$set(this.dateInfo, 'm', this.digit(m))
+        this.getTaskListByRange()
       }
     }
   }
@@ -104,7 +132,19 @@
 
 <style lang="scss" scoped>
   @import "@/assets/scss/_lib.scss";
-  .calendar{border:1px solid #bebebe;border-top:2px solid $color1;
+  .schedule-head{text-align:center;}
+  .content-title{font-weight:normal;font-size:23px;}
+  .date-info{display:flex;justify-content:center;align-items:center;
+    select{background:#fff;border-radius:0;border:1px solid #ddd;height:40px;padding:0 10px;font-size:15px;-webkit-appearance:none;border-radius:3px;
+      +select{margin-left:10px;}
+    }
+  }
+  .arrow{font-size:30px;line-height:1;color:$color1-darken-10;opacity:0.5;transition:0.3;padding:0 5px;
+    &:hover{opacity:1;}
+    &.change-month.left{margin-right:15px;}
+    &.change-month.right{margin-left:15px;}
+  }
+  .calendar{border:1px solid #bebebe;border-top:2px solid $color1;margin-top:20px;
     ul{display:flex;
       &:last-child li{border-bottom:0;}
     }
