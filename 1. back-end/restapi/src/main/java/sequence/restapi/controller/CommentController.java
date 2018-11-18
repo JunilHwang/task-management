@@ -126,7 +126,6 @@ public class CommentController {
         HashMap obj = new HashMap();
         Boolean success = true;
         try {
-            System.out.println(params);
             commentMapper.updateComment(params);
         } catch (Exception e) {
             obj.put("err", e);

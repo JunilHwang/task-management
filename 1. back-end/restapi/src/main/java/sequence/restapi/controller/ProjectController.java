@@ -84,7 +84,6 @@ public class ProjectController {
      */
     @GetMapping(value="/api/project/{pidx}")
     HashMap getProject (@PathVariable int pidx) {
-        System.out.println(pidx);
         HashMap obj = new HashMap();
         Boolean success = true;
         try {
@@ -145,11 +144,9 @@ public class ProjectController {
      */
     @PutMapping(value="/api/project/star", consumes = {"application/json"})
     HashMap putProjectStar (@RequestBody HashMap params) {
-        System.out.println(params);
         HashMap obj = new HashMap();
         Boolean success = true;
         try {
-            System.out.println(params);
             if (Integer.parseInt(params.get("star").toString()) == 1) {
                 projectMapper.postStarOnMember(params);
             } else {
