@@ -5,10 +5,10 @@
       <div class="date-info">
         <a href="#" class="arrow change-year left" @click="setYear(+dateInfo.y - 1)"><i class="fas fa-angle-double-left"></i></a>
         <a href="#" class="arrow change-month left" @click="setMonth(+dateInfo.m - 1)"><i class="fas fa-angle-left"></i></a>
-        <select class="year-select">
+        <select class="year-select" @change="setYear($event.target.value * 1)">
           <option v-for="y in 20" :value="+dateInfo.y + y - 10" v-html="+dateInfo.y + y - 10 + ' 년'" :selected="y === 10" />
         </select>
-        <select class="month-select">
+        <select class="month-select" @change="setMonth($event.target.value * 1)">
           <option v-for="m in 12" :value="m" v-html="digit(m) + ' 월'" :selected="digit(m) === dateInfo.m" />
         </select>
         <a href="#" class="arrow change-month right" @click="setMonth(+dateInfo.m + 1)"><i class="fas fa-angle-right"></i></a>
@@ -20,7 +20,7 @@
         <li v-for="(day, key) in days" :key="key" v-html="day" :class="{red: key === 0, blue: key === 6}" />
       </ul>
       <ul class="calendar-body" v-for="(i, week) in weeks" :key="week">
-        <li v-for="(j, day) in 7" :key="day" :class="{now: getNum() === now}">
+        <li v-for="(j, day) in 7" :key="day" :class="{now: now === `${dateInfo.y}${dateInfo.m}${getNum()}`}">
           <template v-if="emptyCheck(week, day)">
             <div class="date" :class="{red: day === 0, blue: day === 6}">
               <span v-html="getNum()" />
@@ -50,7 +50,7 @@
         y: this.moment().format('YYYY'),
         m: this.moment().format('MM')
       }
-      const now = this.moment().format('DD')
+      const now = this.moment().format('YYYYMMDD')
       window.num = 1
       return {
         days: ['Sun', 'Mon', 'Tuey', 'Wed', 'Thur', 'Fri', 'Sat'],
@@ -58,15 +58,9 @@
       }
     },
     computed: {
-      first () {
-        return (new Date(this.dateInfo.y, this.dateInfo.m - 1, 1)).getDay()
-      },
-      last () {
-        return (new Date(this.dateInfo.y, this.dateInfo.m, 0)).getDate()
-      },
-      weeks () {
-        return Math.ceil((this.first + this.last) / 7)
-      }
+      first () { return (new Date(this.dateInfo.y, this.dateInfo.m - 1, 1)).getDay() },
+      last () { return (new Date(this.dateInfo.y, this.dateInfo.m, 0)).getDate() },
+      weeks () { return Math.ceil((this.first + this.last) / 7) }
     },
     methods: {
       getNum ()  {
