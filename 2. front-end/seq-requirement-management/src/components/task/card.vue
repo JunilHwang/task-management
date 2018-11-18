@@ -2,7 +2,9 @@
   <dl @click.prevent="$router.push(`/task/view/${task.tidx}`)">
     <dt class="list-header">
       <span :class="`color-label color${task.state + 1}`" />
-      <span class="project-title" v-html="`[${task.project_title}]`" />
+      <span class="project-title">
+        [<span v-html="contentPreview(task.project_title, 7)" />]
+      </span>
       <span class="task-name" v-html="contentPreview(task.title, 10)" />
       <span class="comment_cnt" v-html="task.comment_cnt" />
     </dt>

@@ -6,8 +6,9 @@
           <li><router-link to="/project">프로젝트 관리</router-link></li>
           <li><router-link to="/schedule">스케쥴 관리</router-link></li>
           <li><a href="#" @click.prevent="openProjectAccess">프로젝트 엑세스</a></li>
-          <li><a href="#" @click.prevent="openProjectPopup">프로젝트 생성</a></li>          
+          <li><a href="#" @click.prevent="openProjectPopup">프로젝트 생성</a></li>   
           <li><a href="#" @click.prevent="logout">로그아웃</a></li>
+          <li><a href="#"><img :src="$store.state.member.photo_src" alt=""></a></li>
       </ul>
     </div>
   </header>
@@ -40,6 +41,7 @@
     .logo a{font-size:25px;color:$color1;font-weight:300;text-decoration:none}
     >div{display:flex;justify-content:space-between;align-items:center;height:60px;}
     .gnb{display:flex; 
+      img{border-radius: 30px; width: 40px; height: 40px}
       a{display:block;margin:0 20px;font-size:13px;font-weight:400;text-decoration:none;transition:.3s;line-height:60px;
         &:hover{color:$color1}
         &.router-link-active{position:relative;color:$color1;

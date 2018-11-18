@@ -88,8 +88,9 @@
 .none{background:#fff;border:1px solid #ddd;border-radius:3px;padding:10px 15px;}
 
 @include tablet () {
-  // .project-main-list{margin: 0 20px}
-  .project-main{padding:0 3%}
-  .profile {width: 250px; margin-right: 20px;}
+  .project-main{display:block;padding:0 50px; margin: 0 auto }
+  .profile {width: 100%; }
+  .project-main-list{width:100%;}
+
 }
 </style>

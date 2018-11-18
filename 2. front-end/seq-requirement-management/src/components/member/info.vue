@@ -21,10 +21,11 @@
 .email{font-size:13px;color:#666;}
 @import "@/assets/scss/_lib.scss";
 @include tablet () {
-.mypage{border:1px solid #ddd;border-raidus:3px;padding:5%;background:#fff;} 
-.image{padding-top:100%; width: auto; height: 0; }
-.name{font-size:14px;margin-bottom:5px;}
-.email{font-size:11px;color:#666;}
+  .mypage{height:50px;border:1px solid #ddd;border-raidus:3px;;background:none; padding: 10px} 
+  .image{float:left;width:50px;height:50px;background:no-repeat center / cover; margin-right: 10px; }
+  .info{text-align:left;}
+  .name{font-size:17px;}
+  .email{font-size:13px;color:#666;}
 
 }
 </style>
