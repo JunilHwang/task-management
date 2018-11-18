@@ -10,6 +10,7 @@ const Task = class {
     const vue = Task.instance
     const data = await vue.getApiData(Api.getTaskList(pidx || vue.$route.params.pidx))
     vue.$store.commit('setState', ['taskList', data.list])
+    return data.list
   }
 
   static async create (e) {

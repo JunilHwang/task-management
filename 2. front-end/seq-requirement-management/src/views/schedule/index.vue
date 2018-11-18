@@ -1,20 +1,39 @@
 <template>
   <section class="schedule">
+
     <header class="schedule-head">
       <h3 class="content-title">스케쥴 관리</h3>
       <div class="date-info">
         <a href="#" class="arrow change-year left" @click="setYear(+dateInfo.y - 1)"><i class="fas fa-angle-double-left"></i></a>
         <a href="#" class="arrow change-month left" @click="setMonth(+dateInfo.m - 1)"><i class="fas fa-angle-left"></i></a>
         <select class="year-select" @change="setYear($event.target.value * 1)">
-          <option v-for="y in 20" :value="+dateInfo.y + y - 10" v-html="+dateInfo.y + y - 10 + ' 년'" :selected="y === 10" />
+          <option v-for="(y, k) in 20"
+                  :key="k"
+                  :value="+dateInfo.y + y - 10"
+                  :selected="y === 10"
+                  v-html="+dateInfo.y + y - 10 + ' 년'" />
         </select>
         <select class="month-select" @change="setMonth($event.target.value * 1)">
-          <option v-for="m in 12" :value="m" v-html="digit(m) + ' 월'" :selected="digit(m) === dateInfo.m" />
+          <option v-for="(m, k) in 12"
+                  :key="k"
+                  :value="m"
+                  :selected="digit(m) === dateInfo.m"
+                  v-html="digit(m) + ' 월'" />
         </select>
         <a href="#" class="arrow change-month right" @click="setMonth(+dateInfo.m + 1)"><i class="fas fa-angle-right"></i></a>
         <a href="#" class="arrow change-year right" @click="setYear(+dateInfo.y + 1)"><i class="fas fa-angle-double-right"></i></a>
       </div>
     </header>
+
+    <ul class="project-tab" v-if="projectList.length">
+      <li :class="{active: selectedProject === null}" @click="selectedProject = null">전체</li>
+      <li v-for="(project, key) in projectList"
+          v-html="project.title"
+          :key="key"
+          :class="{active: selectedProject === project.pidx}"
+          @click="selectedProject = project.pidx" />
+    </ul>
+
     <div class="calendar">
       <ul class="calendar-head">
         <li v-for="(day, key) in days" :key="key" v-html="day" :class="{red: key === 0, blue: key === 6}" />
@@ -26,15 +45,20 @@
               <span v-html="getNum()" />
             </div>
             <div class="task-on-date" v-if="onCheck(getNum())">
-              <a href="#" @click="openTask(v)" v-for="(v, k) in onCheck(getNum())" :class="`color${v.state + 1}`">
-                [{{v.project_title}}] {{v.title}}
-              </a>
+              <a href="#"
+                 v-for="(v, k) in onCheck(getNum())"
+                 v-if="selectedProject === null || selectedProject === v.pidx"
+                 v-html="`[${v.project_title}] ${v.title}`"
+                 :class="`color${v.state + 1}`"
+                 :key="k"
+                 @click="openTask(v)" />
             </div>
             {{setNum()}}
           </template>
         </li>
       </ul>
     </div>
+
   </section>
 </template>
 
@@ -42,7 +66,8 @@
   import Api from '@/middleware/Api.js'
 
   export default {
-    created () {
+    async created () {
+      this.projectList = (await this.getApiData(Api.getProjectList(this.$store.state.member.id))).list
       this.getTaskListByRange()
     },
     data () {
@@ -51,10 +76,11 @@
         m: this.moment().format('MM')
       }
       const now = this.moment().format('YYYYMMDD')
-      window.num = 1
+
       return {
         days: ['Sun', 'Mon', 'Tuey', 'Wed', 'Thur', 'Fri', 'Sat'],
-        dateInfo, now, taskOnDate: {}, 
+        dateInfo, now, taskOnDate: {}, projectList: [],
+        selectedProject: null
       }
     },
     computed: {
@@ -75,7 +101,7 @@
       },
       onCheck (date) {
         const dateInfo = this.dateInfo
-        const key = `${dateInfo.y}-${dateInfo.m}-${date}`
+        const key = dateInfo.y + dateInfo.m + date
         return this.taskOnDate[key]
       },
       async getTaskListByRange () {
@@ -95,12 +121,18 @@
         }
 
         data.list.forEach(v => {
-          const start_date = v.start_date.substring(0, 10)
-          const limit_date = v.limit_date.substring(0, 10)
+          const start_date = this.moment(new Date(v.start_date)).format('YYYYMMDD')
+          const limit_date = this.moment(new Date(v.limit_date)).format('YYYYMMDD')
 
           pushOnDate(start_date, v)
 
-          if (start_date !== limit_date) pushOnDate(limit_date, v)
+          if (start_date !== limit_date) {
+            const len = (limit_date * 1) - (start_date * 1)
+            
+            for (let i = 1; i <= len; i++) {
+              pushOnDate((start_date * 1) + i, v)
+            }
+          }
         })
         this.taskOnDate = obj
       },
@@ -137,6 +169,12 @@
   .date-info{display:flex;justify-content:center;align-items:center;
     select{background:#fff;border-radius:0;border:1px solid #ddd;height:40px;padding:0 10px;font-size:15px;-webkit-appearance:none;border-radius:3px;
       +select{margin-left:10px;}
+    }
+  }
+  .project-tab{display:flex;margin-top:20px;justify-content:center;
+    li{border-radius:3px;background:#fff;border:1px solid #ddd;padding:5px 10px;font-size:13px;cursor:pointer;
+      +li{margin-left:3px;}
+      &.active{border-color:$color1;}
     }
   }
   .arrow{font-size:30px;line-height:1;color:$color1-darken-10;opacity:0.5;transition:0.3;padding:0 5px;

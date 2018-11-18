@@ -20,7 +20,7 @@ public class TemplateController {
         return "forward:/";
     }
 
-    @GetMapping(value = {"/", "/project/**", "/task/**", "/naver/**", })
+    @GetMapping(value = {"/", "/project/**", "/task/**", "/naver/**", "/schedule/**"})
     public String front() {
         return "index";
     }
