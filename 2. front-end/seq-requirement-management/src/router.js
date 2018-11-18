@@ -42,6 +42,10 @@ export default new Router({
         {
           path: 'setting/:pidx',
           component: () => import(`${project}/setting.vue`)
+        },
+        {
+          path: 'tree/:pidx',
+          component: () => import(`${project}/tree.vue`)
         }
       ]
     },

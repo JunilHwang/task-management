@@ -83,7 +83,6 @@ public class TaskController {
     HashMap getTaskByRange (@RequestParam HashMap params) {
         HashMap obj = new HashMap();
         Boolean success = true;
-        System.out.println(params);
         try {
             List list = taskMapper.getTaskByRange(params);
             obj.put("list", list);

@@ -4,6 +4,9 @@
       <h4 class="content-title" v-html="projectData.title" />
       <p v-html="projectData.description" />
     </header>
+    <div class="btn-group tree">
+      <a href="#" v-html="'Task Tree'" class="btn submit" @click="treeOpen = true" />
+    </div>
     <section class="project-view" v-if="typeof projectData.pidx !== 'undefined'">
       <section class="tasks">
         <taskList :matching="matching" />
@@ -17,6 +20,7 @@
         <a href="#" class="btn submit" @click.prevent="copyToken">토큰 복사</a>
       </div>
     </section>
+    <taskTree v-if="treeOpen" />
   </section>
 </template>
 
@@ -25,9 +29,10 @@
   import projectGithubRepos from './github-repos'
   import taskList from '@/components/task/list'
   import customLoading from '@/components/loading'
+  import taskTree from './tree'
 
   export default {
-    components: { projectGithubRepos, taskList, customLoading },
+    components: { projectGithubRepos, taskList, customLoading, taskTree },
     computed: {
       projectData () { return this.$store.state.projectData }
     },
@@ -40,7 +45,7 @@
     data () {
       return {
         matching: {state: false, commit: null},
-        loading: false
+        loading: false, treeOpen: false
       }
     },
     methods: {
@@ -74,4 +79,5 @@
     header{margin-bottom:20px}
   }
   .requirement{background:#fff;border-radius:3px;border:1px solid #ddd;min-height:200px;padding:30px;}
+  .btn-group.tree{padding:0;text-align:right;margin-top:-30px;margin-bottom:10px;}
 </style>

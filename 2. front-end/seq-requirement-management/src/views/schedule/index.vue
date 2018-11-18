@@ -7,10 +7,18 @@
         <a href="#" class="arrow change-year left" @click="setYear(+dateInfo.y - 1)"><i class="fas fa-angle-double-left"></i></a>
         <a href="#" class="arrow change-month left" @click="setMonth(+dateInfo.m - 1)"><i class="fas fa-angle-left"></i></a>
         <select class="year-select" @change="setYear($event.target.value * 1)">
-          <option v-for="y in 20" :value="+dateInfo.y + y - 10" v-html="+dateInfo.y + y - 10 + ' 년'" :selected="y === 10" />
+          <option v-for="(y, k) in 20"
+                  :key="k"
+                  :value="+dateInfo.y + y - 10"
+                  :selected="y === 10"
+                  v-html="+dateInfo.y + y - 10 + ' 년'" />
         </select>
         <select class="month-select" @change="setMonth($event.target.value * 1)">
-          <option v-for="m in 12" :value="m" v-html="digit(m) + ' 월'" :selected="digit(m) === dateInfo.m" />
+          <option v-for="(m, k) in 12"
+                  :key="k"
+                  :value="m"
+                  :selected="digit(m) === dateInfo.m"
+                  v-html="digit(m) + ' 월'" />
         </select>
         <a href="#" class="arrow change-month right" @click="setMonth(+dateInfo.m + 1)"><i class="fas fa-angle-right"></i></a>
         <a href="#" class="arrow change-year right" @click="setYear(+dateInfo.y + 1)"><i class="fas fa-angle-double-right"></i></a>
@@ -42,6 +50,7 @@
                  v-if="selectedProject === null || selectedProject === v.pidx"
                  v-html="`[${v.project_title}] ${v.title}`"
                  :class="`color${v.state + 1}`"
+                 :key="k"
                  @click="openTask(v)" />
             </div>
             {{setNum()}}
