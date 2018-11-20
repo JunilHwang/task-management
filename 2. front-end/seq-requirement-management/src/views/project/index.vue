@@ -86,10 +86,11 @@
   a:hover{text-decoration:none;}
 }
 .none{background:#fff;border:1px solid #ddd;border-radius:3px;padding:10px 15px;}
+
 @include tablet () {
-  .project-main{display:block;}
-  .profile{width:auto;margin-bottom:20px;}
-  .project-main-list{width:auto;}
-  .section-title{font-size:17px;margin-bottom:10px;}
+  .project-main{display:block;padding:0 50px; margin: 0 auto }
+  .profile {width: 100%; }
+  .project-main-list{width:100%;}
+
 }
 </style>

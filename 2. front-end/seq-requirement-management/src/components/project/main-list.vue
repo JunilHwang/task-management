@@ -1,12 +1,12 @@
-<template>
+﻿<template>
   <section class="float-wrap">
     <h4 class="section-title" v-html="title" />
     <div class="section-content float-wrap" v-if="loading">
       <template v-if="projectList.length">
         <article v-for="(project, key) in projectList" :key="key" >
           <div @click.prevent="$router.push(`/project/view/${project.pidx}`)">
-            <p class="article-title" v-html="project.title" />
-            <p class="description" v-html="project.description" />
+            <p class="article-title" v-html="contentPreview(project.title,20)" />
+            <p class="description" v-html="contentPreview(project.description,45)" />
             <p class="date" v-html="getDateFormat(project.register_date)" />
           </div>
           <a v-if="!isStar" href="#" class="star" :class="{active: project.star}" @click.prevent="icon(project.pidx, project.star !== undefined)">
@@ -58,5 +58,15 @@ article{position:relative;background:#fff;padding:10px 15px;border-radius:3px;bo
   &.active, &:hover{
     i{font-weight:bold;}
   }
+}
+@include tablet () {
+  .section-title{font-size: 16px}
+  .description{font-size:12px;margin-bottom:5px;height:20px;}
+  .date{font-size:11px;color:#aaa}
+  article{position:relative;background:#fff;padding:10px 15px;border-radius:3px;border:1px solid #ddd;transition:.3s;cursor:pointer;float:left;width:calc(50% - 5px);box-sizing:border-box;margin-bottom:10px;
+    &:nth-child(2n){margin-left:10px;}
+    &:hover{border-color:#000;}
+  }
+  .article-title{font-size: 14px;}
 }
 </style>

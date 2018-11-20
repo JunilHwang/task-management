@@ -15,8 +15,17 @@
 </script>
 
 <style lang="scss" scoped>
-  .mypage{border:1px solid #ddd;border-raidus:3px;padding:15px;background:#fff;}
-  .image{width:200px;height:200px;background:no-repeat center / cover;margin-bottom:5px;}
-  .name{font-size:17px;margin-bottom:5px;}
+.mypage{border:1px solid #ddd;border-raidus:3px;padding:15px;background:#fff;}
+.image{width:200px;height:200px;background:no-repeat center / cover ;margin-bottom:5px;}
+.name{font-size:17px;margin-bottom:5px;}
+.email{font-size:13px;color:#666;}
+@import "@/assets/scss/_lib.scss";
+@include tablet () {
+  .mypage{height:50px;border:1px solid #ddd;border-raidus:3px;;background:none; padding: 10px} 
+  .image{float:left;width:50px;height:50px;background:no-repeat center / cover; margin-right: 10px; }
+  .info{text-align:left;}
+  .name{font-size:17px;}
   .email{font-size:13px;color:#666;}
+
+}
 </style>
