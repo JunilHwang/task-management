@@ -80,7 +80,7 @@
           content: frm.content.value
         }
         await this.getApiData(Api.postCommentReply(params))
-        this.$parent.getCommentList()
+        this.$parent.$parent.getCommentList()
       }
     }
   }
