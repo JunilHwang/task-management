@@ -1,86 +1,84 @@
 <template>
-  <section>
-    <div class="requirement-create">
+  <div class="requirement-create">
     <h3 class="requirement-title">Task 수정</h3>
-      <CustomLoading :loading="loading" />
-      <form v-if="loading" action="" method="post" name="task" @submit="TaskCore.update" @keyup="requiredCheck" @change="requiredCheck">
-        <fieldset><legend>Task 수정</legend>
-          <ul class="fields">
-            <li>
-              <label class="input-label">
-                <span class="pre"><i class="fas fa-arrow-up"></i></span>
-                <select name="parent" class="full-width">
-                  <option value="0">상위 task 선택</option>
-                  <option v-for="(t, optionKey) in tasks" v-if="t.tidx !== task.tidx" :value="t.tidx" v-html="t.title" :selected="t.tidx === task.parent" :key="optionKey" />
-                </select>
-              </label>
-            </li>
-            <li>
-              <label class="input-label">
-                <span class="pre"><i class="fas fa-file-signature"></i></span>
-                <input type="text" name="title" class="full-width" :value="task.title" required>
-                <span class="lbl">제목</span>
-              </label>
-            </li>
-            <li class="datepicker">
-              <div class="input-label inline half">
-                <span class="pre"><i class="far fa-calendar-alt"></i></span>
-                <Datepicker :highlighted="{dates: [new Date()]}" :disabledDates="disableStart"
-                            format="yyyy-MM-dd" @selected="setLimitDisable" :value="start"
-                            placeholder="시작날짜" name="start" class="full-width" required />
-              </div>
-              <label class="input-label inline">
-                <span class="pre"><i class="far fa-clock"></i></span>
-                <select name="start_h" required>
-                  <option value="">시간 선택</option>
-                  <option v-for="i in 24" :value="digit(i - 1)" v-html="digit(i - 1) + ' 시'" :selected="digit(i - 1) === start_h" :key="i" />
-                </select>
-              </label>
-              <label class="input-label inline">
-                <span class="pre"><i class="far fa-clock"></i></span>
-                <select name="start_m" required>
-                  <option value="">분 선택</option>
-                  <option v-for="i in 60" :value="digit(i - 1)" v-html="digit(i - 1) + ' 분'" :selected="digit(i - 1) === start_m" :key="i" />
-                </select>
-              </label>
-            </li>
-            <li class="datepicker">
-              <div class="input-label inline half">
-                <span class="pre"><i class="far fa-calendar-alt"></i></span>
-                <Datepicker :highlighted="{dates: [new Date()]}" :disabledDates="disableLimit"
-                            format="yyyy-MM-dd" @selected="setStartDisable" :value="limit"
-                            placeholder="완료날짜 선택" name="limit" class="full-width" required />
-              </div>
-              <label class="input-label inline">
-                <span class="pre"><i class="far fa-clock"></i></span>
-                <select name="limit_h" required>
-                  <option value="">시간 선택</option>
-                  <option v-for="i in 24" :value="digit(i - 1)" v-html="digit(i - 1) + ' 시'" :selected="digit(i - 1) === limit_h" :key="i" />
-                </select>
-              </label>
-              <label class="input-label inline">
-                <span class="pre"><i class="far fa-clock"></i></span>
-                <select name="limit_m" required>
-                  <option value="">분 선택</option>
-                  <option v-for="i in 60" :value="digit(i - 1)" v-html="digit(i - 1) + ' 분'" :selected="digit(i - 1) === limit_m" :key="i" />
-                </select>
-              </label>
-            </li>
-            <li>
-              <label class="input-label">
-                <span class="pre"><i class="fas fa-align-left"></i></span>
-                <textarea type="text" name="description" class="full-width" cols="80" rows="10" required v-html="task.description" />
-                <span class="lbl">간략 설명</span>
-              </label>
-            </li>
-            <li v-if="required">
-              <button type="submit" class="btn btn-full submit">작성완료</button>
-            </li>
-          </ul>
-        </fieldset>
-      </form>
-    </div>
-  </section>
+    <CustomLoading :loading="loading" />
+    <form v-if="loading" action="" method="post" name="task" @submit="TaskCore.update" @keyup="requiredCheck" @change="requiredCheck">
+      <fieldset><legend>Task 수정</legend>
+        <ul class="fields">
+          <li>
+            <label class="input-label">
+              <span class="pre"><i class="fas fa-arrow-up"></i></span>
+              <select name="parent" class="full-width">
+                <option value="0">상위 task 선택</option>
+                <option v-for="(t, optionKey) in tasks" v-if="t.tidx !== task.tidx" :value="t.tidx" v-html="t.title" :selected="t.tidx === task.parent" :key="optionKey" />
+              </select>
+            </label>
+          </li>
+          <li>
+            <label class="input-label">
+              <span class="pre"><i class="fas fa-file-signature"></i></span>
+              <input type="text" name="title" class="full-width" :value="task.title" required>
+              <span class="lbl">제목</span>
+            </label>
+          </li>
+          <li class="datepicker">
+            <div class="input-label inline half calendar">
+              <span class="pre"><i class="far fa-calendar-alt"></i></span>
+              <Datepicker :highlighted="{dates: [new Date()]}" :disabledDates="disableStart"
+                          format="yyyy-MM-dd" @selected="setLimitDisable" :value="start"
+                          placeholder="시작날짜" name="start" class="full-width" required />
+            </div>
+            <label class="input-label inline label">
+              <span class="pre"><i class="far fa-clock"></i></span>
+              <select name="start_h" required>
+                <option value="">시간 선택</option>
+                <option v-for="i in 24" :value="digit(i - 1)" v-html="digit(i - 1) + ' 시'" :selected="digit(i - 1) === start_h" :key="i" />
+              </select>
+            </label>
+            <label class="input-label inline label">
+              <span class="pre"><i class="far fa-clock"></i></span>
+              <select name="start_m" required>
+                <option value="">분 선택</option>
+                <option v-for="i in 60" :value="digit(i - 1)" v-html="digit(i - 1) + ' 분'" :selected="digit(i - 1) === start_m" :key="i" />
+              </select>
+            </label>
+          </li>
+          <li class="datepicker">
+            <div class="input-label inline half calendar">
+              <span class="pre"><i class="far fa-calendar-alt"></i></span>
+              <Datepicker :highlighted="{dates: [new Date()]}" :disabledDates="disableLimit"
+                          format="yyyy-MM-dd" @selected="setStartDisable" :value="limit"
+                          placeholder="완료날짜 선택" name="limit" class="full-width" required />
+            </div>
+            <label class="input-label inline label">
+              <span class="pre"><i class="far fa-clock"></i></span>
+              <select name="limit_h" required>
+                <option value="">시간 선택</option>
+                <option v-for="i in 24" :value="digit(i - 1)" v-html="digit(i - 1) + ' 시'" :selected="digit(i - 1) === limit_h" :key="i" />
+              </select>
+            </label>
+            <label class="input-label inline label">
+              <span class="pre"><i class="far fa-clock"></i></span>
+              <select name="limit_m" required>
+                <option value="">분 선택</option>
+                <option v-for="i in 60" :value="digit(i - 1)" v-html="digit(i - 1) + ' 분'" :selected="digit(i - 1) === limit_m" :key="i" />
+              </select>
+            </label>
+          </li>
+          <li>
+            <label class="input-label">
+              <span class="pre"><i class="fas fa-align-left"></i></span>
+              <textarea type="text" name="description" class="full-width" cols="80" rows="10" required v-html="task.description" />
+              <span class="lbl">간략 설명</span>
+            </label>
+          </li>
+          <li v-if="required">
+            <button type="submit" class="btn btn-full submit">작성완료</button>
+          </li>
+        </ul>
+      </fieldset>
+    </form>
+  </div>
 </template>
 
 <script>
@@ -175,12 +173,3 @@
     }
   }
 </script>
-
-<style lang="scss">
-  @import "@/assets/scss/_lib.scss";
-  .requirement-create{width:700px;}
-  .full-width input{width:100% !important}
-  .input-label.inline{display:inline-block;margin-right:5px;
-    select{width:200px;}
-  }
-</style>

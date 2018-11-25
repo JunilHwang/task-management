@@ -1,7 +1,10 @@
 <template>
   <section>
     <div class="setting-container">
-      <h3 class="setting-title">Github API 연동</h3>
+      <header class="setting-title">
+        <h3>Github 연동</h3>
+        <span>Connect github</span>
+      </header>
       <ul class="connected-list">
         <li v-for="(repo, key) in repos" :key="key">
           <a href="#" class="close" @click="deleteRepo(repo.gridx)"><i class="fas fa-times-circle"></i></a>

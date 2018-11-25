@@ -13,7 +13,7 @@
       </section>
       <projectGithubRepos />
       <customLoading :loading="loading" />
-      <div class="btn-group bottom">
+      <div class="btn-group mobile-btn-group">
         <router-link to="/" class="btn mobile-btn-full point">프로젝트 목록</router-link>
         <router-link :to="`/project/setting/${projectData.pidx}`" class="btn mobile-btn-full point">프로젝트 설정</router-link>
         <a href="#" class="btn mobile-btn-full submit" @click.prevent="$store.commit('openLayer', 'taskCreate')">테스크 추가</a>
@@ -89,9 +89,6 @@
       h4{font-size:17px;}
       p{font-size:13px;color:#666;}
     }
-    .btn-group.bottom{padding-top:10px;}
-    .btn-group.tree{margin-top:0;
-      .btn{}
-    }
+    .btn-group.tree{margin-top:0;}
   }
 </style>

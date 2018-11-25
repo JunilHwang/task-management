@@ -1,5 +1,6 @@
 <template>
   <section class="task-view" v-if="task">
+    <h3 class="layer-title">Task 조회</h3>
     <header class="task-title box">
       <span :class="`color-label color${task.state + 1}`" />
       <span class="task-name" v-html="task.title" />
@@ -20,9 +21,9 @@
     </div>
     <div class="task-content box" v-html="task.description.replace(/\n/gi, '<br />')" />
     
-    <div class="btn-group btm">
-      <router-link :to="`/task/view/${task.tidx}`" class="btn default" @click.native="$store.commit('closeLayer')">상세 조회</router-link>
-      <a :href="task.html_url" class="btn social-google" target="_blank" v-if="task.html_url">
+    <div class="btn-group btm mobile-btn-group btm">
+      <router-link :to="`/task/view/${task.tidx}`" class="btn default mobile-btn-full" @click.native="$store.commit('closeLayer')">상세 조회</router-link>
+      <a :href="task.html_url" class="btn social-google mobile-btn-full" target="_blank" v-if="task.html_url">
         <i class="far fa-calendar-alt"></i>
         구글 캘린더
       </a>
@@ -63,4 +64,9 @@
     .lbl{color:$color1;display:inline-block;width:50px;position:relative;}
   }
   .social-google{background:$color-google;border-radius:3px;}
+  @include mobile () {
+    .task-view{margin:0;width:auto;}
+    .task-title{font-size:13px;}
+    .reg-date{font-size:11px;line-height:1;position:static;display:block;margin-top:7px;}
+  }
 </style>

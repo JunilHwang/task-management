@@ -33,6 +33,9 @@
 .main-login-wrap{width:250px;margin:0 auto;background:#fff;padding:20px;border:1px solid #bebebe;border-radius:3px;
   .layer-title{font-size:21px;margin-bottom:10px;text-align:center;}
 }
+@include tablet () {
+  .main-login-wrap{margin-top:40px;}
+}
 @include mobile () {
   .main-login-wrap{max-width:250px;width:auto;}
 }

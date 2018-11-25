@@ -4,9 +4,9 @@
       <settingDefault :projectData="projectData" />
       <settingMember :projectData="projectData" />
       <settingGithub :projectData="projectData" />
-    </div>
-    <div class="btn-group btm" v-if="projectData">
-      <router-link :to="`/project/view/${projectData.pidx}`" class="btn point">설정완료</router-link>&nbsp;
+      <div class="btn-group btm mobile-btn-group" v-if="projectData">
+        <router-link :to="`/project/view/${projectData.pidx}`" class="btn point mobile-btn-full">설정완료</router-link>&nbsp;
+      </div>
     </div>
   </section>
 </template>
@@ -35,7 +35,7 @@
 <style lang="scss">
   @import "@/assets/scss/_lib.scss";
   .setting-wrap{
-    >section{background:#fff;border:1px solid #ddd;width:700px;margin:0 auto;padding:30px;border-radius:3px;text-align:center;
+    >section{background:#fff;border:1px solid #ddd;width:680px;margin:0 auto;padding:30px;border-radius:3px;text-align:center;
       +section{margin-top:10px;}
     }
   }
@@ -44,4 +44,18 @@
     span{display:inline-block;vertical-align:middle;color:#aaa;margin-left:10px;}
   }
   .setting-container{width:400px;margin:0 auto;position:relative;}
+
+  @include tablet () {
+    .setting-wrap{padding:20px;
+      >section{width:auto;margin:0;}
+    }  
+  }
+
+  @include mobile () {
+    .setting-title{
+      h3{font-size:17px;}
+      span{font-size:13px;}
+    }
+    .setting-container{width:auto;margin:0;}
+  }
 </style>

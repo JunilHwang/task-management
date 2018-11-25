@@ -101,11 +101,21 @@
     &:checked + span{background:#444;border-color:#444;color:#fff;}
   }
 }
-.comment-write{display:flex;justify-content:space-between;}
+.comment-write{display:flex;justify-content:space-between;margin-top:10px;}
 .comment-input{width:calc(100% - 230px);
   textarea{height:80px;box-sizing:border-box;padding:10px;width:100%;border-radius:3px;font-size:13px;}
 }
 .comment-button{
   button{width:100px;height:80px;border:1px solid #bebebe;background:#fff;border-radius:3px;cursor:pointer;}
+}
+@include mobile () {
+  .writer{width:100%;margin-bottom:10px;align-items:flex-start;}
+  .comment-write{display:block;}
+  .comment-input{width:100%;
+    textarea{height:120px;}
+  }
+  .comment-button{
+    button{width:100%;height:40px;margin-top:5px;}
+  }
 }
 </style>

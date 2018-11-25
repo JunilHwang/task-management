@@ -75,4 +75,13 @@ p{display:flex;align-items:center;line-height:100%;
 }
 .full_name{font-size:17px;}
 .description{font-size:13px;color:#666;}
+@include mobile () {
+  .github-repo-add{width:auto;margin:0;}
+  li{display:block;border:1px solid #ddd;padding:10px;border-radius:3px;
+    &:hover{border-color:#000;}
+    +li{margin-top:3px;}
+  }
+  .full_name{font-size:13px;}
+  .description{font-size:11px;}
+}
 </style>

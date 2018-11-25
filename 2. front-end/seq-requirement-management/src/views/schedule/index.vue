@@ -26,12 +26,12 @@
     </header>
 
     <ul class="project-tab" v-if="projectList.length">
-      <li :class="{active: selectedProject === null}" @click="selectedProject = null">전체</li>
+      <li :class="{active: selectedProject === null}" @click="selectedProject = null; selectedDate = {date: null, list: []}">전체</li>
       <li v-for="(project, key) in projectList"
           v-html="project.title"
           :key="key"
           :class="{active: selectedProject === project.pidx}"
-          @click="selectedProject = project.pidx" />
+          @click="selectedProject = project.pidx; selectedDate = {date: null, list: []}" />
     </ul>
 
     <div class="calendar">
@@ -44,21 +44,30 @@
             <div class="date" :class="{red: day === 0, blue: day === 6}">
               <span v-html="getNum()" />
             </div>
-            <div class="task-on-date" v-if="onCheck(getNum())">
+            <div class="task-on-date" v-if="dataOnDate(getNum())">
               <a href="#"
-                 v-for="(v, k) in onCheck(getNum())"
-                 v-if="selectedProject === null || selectedProject === v.pidx"
+                 v-for="(v, k) in dataOnDate(getNum())"
                  v-html="`[${v.project_title}] ${v.title}`"
                  :class="`color${v.state + 1}`"
                  :key="k"
                  @click="openTask(v)" />
             </div>
+            <div class="on-count" v-if="dataOnDate(getNum())" v-html="`${getKeyCount(dataOnDate(getNum()))} 개`" @click="selectDate" :date="getNum()" />
             {{setNum()}}
           </template>
         </li>
       </ul>
     </div>
 
+    <div class="only-mobile date-detail task-on-date" v-if="selectedDate.list.length">
+      <p class="selected-date">{{dateInfo.y}}-{{dateInfo.m}}-{{selectedDate.date}}</p>
+      <a href="#"
+         v-for="(v, k) in selectedDate.list"
+         v-html="`[${v.project_title}] ${v.title}`"
+         :class="`color${v.state + 1}`"
+         :key="k"
+         @click="openTask(v)" />
+    </div>
   </section>
 </template>
 
@@ -79,8 +88,9 @@
 
       return {
         days: ['Sun', 'Mon', 'Tuey', 'Wed', 'Thur', 'Fri', 'Sat'],
-        dateInfo, now, taskOnDate: {}, projectList: [],
-        selectedProject: null
+        dateInfo, now, taskOnDate: {},
+        selectedProject: null,
+        selectedDate: {date: null, list: []}, projectList: []
       }
     },
     computed: {
@@ -99,10 +109,19 @@
         const lastBool = week === this.weeks - 1 && window.num > this.last
         return !(firstBool || lastBool)
       },
-      onCheck (date) {
+      dataOnDate (date) {
         const dateInfo = this.dateInfo
         const key = dateInfo.y + dateInfo.m + date
-        return this.taskOnDate[key]
+        const v = this.taskOnDate[key]
+        if (!v) return false
+        const arr = []
+        const sel = this.selectedProject
+        v.forEach(target => {
+          if (sel === null || sel === target.pidx)
+            arr.push(target)
+        })
+        if (!arr.length) return false
+        return arr
       },
       async getTaskListByRange () {
         const dateInfo = this.dateInfo
@@ -157,6 +176,16 @@
         this.$set(this.dateInfo, 'y', y)
         this.$set(this.dateInfo, 'm', this.digit(m))
         this.getTaskListByRange()
+      },
+      getKeyCount (obj) {
+        let cnt = 0
+        for (const v of obj) cnt++
+        return cnt
+      },
+      selectDate (e) {
+        const date = e.target.attributes.date.value
+        this.$set(this.selectedDate, 'date', date)
+        this.$set(this.selectedDate, 'list', this.dataOnDate(date))
       }
     }
   }
@@ -211,4 +240,37 @@
   .date{padding:10px;border-bottom:1px dotted #ddd;}
   .red{color:#F09;}
   .blue{color:#09F;}
+  .on-count{display:none;}
+
+  @include tablet () {
+    .schedule{padding:20px;}
+  }
+
+  @include mobile () {
+    .schedule{padding:20px;}
+    .content-title{font-size:17px;}
+    .date-info{line-height:1;
+      select{height:30px;padding:0 10px;font-size:13px;
+        +select{margin-left:5px;}
+      }
+    }
+    .project-tab{display:flex;margin-top:20px;justify-content:center;
+      li{font-size:11px;
+        +li{margin-left:3px;}
+      }
+    }
+    .arrow{font-size:25px;margin-top:-3px;}
+    li{font-size:11px;}
+    .calendar-head{text-align:center;
+      li{padding:10px 0;background:#fafafa;border-bottom:1px solid #bebebe;}
+    }
+    .calendar-body{
+      li{min-height:65px;}
+      .task-on-date{display:none;}
+    }
+    .date{padding:5px;}
+    .on-count{display:block;text-align:center;padding:10px 0;}
+    .date-detail{background:#fff;border-radius:3px;border:1px solid #bebebe;margin-top:5px;}
+    .selected-date{font-size:15px;margin-bottom:10px;}
+  }
 </style>

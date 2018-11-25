@@ -33,6 +33,7 @@
 </script>
 
 <style lang="scss" scoped>
+  @import "@/assets/scss/_lib.scss";
   .commit-header{margin-bottom:10px;}
   li{background:#fff;border:1px solid #ddd;padding:10px;border-radius:3px;font-size:13px;position:relative;
     +li{margin-top:3px;}
@@ -49,4 +50,12 @@
   .author{width:100px;}
   .register_date{float:right;color:#666;margin-right:20px;}
   .close{position:absolute;right:-12px;top:-12px;font-size:24px;z-index:10;opacity:0;transition:.5s;width:24px;height:24px;background:#fff;border-radius:12px;}
+  @include mobile () {
+    li{font-size:12px;
+      +li{margin-top:3px;}
+    }
+    .author{margin-top:-3px;}
+    .message{display:block;margin:5px 0;}
+    .register_date{float:none;display:block;margin-right:0;}
+  }
 </style>

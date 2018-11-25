@@ -14,7 +14,7 @@
             <div class="tag" :class="{'complete': comment.tag === '완료', 'error': comment.tag === '에러'}" v-html="comment.tag" />
             <div class="reg_date">{{getFlowDate(comment.register_date)}} 전</div>
           </header>
-          <div v-html="(comment.content + '').replace(/\n/gi, '<br />')" />
+          <div class="comment-text" v-html="(comment.content + '').replace(/\n/gi, '<br />')" />
           <footer class="comment-bottom">
             <a :class="{'active': comment.replySwitch}" href="#" @click.prevent="toggleReplyComponent(comment)">답글</a>
             <a :class="{'active': comment.updateSwitch}" v-if="comment.writer === $store.state.member.id" href="#" @click.prevent="toggleUpdateComponent(comment)">수정</a>
@@ -82,4 +82,17 @@ article{
 }
 .writer{display:flex;align-items:center;}
 .photo{width:15px;height:15px;border-radius:15px;background:no-repeat center / cover;margin-right:5px;}
+@include mobile () {
+  .comment-component{margin-bottom:5px;}
+  article{
+    header{line-height:1.6;
+      .tag{font-size:11px;}
+      .reg_date{font-size:11px;}
+    }
+  }
+  .comment-text{margin:5px 0;}
+  .writer{display:flex;align-items:center;font-size:13px;
+    strong{font-weight:normal;margin-top:-2px;}
+  }
+}
 </style>

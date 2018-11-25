@@ -23,7 +23,7 @@
           <a href="#" @click.prevent="openProjectPopup" class="mobile-project-add"><i class="fas fa-plus"></i></a>
         </div>
       </div>
-      <div class="mobile-logo" v-else>
+      <div class="mobile mobile-logo" v-else>
         Project Task Manager
       </div>
     </div>
