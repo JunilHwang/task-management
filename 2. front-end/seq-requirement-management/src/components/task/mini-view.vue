@@ -44,7 +44,7 @@
 
 <style lang="scss" scoped>
   @import "@/assets/scss/_lib.scss";
-  .task-view{margin:20px;width:500px;
+  .task-view{width:500px;
     >.box{background:#fff;border:1px solid #ddd;border-radius:3px;padding:10px;
       +.box{margin-top:5px;}
     }

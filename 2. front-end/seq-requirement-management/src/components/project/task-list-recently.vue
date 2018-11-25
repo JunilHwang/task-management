@@ -16,7 +16,7 @@
 </template>
 
 <script>
-  import taskCard from '@/components/task/card'
+  import taskCard from '@/components/task/recently-card'
   import CustomLoading from '@/components/loading'
 
   export default {

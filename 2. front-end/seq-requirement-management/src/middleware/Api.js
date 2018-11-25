@@ -16,17 +16,21 @@ const RestApi = class {
   putProjectStar(params) { return axios.put(`${baseURL}/project/star`, params)}
   deleteProject (pidx) { return axios.delete(`${baseURL}/project/${pidx}`) }
 
-  postTask (params) { return axios.post(`${baseURL}/task`, params) }
   getTask (tidx) { return axios.get(`${baseURL}/task/${tidx}`) }
   getTaskList (pidx) { return axios.get(`${baseURL}/tasks/${pidx}`) }
   getTaskListRecently (mid) { return axios.get(`${baseURL}/task/recently/${mid}`) }
   getTaskByRange (params) { return axios.get(`${baseURL}/task-range`, { params }) }
+  postTask (params) { return axios.post(`${baseURL}/task`, params) }
   putTask (params) { return axios.put(`${baseURL}/task`, params) }
   putTaskState (params) {
     const type = ['process', 'complete', 'error']
     let putStateURL = `${baseURL}/task/${type[params.state]}`
     return axios.put(`${putStateURL}/${params.tidx}`)
   }
+
+  getTaskMember (params) { return axios.get(`${baseURL}/task/member`, { params }) }
+  postTaskMember (params) { return axios.post(`${baseURL}/task/member`, params) }
+  deleteTaskMember (params) { return axios.delete(`${baseURL}/task/member`, { params }) }
 
   getTaskOnCalendar (params) { return axios.get(`${baseURL}/task-on-calendar`, {params}) }
   postTaskOnCalendar (params) { return axios.post(`${baseURL}/task-on-calendar`, params) }

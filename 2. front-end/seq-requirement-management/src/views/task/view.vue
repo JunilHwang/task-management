@@ -1,6 +1,5 @@
 <template>
   <section class="task-view" v-if="task">
-    <template>
       <div class="task-wrap">
         <CustomLoading :loading="loading.task" />
         <template v-if="loading.task">
@@ -17,7 +16,7 @@
             <p>
               <strong class="lbl">기간</strong>
               <span v-html="getRange(task.start_date, task.limit_date)" />
-              <a v-if="calendarConn === null" href="#" class="btn mini social-google left-margin" @click="insertCalendar">
+              <a v-if="calendarConn === null" href="#" class="btn mini social-google left-margin" @click.prevent="insertCalendar">
                 <i class="fab fa-google-plus-g"></i>
                 Calendar 등록
               </a>
@@ -25,6 +24,17 @@
             <p>
               <strong class="lbl">종료</strong>
               <span v-html="getRemaining(task.limit_date)" />
+            </p>
+            <p>
+              <strong class="lbl">담당자</strong>
+              <template v-if="taskMember.length">
+                <span class="on-member" v-for="(v, k) in taskMember" :key="k">
+                  <span class="image" :style="{backgroundImage: `url(${v.photo_src})`}" />
+                  <span class="name" v-html="v.name" />
+                </span>
+              </template>
+              <span v-else v-html="'담당자 없음'" />
+              <a href="#" class="btn mini submit left-margin" v-html="'담당자 지정'" @click.prevent="$store.commit('openLayer', 'taskMember')" />
             </p>
             <p>
               <strong class="lbl">선행</strong>
@@ -41,7 +51,7 @@
                 <i class="far fa-calendar-alt"></i>
                 조회
               </a>
-              <a href="#" class="btn mini social-google" @click="deleteCalendar">
+              <a href="#" class="btn mini social-google" @click.prevent="deleteCalendar">
                 <i class="far fa-calendar-alt"></i>
                 삭제
               </a>
@@ -65,7 +75,6 @@
         <a v-if="task.state != 2" href="#" class="btn mobile-btn-full error" @click.prevent="TaskCore.setState(2)">에러</a>
         <a v-if="task.state != 0" href="#" class="btn mobile-btn-full process" @click.prevent="TaskCore.setState(0)">진행</a>
       </div>
-    </template>
   </section>
 </template>
 
@@ -86,6 +95,9 @@
     computed: {
       task () {
         return this.$store.state.nowTask
+      },
+      taskMember () {
+        return this.$store.state.taskMember
       }
     },
     data () {
@@ -108,6 +120,7 @@
         this.$set(this.loading, 'task', true)
         await TaskCore.getCommits()
         this.$set(this.loading, 'commits', true)
+        await TaskCore.getMember()
         await TaskCore.getOnCalendar()
         this.$set(this.loading, 'calendar', true)
       },
@@ -188,9 +201,9 @@
     }
   }
   .task-title{font-size:21px;position:relative;font-weight:normal;
-    .color-label:before{width:16px;height:16px;margin-top:-2px}
+    .color-label:before{width:16px;height:16px;margin-top:-2px;vertical-align:inherit}
   }
-  .reg-date{font-size:13px;color:#666;line-height:50px;position:absolute;right:15px;top:0;bottom:0;
+  .reg-date{font-size:13px;color:#666;line-height:58px;position:absolute;right:15px;top:0;bottom:0;
     i{margin-top:-3px;}
   }
   .task-content{line-height:160%;min-height:200px;}
@@ -200,12 +213,18 @@
   .task-info{
     p{line-height:200%;}
     .lbl{color:$color1;display:inline-block;width:80px;position:relative;}
+    .btn.mini{line-height:1;margin-top:-2px;}
   }
   .social-naver{background:$color-naver;border-radius:3px;line-height:1;}
   .social-google{background:$color-google;border-radius:3px;line-height:1;}
   .left-margin{margin-left:10px;}
   .btn.mini{
     i{position:relative;margin-top:-2px;}
+  }
+  .on-member{font-size:11px;border:1px solid #ddd;border-radius:3px;padding:3px;display:inline-block;line-height:16px;position:relative;top:-2px;
+    >span{display:inline-block;vertical-align:middle;}
+    .image{width:12px;height:12px;border-radius:12px;background:no-repeat center / cover;margin-right:3px;}
+    +.on-member{margin-left:3px;}
   }
   @include tablet () {
     .task-view{padding:20px;}

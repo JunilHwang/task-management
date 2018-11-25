@@ -15,6 +15,7 @@
   import taskCreate from './task/create'
   import taskUpdate from './task/update'
   import taskMiniView from './task/mini-view'
+  import taskMember from './task/member'
   export default {
     components: {
       login,
@@ -23,7 +24,8 @@
       githubRepository,
       taskCreate,
       taskUpdate,
-      taskMiniView
+      taskMiniView,
+      taskMember
     },
     methods: {
       close () { this.$store.commit('closeLayer') }

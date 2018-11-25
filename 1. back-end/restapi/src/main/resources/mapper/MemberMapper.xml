@@ -14,7 +14,7 @@
     </select>
 
     <select id="getMemberOnProject" resultType="HashMap" parameterType="Integer">
-        SELECT email, name, photo_src FROM member where id in (SELECT mid FROM project_access where pidx = #{pidx})
+        SELECT midx, email, name, photo_src FROM member where id in (SELECT mid FROM project_access where pidx = #{pidx})
     </select>
 
     <insert id="postMember" parameterType="HashMap">

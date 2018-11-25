@@ -44,6 +44,19 @@ const Task = class {
     if (parent == null) vue.$store.commit('setState', ['nowTask', data.task])
     return data.task
   }
+
+  static async getMember (tidx = null) {
+    const vue = Task.instance
+    const params = {
+      tidx: tidx || vue.$store.state.nowTask.tidx,
+      midx: vue.$store.state.member.midx
+    }
+    const data = await vue.getApiData(Api.getTaskMember(params))
+    if (tidx === null) {
+      vue.$store.commit('setState', ['taskMember', data.list])
+    }
+    return data.list
+  }
   
   static async delete () {
     if (!confirm('정말로 삭제하시겠습니까?')) return

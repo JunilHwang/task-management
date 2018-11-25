@@ -22,11 +22,17 @@ public interface TaskMapper {
     // 연동 중인 google calendar 가져오기
     HashMap getTaskOnCalendar(HashMap params);
 
+    // task의 담당자를 가져오낟.
+    List getTaskMember(int tidx);
+
     // task 생성하기
     void postTask(HashMap params);
 
     // task와 google calendar 연동
     void postTaskOnCalendar(HashMap params);
+
+    // task 담당자 추가
+    void postTaskMember(HashMap params);
 
     // task 수정하기
     void updateTask(HashMap params);
@@ -48,4 +54,7 @@ public interface TaskMapper {
 
     // task에 연동된 calendar 삭제하기
     void deleteTaskOnCalendar(String id);
+
+    // task 담당자 삭제
+    void deleteTaskMember(HashMap params);
 }

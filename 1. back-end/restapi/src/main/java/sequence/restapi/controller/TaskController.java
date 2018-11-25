@@ -119,6 +119,25 @@ public class TaskController {
     }
 
     /**
+     * 테스크의 담당자를 가져온다.
+     * @param tidx : task index number
+     * @return
+     */
+    @GetMapping(value="/api/task/member")
+    HashMap getTaskMember (@RequestParam int tidx) {
+        HashMap obj = new HashMap();
+        Boolean success = true;
+        try {
+            obj.put("list", taskMapper.getTaskMember(tidx));
+        } catch (Exception e) {
+            obj.put("err", e);
+            success = false;
+        }
+        obj.put("success", success);
+        return obj;
+    }
+
+    /**
      * task를 등록한다.
      * @param data: {parent, depth, title, start_date, limit_date, limit_time, description}
      * @return
@@ -155,6 +174,27 @@ public class TaskController {
         Boolean success = true;
         try {
             taskMapper.postTaskOnCalendar(params);
+        } catch (Exception e) {
+            obj.put("err", e);
+            success = false;
+        }
+        obj.put("success", success);
+        return obj;
+    }
+
+    /**
+     * task 담당자를 등록
+     * @param params : {midx, tidx}
+     * @return
+     */
+    @PostMapping(value="/api/task/member", consumes = {"application/json"})
+    HashMap postTaskMember(@RequestBody HashMap params) {
+        HashMap obj = new HashMap();
+        Boolean success = true;
+        System.out.println(params);
+        try {
+            taskMapper.deleteTaskMember(params); // 비우기 후
+            taskMapper.postTaskMember(params);   // 재 등록
         } catch (Exception e) {
             obj.put("err", e);
             success = false;
@@ -269,6 +309,25 @@ public class TaskController {
         Boolean success = true;
         try {
             taskMapper.deleteTaskOnCalendar(id);
+        } catch (Exception e) {
+            obj.put("err", e);
+            success = false;
+        }
+        obj.put("success", success);
+        return obj;
+    }
+
+    /**
+     * 태스크 담당자를 삭제
+     * @param params : {midx, tidx}
+     * @return
+     */
+    @DeleteMapping(value="/api/task/member")
+    HashMap deleteTaskMember (@RequestParam HashMap params) {
+        HashMap obj = new HashMap();
+        Boolean success = true;
+        try {
+            taskMapper.deleteTaskMember(params);
         } catch (Exception e) {
             obj.put("err", e);
             success = false;

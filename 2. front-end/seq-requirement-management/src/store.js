@@ -8,6 +8,7 @@ export default new Vuex.Store({
     member: JSON.parse(localStorage.getItem('member')) || null,
     layerState: false,
     taskList: [],
+    taskMember: [],
     nowTask: null,
     projectData: {},
     projectList: [],

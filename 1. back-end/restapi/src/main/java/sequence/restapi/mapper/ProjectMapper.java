@@ -25,7 +25,7 @@ public interface ProjectMapper {
     // 프로젝트 엑세스 권한 등록하기
     void postProjectAccess(HashMap params);
 
-    // 엑세스 토큰으로 프로젝트 엑세스 권한 등록하기
+    // 테스크 담당자 추가
     void postProjectAccessByToken(HashMap params);
 
     // 프로젝트 정보 수정

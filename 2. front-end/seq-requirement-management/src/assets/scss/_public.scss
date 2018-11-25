@@ -133,5 +133,11 @@ a.btn{text-decoration:none;text-align:center;}
   &.color1:before{background:#ffeb00}
   &.color2:before{background:#a2eeef}
   &.color3:before{background:#d73a4a}
-  span{display:inline-block;vertical-align:middle;margin-left:5px;}
+  &.color4:before{background:#666}
+  span{display:inline-block;vertical-align:middle;}
+  +.color-label>span{margin-left:5px;}
+  @include mobile () {
+    margin-right:3px;
+    +.color-label>span{margin-left:3px;}
+  }
 }

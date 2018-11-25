@@ -7,7 +7,8 @@
 
     <select id="getTaskListAll" resultType="HashMap" parameterType="integer">
         SELECT  t.*,
-                (SELECT count(*) FROM comment where tidx = t.tidx) as comment_cnt
+                (SELECT count(*) FROM comment where tidx = t.tidx) as comment_cnt,
+                (SELECT group_concat(concat('[', midx, ']')) as midxs FROM task_member group by tidx having tidx = t.tidx) as midxs
         FROM    task t where t.pidx = #{pidx}
         order by t.update_date desc
     </select>
@@ -47,6 +48,10 @@
         order by start_date asc, limit_date asc
     </select>
 
+    <select id="getTaskMember" resultType="HashMap" parameterType="Integer">
+        SELECT midx, name, email, photo_src FROM member where midx in (SELECT midx FROM task_member where tidx = #{tidx})
+    </select>
+
     <insert id="postTask" parameterType="HashMap">
         INSERT INTO task SET
         pidx = #{pidx},
@@ -67,6 +72,11 @@
         tidx = #{tidx},
         id = #{id},
         html_url = #{html_url};
+    </insert>
+
+    <insert id="postTaskMember" parameterType="HashMap">
+        INSERT INTO task_member (tidx, midx)
+        SELECT #{tidx}, midx FROM member where midx in (${midx})
     </insert>
 
     <update id="updateTask" parameterType="HashMap">
@@ -99,8 +109,12 @@
         DELETE FROM task where tidx = #{tidx}
     </delete>
 
-    <select id="deleteTaskOnCalendar" parameterType="HashMap">
+    <delete id="deleteTaskOnCalendar" parameterType="HashMap">
         DELETE FROM google_calendar_connected where id = #{id}
-    </select>
+    </delete>
+
+    <delete id="deleteTaskMember" parameterType="HashMap">
+        DELETE FROM task_member where tidx = #{tidx}
+    </delete>
 
 </mapper>
