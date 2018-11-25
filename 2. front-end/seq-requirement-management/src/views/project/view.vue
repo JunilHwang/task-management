@@ -1,11 +1,11 @@
 <template>
-  <section>
+  <section class="project-view-wrap">
     <header class="project-header">
       <h4 class="content-title" v-html="projectData.title" />
       <p v-html="projectData.description" />
     </header>
     <div class="btn-group tree">
-      <a href="#" v-html="'Task Tree'" class="btn submit" @click="treeOpen = true" />
+      <a href="#" v-html="'Task Tree'" class="btn mobile-btn-full submit" @click="treeOpen = true" />
     </div>
     <section class="project-view" v-if="typeof projectData.pidx !== 'undefined'">
       <section class="tasks">
@@ -13,11 +13,11 @@
       </section>
       <projectGithubRepos />
       <customLoading :loading="loading" />
-      <div class="btn-group">
-        <router-link to="/" class="btn point">프로젝트 목록</router-link>
-        <router-link :to="`/project/setting/${projectData.pidx}`" class="btn point">프로젝트 설정</router-link>
-        <a href="#" class="btn submit" @click.prevent="$store.commit('openLayer', 'taskCreate')">테스크 추가</a>
-        <a href="#" class="btn submit" @click.prevent="copyToken">토큰 복사</a>
+      <div class="btn-group bottom">
+        <router-link to="/" class="btn mobile-btn-full point">프로젝트 목록</router-link>
+        <router-link :to="`/project/setting/${projectData.pidx}`" class="btn mobile-btn-full point">프로젝트 설정</router-link>
+        <a href="#" class="btn mobile-btn-full submit" @click.prevent="$store.commit('openLayer', 'taskCreate')">테스크 추가</a>
+        <a href="#" class="btn mobile-btn-full submit" @click.prevent="copyToken">토큰 복사</a>
       </div>
     </section>
     <taskTree v-if="treeOpen" />
@@ -68,6 +68,7 @@
 
 <style lang="scss">
   @import "@/assets/scss/_lib.scss";
+  .project-view-wrap{position:relative;}
   .content-title{
     &:after{margin:10px auto;}
   }
@@ -80,4 +81,17 @@
   }
   .requirement{background:#fff;border-radius:3px;border:1px solid #ddd;min-height:200px;padding:30px;}
   .btn-group.tree{padding:0;text-align:right;margin-top:-30px;margin-bottom:10px;}
+  @include tablet () {
+    .project-view-wrap{padding:20px;}
+  }
+  @include mobile () {
+    .project-header{
+      h4{font-size:17px;}
+      p{font-size:13px;color:#666;}
+    }
+    .btn-group.bottom{padding-top:10px;}
+    .btn-group.tree{margin-top:0;
+      .btn{}
+    }
+  }
 </style>

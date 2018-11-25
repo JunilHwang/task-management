@@ -54,4 +54,7 @@
   a.close{position:absolute;right:0;top:0;background:#09F;display:block;text-decoration:none;color:#fff;padding:5px 10px;opacity:0.5;
     &:hover{opacity:1;}
   }
+  @include mobile () {
+    .task-tree{top:50px;}
+  }
 </style>

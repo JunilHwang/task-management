@@ -105,7 +105,9 @@
   @import "@/assets/scss/_lib.scss";
   .task-list{
     li{width:33%;float:left;margin-bottom:0.5%;
-      &:nth-child(3n-1){margin:0 0.5%;};
+      @include pc () {
+        &:nth-child(3n-1){margin:0 0.5%;};
+      }
     }
     .matching{border-radius:3px;background:#333;padding:10px;cursor:pointer;position:relative;margin-bottom:10px;color:#fff;display:flex;justify-content:space-between;align-items:center;
     }
@@ -137,5 +139,28 @@
   .none{background:#fff;border:1px solid #ddd;padding:10px;border-radius:3px;}
   .workflow{cursor:pointer;
     &.active{background:#f5f5f5;border-radius:10px;}
+  }
+  @include tablet () {
+    .task-list{
+      li{width:49.5%;margin-bottom:1%;
+        &:nth-child(2n){margin-left:1%;}
+      }
+      .matching{position:fixed;left:0;right:0;top:50px;border-radius:3px;margin-bottom:0;color:#fff;z-index:40;background:fade-out(#333, 0.2);}
+    }
+  }
+  @include mobile () {
+    .task-list{
+      li{width:auto;float:none;margin-bottom:1%;
+        &:nth-child(2n){margin-left:0;}
+      }
+      dl{padding:10px;}
+      .matching{display:block;
+        .btns{margin-top:5px;}
+      }
+    }
+    .cnt{float:none;}
+    .color-description{float:none;margin-top:5px;
+      span{padding:0 5px;}
+    }
   }
 </style>

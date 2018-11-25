@@ -83,6 +83,7 @@
 </script>
 
 <style lang="scss" scoped>
+  @import "@/assets/scss/_lib.scss";
   .project-github-repos{border:1px solid #ddd;border-radius:3px;margin-top:5px;background:#fff;padding:20px;}
   article{
     +article{margin-top:20px;}
@@ -111,4 +112,30 @@
   .git-icon{font-size:17px;margin-right:5px;}
   .repo-name{font-size:17px;font-weight:normal;margin-right:5px;}
   .repo-desc{font-size:13px;color:#666;margin-top:3px;}
+
+  @include tablet () {
+    .project-github-repos{padding:10px;}
+    article{
+      .title{display:block;}
+    }
+    .git-icon{font-size:20px;}
+    .repo-desc{display:block;font-size:13px;}
+  }
+
+  @include mobile () {
+    article{
+      +article{margin-top:15px;padding-top:15px;border-top:1px dotted #ddd;}
+      header{display:block;}
+      .title{display:block;}
+      .sel{margin-top:10px;}
+      li{font-size:11px;
+        span{display:inline-block;vertical-align:middle;}
+        .plug{top:2px;bottom:inherit;display:block;}
+      }
+      .message{display:block;margin:5px 0;}
+      .register_date{float:none;display:block;margin-right:0;}
+    }
+    .repo-name{font-size:15px;}
+    .repo-desc{font-size:11px;}
+  }
 </style>
