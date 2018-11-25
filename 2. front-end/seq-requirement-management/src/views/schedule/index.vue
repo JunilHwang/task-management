@@ -52,7 +52,7 @@
                  :key="k"
                  @click="openTask(v)" />
             </div>
-            <div class="on-count" v-if="dataOnDate(getNum())" v-html="`${getKeyCount(dataOnDate(getNum()))} 개`" @click="selectDate" :date="getNum()" />
+            <div class="on-count" v-if="dataOnDate(getNum())" v-html="`${dataOnDate(getNum()).length} 개`" @click="selectDate" :date="getNum()" />
             {{setNum()}}
           </template>
         </li>
@@ -176,11 +176,6 @@
         this.$set(this.dateInfo, 'y', y)
         this.$set(this.dateInfo, 'm', this.digit(m))
         this.getTaskListByRange()
-      },
-      getKeyCount (obj) {
-        let cnt = 0
-        for (const v of obj) cnt++
-        return cnt
       },
       selectDate (e) {
         const date = e.target.attributes.date.value

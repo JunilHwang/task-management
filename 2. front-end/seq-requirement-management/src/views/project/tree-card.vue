@@ -25,7 +25,9 @@
       },
       emptyCheck (obj) {
         let cnt = 0
-        for (const key in obj) cnt++
+        Object.keys(obj).map(() => {
+          cnt++
+        })
         return cnt
       }
     },
