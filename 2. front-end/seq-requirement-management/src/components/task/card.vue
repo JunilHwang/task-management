@@ -38,6 +38,9 @@
 @import "@/assets/scss/_lib.scss";
 dl{border-radius:3px;border:1px solid #ddd;background:#fff;padding:20px;cursor:pointer;position:relative;
   &:hover{border-color:#444;}
+  @include mobile () {
+    padding:10px;
+  }
 }
 .list-header{font-size:15px;display:flex;align-items:center;}
 .comment_cnt{display:inline-block;vertical-align:middle;font-size:11px;margin-left:10px;background:#ededee;color:#586069;padding:2px 5px;line-height:1;border-radius:20px;font-weight:600;}
@@ -52,12 +55,4 @@ dl{border-radius:3px;border:1px solid #ddd;background:#fff;padding:20px;cursor:p
 }
 .list-content{margin:5px 0;word-break:break-all;}
 
-@import "@/assets/scss/_lib.scss";
-@include tablet () {
-  .section-title {font-size: 16px}
-  .list-header{font-size:14px;}
-
-  
-
-}
 </style>

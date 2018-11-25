@@ -9,8 +9,8 @@
               <span class="photo" :style="`background-image:url(${comment.photo_src})`"></span>
               <strong v-html="comment.writer_name"></strong>
             </div>
-            <div><router-link class="project-title" :to="`/project/view/${comment.pidx}`" v-html="comment.project_title" /></div>
-            <div><router-link class="task-title" :to="`/task/view/${comment.tidx}`" v-html="comment.task_title" /></div>
+            <div class="project-title"><router-link :to="`/project/view/${comment.pidx}`" v-html="comment.project_title" /></div>
+            <div class="task-title"><router-link :to="`/task/view/${comment.tidx}`" v-html="comment.task_title" /></div>
             <div class="tag" :class="{complete: comment.tag === '완료', error: comment.tag === '에러'}" v-html="comment.tag" />
             <div class="reg_date">{{getFlowDate(comment.register_date)}} 전</div>
           </header>
@@ -48,4 +48,10 @@ header{line-height:30px;font-size:13px;
 >div{line-height:160%;font-size:13px;}
 .writer{display:flex;align-items:center;}
 .photo{width:15px;height:15px;border-radius:15px;background:no-repeat center / cover;margin-right:5px;}
+@include mobile () {
+  header{line-height:25px;margin-bottom:10px;}
+  .task-title{clear:both;
+    &:before{content:none;}
+  }
+}
 </style>

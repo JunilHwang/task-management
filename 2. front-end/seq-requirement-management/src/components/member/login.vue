@@ -142,4 +142,7 @@
 .btn-social-naver{background:$color-naver;}
 .btn-social-facebook{background:$color-facebook;}
 .btn-social-kakao{background:$color-kakao;color:#3c1e1e;}
+@include mobile () {
+  .login{width:auto;}
+}
 </style>

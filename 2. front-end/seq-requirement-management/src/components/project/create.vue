@@ -61,5 +61,9 @@
 </script>
 
 <style lang="scss" scoped>
+  @import "@/assets/scss/_lib.scss";
   .project-create{width:400px;margin:0 auto;}
+  @include mobile () {
+    .project-create{max-width:calc(100vw - 80px);}
+  }
 </style>

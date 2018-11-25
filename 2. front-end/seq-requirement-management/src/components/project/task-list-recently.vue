@@ -26,13 +26,13 @@
 </script>
 
 <style lang="scss" scoped>
+  @import "@/assets/scss/_lib.scss";
   li{width:calc(50% - 5px);float:left;margin-bottom:10px;
     &:nth-child(2n){margin-left:10px;}
   }
-
-@import "@/assets/scss/_lib.scss";
-  @include tablet () {
-  
-
-}
+  @include mobile () {
+    li{width:auto;float:none;margin-bottom:10px;
+      &:nth-child(2n){margin-left:0;}
+    }    
+  }
 </style>

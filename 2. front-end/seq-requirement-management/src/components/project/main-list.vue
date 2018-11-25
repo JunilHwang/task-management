@@ -59,14 +59,11 @@ article{position:relative;background:#fff;padding:10px 15px;border-radius:3px;bo
     i{font-weight:bold;}
   }
 }
-@include tablet () {
-  .section-title{font-size: 16px}
-  .description{font-size:12px;margin-bottom:5px;height:20px;}
-  .date{font-size:11px;color:#aaa}
-  article{position:relative;background:#fff;padding:10px 15px;border-radius:3px;border:1px solid #ddd;transition:.3s;cursor:pointer;float:left;width:calc(50% - 5px);box-sizing:border-box;margin-bottom:10px;
-    &:nth-child(2n){margin-left:10px;}
-    &:hover{border-color:#000;}
+@include mobile () {
+  .description{font-size:13px;margin-bottom:5px;height:20px;}
+  .date{font-size:13px;color:#aaa}
+  article{padding:10px;float:none;width:auto;
+    &:nth-child(2n){margin-left:0;}
   }
-  .article-title{font-size: 14px;}
 }
 </style>

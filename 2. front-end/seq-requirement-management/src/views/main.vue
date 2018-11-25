@@ -29,8 +29,11 @@
 </script>
 
 <style lang="scss">
-  .main-login-wrap{width:250px;margin:0 auto;background:#fff;padding:20px;border:1px solid #bebebe;border-radius:3px;
-    .layer-title{font-size:21px;margin-bottom:10px;text-align:center;}
-  }
-
+@import "@/assets/scss/_lib.scss";
+.main-login-wrap{width:250px;margin:0 auto;background:#fff;padding:20px;border:1px solid #bebebe;border-radius:3px;
+  .layer-title{font-size:21px;margin-bottom:10px;text-align:center;}
+}
+@include mobile () {
+  .main-login-wrap{max-width:250px;width:auto;}
+}
 </style>
