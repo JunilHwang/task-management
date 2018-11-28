@@ -106,6 +106,7 @@
         const user = await this.$gAuth.signIn()
         const member = {
           google_access_token: user.Zi.access_token,
+          kakao_access_token: '',
           id: user.El,
           name: user.w3.ig,
           email: user.w3.U3,
